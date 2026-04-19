@@ -1,50 +1,39 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# Smart Schedule Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Extensibilidade e Arquitetura Modular
+O sistema DEVE ser projetado para suportar múltiplos contextos. Embora o foco inicial seja a escala de Acólitos, a arquitetura deve permitir a fácil adesão de outras pastorais e grupos da paróquia. Nenhuma regra de negócio deve ser rigidamente acoplada a um único ministério sem possibilidade de parametrização.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Respeito à Disponibilidade e Capacidade
+A geração de escalas DEVE priorizar a disponibilidade real e a capacidade técnica de cada voluntário. O sistema não deve permitir escalas conflitantes para a mesma pessoa no mesmo horário e deve alertar sobre sobrecargas, garantindo distribuições justas.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Simplicidade e Usabilidade
+Considerando que os usuários finais (coordenadores e voluntários) podem não ter grande familiaridade com ferramentas complexas, as interfaces DEVEM ser intuitivas, diretas e responsivas (mobile-first), facilitando o acesso rápido às escalas e a submissão de indisponibilidades.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Confiabilidade e Tolerância a Falhas
+O sistema DEVE garantir que as escalas geradas e publicadas sejam mantidas consistentes. O algoritmo de escalonamento deve ser determinístico e lidar graciosamente com a falta de voluntários, sugerindo alternativas ou deixando claro o déficit.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Segurança e Privacidade
+Os dados pessoais dos voluntários (contatos, disponibilidades, restrições) DEVEM ser protegidos. Apenas usuários com permissões adequadas (ex: coordenadores da respectiva pastoral) podem visualizar informações sensíveis ou alterar escalas.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Tecnologias e Arquitetura
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+O projeto utiliza a base já estabelecida no repositório:
+- **Arquitetura**: Monolito construído com AdonisJS, englobando a lógica de negócio, autenticação e o algoritmo de geração de escalas.
+- **Frontend**: Servido pelo próprio monolito (ex: via Edge ou Inertia), não exigindo necessariamente o uso de Vue.js, desde que forneça uma interface responsiva e amigável.
+- **Modelagem de Dados**: Estrutura relacional flexível que suporta a separação lógica de diferentes pastorais, usuários (voluntários), eventos/missas e disponibilidades.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+## Fluxo de Desenvolvimento
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+- **Modularidade**: Funcionalidades relacionadas à gestão de escalas devem ser construídas de forma isolada, facilitando testes automatizados.
+- **Testes**: O algoritmo de escalonamento (match de disponibilidade vs necessidade) DEVE ser rigorosamente testado para garantir que não aloque pessoas indisponíveis ou além de sua capacidade.
+- **Revisão**: O código deve ser revisado garantindo a premissa de que nenhuma string ou regra hardcoded limite o uso apenas para "Acólitos".
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+A Constituição do Projeto atua como o guia supremo para decisões de arquitetura e produto. 
+Qualquer mudança estrutural que restrinja o uso do sistema a apenas uma pastoral ou que altere a stack fundamental deve ser precedida de uma emenda a esta constituição.
+Alterações devem ser propostas via Pull Request, justificando o impacto na visão de longo prazo do projeto.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2026-04-19 | **Last Amended**: 2026-04-19
