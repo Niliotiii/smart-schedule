@@ -2,18 +2,34 @@
 import type { routes } from './index.ts'
 
 export interface ApiDefinition {
-  auth: {
-    newAccount: {
-      store: typeof routes['auth.new_account.store']
-    }
-    accessToken: {
-      store: typeof routes['auth.access_token.store']
-      destroy: typeof routes['auth.access_token.destroy']
-    }
+  login: {
+    show: typeof routes['login.show']
+    post: typeof routes['login.post']
   }
-  profile: {
-    profile: {
-      show: typeof routes['profile.profile.show']
-    }
+  logout: typeof routes['logout']
+  dashboard: typeof routes['dashboard']
+  profiles: {
+    index: typeof routes['profiles.index']
+    create: typeof routes['profiles.create']
+    store: typeof routes['profiles.store']
+    show: typeof routes['profiles.show']
+    edit: typeof routes['profiles.edit']
+    update: typeof routes['profiles.update']
+    destroy: typeof routes['profiles.destroy']
+  }
+  users: {
+    index: typeof routes['users.index']
+    create: typeof routes['users.create']
+    store: typeof routes['users.store']
+    show: typeof routes['users.show']
+    edit: typeof routes['users.edit']
+    update: typeof routes['users.update']
+    destroy: typeof routes['users.destroy']
+  }
+  api: {
+    signup: typeof routes['api.signup']
+    login: typeof routes['api.login']
+    logout: typeof routes['api.logout']
+    profile: typeof routes['api.profile']
   }
 }
