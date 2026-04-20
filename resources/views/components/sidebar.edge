@@ -1,18 +1,18 @@
-<aside id="sidebar" class="fixed inset-y-0 left-0 z-30 w-64 bg-white border-r border-gray-200 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out">
-  <div class="flex items-center h-16 px-6 border-b border-gray-200">
-    <h1 class="text-lg font-bold text-violet-700">Smart Schedule</h1>
+<aside id="sidebar" class="fixed inset-y-0 left-0 z-30 w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out">
+  <div class="flex items-center h-16 px-6 border-b border-gray-200 dark:border-gray-700">
+    <h1 class="text-lg font-bold text-violet-700 dark:text-violet-400">Smart Schedule</h1>
   </div>
 
   <nav class="mt-4 px-4 space-y-1">
     <a href="/dashboard"
-      class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors {{ currentUrl === '/dashboard' ? 'bg-violet-50 text-violet-700' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+      class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors {{ currentUrl === '/dashboard' ? 'bg-violet-50 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-200' }}">
       @component('components/icon', { name: 'home', cssClass: 'w-5 h-5' })
       @endcomponent
       Dashboard
     </a>
     @can('usersRead')
       <a href="/users"
-        class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors {{ currentUrl === '/users' ? 'bg-violet-50 text-violet-700' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+        class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors {{ currentUrl === '/users' ? 'bg-violet-50 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-200' }}">
         @component('components/icon', { name: 'users', cssClass: 'w-5 h-5' })
         @endcomponent
         Usuários
@@ -20,7 +20,7 @@
     @endcan
     @can('profilesRead')
       <a href="/profiles"
-        class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors {{ currentUrl === '/profiles' ? 'bg-violet-50 text-violet-700' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+        class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors {{ currentUrl === '/profiles' ? 'bg-violet-50 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-200' }}">
         @component('components/icon', { name: 'shield', cssClass: 'w-5 h-5' })
         @endcomponent
         Perfis
@@ -28,10 +28,10 @@
     @endcan
   </nav>
 
-  <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200">
+  <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 dark:border-gray-700">
     <form action="/logout" method="POST">
       {{ csrfField() }}
-      <button type="submit" class="flex items-center gap-3 w-full px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors">
+      <button type="submit" class="flex items-center gap-3 w-full px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-200 transition-colors">
         @component('components/icon', { name: 'logout', cssClass: 'w-5 h-5' })
         @endcomponent
         Sair
