@@ -23,10 +23,8 @@ export default class InitializeBouncerMiddleware {
 
     /**
      * Share bouncer helpers with Edge templates.
+     * No longer needed — Bouncer abilities are exposed via Inertia shared props.
      */
-    if ('view' in ctx) {
-      ctx.view.share(ctx.bouncer.edgeHelpers)
-    }
 
     return next()
   }
