@@ -1,6 +1,7 @@
 import { indexEntities } from '@adonisjs/core'
 import { defineConfig } from '@adonisjs/core/app'
 import { generateRegistry } from '@tuyau/core/hooks'
+import { indexPolicies } from '@adonisjs/bouncer'
 
 export default defineConfig({
   /*
@@ -28,6 +29,7 @@ export default defineConfig({
     () => import('@adonisjs/core/commands'),
     () => import('@adonisjs/lucid/commands'),
     () => import('@adonisjs/session/commands'),
+    () => import('@adonisjs/bouncer/commands')
   ],
 
   /*
@@ -53,7 +55,9 @@ export default defineConfig({
     () => import('@adonisjs/cors/cors_provider'),
     () => import('@adonisjs/auth/auth_provider'),
     () => import('#providers/api_provider'),
-    () => import('@adonisjs/core/providers/edge_provider')
+    () => import('@adonisjs/core/providers/edge_provider'),
+    () => import('@adonisjs/vite/vite_provider'),
+    () => import('@adonisjs/bouncer/bouncer_provider')
   ],
 
   /*
@@ -107,7 +111,12 @@ export default defineConfig({
   metaFiles: [{
     pattern: 'resources/views/**/*.edge',
     reloadServer: false,
-  }],
+  },
+  {
+    pattern: 'public/**',
+    reloadServer: false,
+  }
+  ],
 
   hooks: {
     init: [
@@ -115,6 +124,8 @@ export default defineConfig({
         transformers: { enabled: true },
       }),
       generateRegistry(),
+      indexPolicies()
     ],
+    buildStarting: [() => import('@adonisjs/vite/build_hook')]
   },
 })

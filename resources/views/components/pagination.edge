@@ -1,0 +1,30 @@
+@if(pagination.lastPage > 1)
+  <div class="flex items-center justify-between mt-4">
+    <p class="text-sm text-gray-500">
+      Mostrando {{ firstItem }}-{{ lastItem }} de {{ pagination.total }}
+    </p>
+    <div class="flex gap-1">
+      @if(pagination.currentPage > 1)
+        <a href="{{ baseUrl }}?page={{ pagination.currentPage - 1 }}" class="px-3 py-1 text-sm border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+          @component('components/icon', { name: 'chevron-left', cssClass: 'w-4 h-4 inline' })
+          @endcomponent
+        </a>
+      @endif
+
+      @each(page in pages)
+        @if(page === pagination.currentPage)
+          <span class="px-3 py-1 text-sm border border-violet-600 bg-violet-50 text-violet-700 rounded-md font-medium">{{ page }}</span>
+        @else
+          <a href="{{ baseUrl }}?page={{ page }}" class="px-3 py-1 text-sm border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">{{ page }}</a>
+        @endif
+      @endeach
+
+      @if(pagination.currentPage < pagination.lastPage)
+        <a href="{{ baseUrl }}?page={{ pagination.currentPage + 1 }}" class="px-3 py-1 text-sm border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+          @component('components/icon', { name: 'chevron-right', cssClass: 'w-4 h-4 inline' })
+          @endcomponent
+        </a>
+      @endif
+    </div>
+  </div>
+@endif

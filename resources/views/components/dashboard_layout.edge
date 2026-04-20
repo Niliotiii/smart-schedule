@@ -1,0 +1,32 @@
+@!(user, currentUrl = '', title = 'Smart Schedule')
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }}</title>
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class="bg-gray-50 text-gray-900 antialiased">
+  @component('components/sidebar', { user, currentUrl })
+  @endcomponent
+
+  <div class="md:ml-64 min-h-screen">
+    @component('components/navbar', { user })
+    @endcomponent
+
+    <main class="p-4 md:p-6">
+      {{ $slots.main() }}
+    </main>
+  </div>
+
+  <script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar')
+    const overlay = document.getElementById('sidebar-overlay')
+    sidebar.classList.toggle('-translate-x-full')
+    overlay.classList.toggle('hidden')
+  }
+  </script>
+</body>
+</html>
