@@ -1,12 +1,11 @@
 import { HttpContext } from '@adonisjs/core/http'
 import User from '#models/user'
 import Profile from '#models/profile'
-import hash from '@adonisjs/core/services/hash'
 import { createUserValidator, updateUserValidator } from '#validators/user'
 import { usersRead, usersCreate, usersUpdate, usersDelete } from '#abilities/main'
 
 export default class UsersController {
-  async index({ view, request, auth, bouncer }: HttpContext) {
+  async index({ inertia, request, bouncer }: HttpContext) {
     await bouncer.authorize(usersRead)
     const page = request.input('page', 1)
     const search = request.input('search', '').trim()
@@ -18,19 +17,37 @@ export default class UsersController {
       })
     }
     const users = await query.paginate(page, 15)
-    users.baseUrl(request.url())
 
-    const firstItem = (users.currentPage - 1) * users.perPage + 1
+    const firstItem = users.total > 0 ? (users.currentPage - 1) * users.perPage + 1 : 0
     const lastItem = Math.min(users.currentPage * users.perPage, users.total)
-    const pages = Array.from({ length: users.lastPage }, (_, i) => i + 1)
 
-    return view.render('users/index', { users, firstItem, lastItem, pages, search, user: auth.user })
+    return inertia.render('Users/Index', {
+      users: [...users.map((u) => ({
+        id: u.id,
+        fullName: u.fullName,
+        email: u.email,
+        profileId: u.profileId,
+        profile: u.profile ? { id: u.profile.id, name: u.profile.name } : null,
+      }))],
+      pagination: {
+        total: users.total,
+        currentPage: users.currentPage,
+        lastPage: users.lastPage,
+        perPage: users.perPage,
+        firstItem,
+        lastItem,
+      },
+      search,
+    })
   }
 
-  async create({ view, auth, bouncer }: HttpContext) {
+  async create({ inertia, bouncer }: HttpContext) {
     await bouncer.authorize(usersCreate)
     const profiles = await Profile.all()
-    return view.render('users/form', { user: null, profiles, currentUser: auth.user })
+    return inertia.render('Users/Form', {
+      user: null,
+      profiles: profiles.map((p) => ({ id: p.id, name: p.name })),
+    })
   }
 
   async store({ request, response, session, bouncer }: HttpContext) {
@@ -42,17 +59,34 @@ export default class UsersController {
     return response.redirect('/users')
   }
 
-  async show({ params, view, auth, bouncer }: HttpContext) {
+  async show({ params, inertia, bouncer }: HttpContext) {
     await bouncer.authorize(usersRead)
     const userToShow = await User.query().where('id', params.id).preload('profile').firstOrFail()
-    return view.render('users/show', { userToShow, user: auth.user })
+    return inertia.render('Users/Show', {
+      userToShow: {
+        id: userToShow.id,
+        fullName: userToShow.fullName,
+        email: userToShow.email,
+        profileId: userToShow.profileId,
+        profile: userToShow.profile ? { id: userToShow.profile.id, name: userToShow.profile.name } : null,
+        createdAt: userToShow.createdAt.toISO()!,
+      },
+    })
   }
 
-  async edit({ params, view, auth, bouncer }: HttpContext) {
+  async edit({ params, inertia, bouncer }: HttpContext) {
     await bouncer.authorize(usersUpdate)
     const user = await User.findOrFail(params.id)
     const profiles = await Profile.all()
-    return view.render('users/form', { user, profiles, currentUser: auth.user })
+    return inertia.render('Users/Form', {
+      user: {
+        id: user.id,
+        fullName: user.fullName,
+        email: user.email,
+        profileId: user.profileId,
+      },
+      profiles: profiles.map((p) => ({ id: p.id, name: p.name })),
+    })
   }
 
   async update({ params, request, response, session, bouncer }: HttpContext) {

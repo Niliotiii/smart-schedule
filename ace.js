@@ -17,9 +17,9 @@
 */
 
 /**
- * Register hook to process TypeScript files using @poppinss/ts-exec
+ * Register hook to process TypeScript files using tsx
  */
-import '@poppinss/ts-exec'
+import 'tsx/esm'
 
 /**
  * Import ace console entrypoint

@@ -5,7 +5,7 @@ import { createProfileValidator, updateProfileValidator } from '#validators/prof
 import { profilesRead, profilesCreate, profilesUpdate, profilesDelete } from '#abilities/main'
 
 export default class ProfilesController {
-  async index({ view, request, auth, bouncer }: HttpContext) {
+  async index({ inertia, request, bouncer }: HttpContext) {
     await bouncer.authorize(profilesRead)
     const page = request.input('page', 1)
     const search = request.input('search', '').trim()
@@ -17,25 +17,46 @@ export default class ProfilesController {
       })
     }
     const profiles = await query.paginate(page, 15)
-    profiles.baseUrl(request.url())
 
-    const firstItem = (profiles.currentPage - 1) * profiles.perPage + 1
+    const firstItem = profiles.total > 0 ? (profiles.currentPage - 1) * profiles.perPage + 1 : 0
     const lastItem = Math.min(profiles.currentPage * profiles.perPage, profiles.total)
-    const pages = Array.from({ length: profiles.lastPage }, (_, i) => i + 1)
 
-    return view.render('profiles/index', { profiles, firstItem, lastItem, pages, search, user: auth.user })
+    return inertia.render('Profiles/Index', {
+      profiles: [...profiles.map((p) => ({
+        id: p.id,
+        name: p.name,
+        description: p.description,
+        permissions: p.permissions.map((perm) => ({ id: perm.id, module: perm.module, action: perm.action })),
+      }))],
+      pagination: {
+        total: profiles.total,
+        currentPage: profiles.currentPage,
+        lastPage: profiles.lastPage,
+        perPage: profiles.perPage,
+        firstItem,
+        lastItem,
+      },
+      search,
+    })
   }
 
-  async create({ view, auth, bouncer }: HttpContext) {
+  async create({ inertia, bouncer }: HttpContext) {
     await bouncer.authorize(profilesCreate)
     const permissions = await Permission.all()
-    const grouped = permissions.reduce<Record<string, typeof permissions>>((acc, p) => {
-      if (!acc[p.module]) acc[p.module] = []
-      acc[p.module].push(p)
-      return acc
-    }, {})
+    const groupedPermissions = permissions.reduce<Record<string, Array<{ id: number; action: string }>>>(
+      (acc, p) => {
+        if (!acc[p.module]) acc[p.module] = []
+        acc[p.module].push({ id: p.id, action: p.action })
+        return acc
+      },
+      {}
+    )
 
-    return view.render('profiles/form', { profile: null, groupedPermissions: grouped, user: auth.user })
+    return inertia.render('Profiles/Form', {
+      profile: null,
+      groupedPermissions,
+      selectedPermissionIds: [],
+    })
   }
 
   async store({ request, response, session, bouncer }: HttpContext) {
@@ -48,24 +69,44 @@ export default class ProfilesController {
     return response.redirect('/profiles')
   }
 
-  async show({ params, view, auth, bouncer }: HttpContext) {
+  async show({ params, inertia, bouncer }: HttpContext) {
     await bouncer.authorize(profilesRead)
     const profile = await Profile.query().where('id', params.id).preload('permissions').firstOrFail()
-    return view.render('profiles/show', { profile, user: auth.user })
+    return inertia.render('Profiles/Show', {
+      profile: {
+        id: profile.id,
+        name: profile.name,
+        description: profile.description,
+        permissions: profile.permissions.map((p) => ({ id: p.id, module: p.module, action: p.action })),
+        createdAt: profile.createdAt.toISO()!,
+      },
+    })
   }
 
-  async edit({ params, view, auth, bouncer }: HttpContext) {
+  async edit({ params, inertia, bouncer }: HttpContext) {
     await bouncer.authorize(profilesUpdate)
     const profile = await Profile.query().where('id', params.id).preload('permissions').firstOrFail()
     const permissions = await Permission.all()
-    const grouped = permissions.reduce<Record<string, typeof permissions>>((acc, p) => {
-      if (!acc[p.module]) acc[p.module] = []
-      acc[p.module].push(p)
-      return acc
-    }, {})
-    const selectedIds = profile.permissions.map((p) => p.id)
+    const groupedPermissions = permissions.reduce<Record<string, Array<{ id: number; action: string }>>>(
+      (acc, p) => {
+        if (!acc[p.module]) acc[p.module] = []
+        acc[p.module].push({ id: p.id, action: p.action })
+        return acc
+      },
+      {}
+    )
+    const selectedPermissionIds = profile.permissions.map((p) => p.id)
 
-    return view.render('profiles/form', { profile, groupedPermissions: grouped, selectedPermissionIds: selectedIds, user: auth.user })
+    return inertia.render('Profiles/Form', {
+      profile: {
+        id: profile.id,
+        name: profile.name,
+        description: profile.description,
+        permissions: profile.permissions.map((p) => ({ id: p.id, module: p.module, action: p.action })),
+      },
+      groupedPermissions,
+      selectedPermissionIds,
+    })
   }
 
   async update({ params, request, response, session, bouncer }: HttpContext) {

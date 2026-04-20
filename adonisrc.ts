@@ -57,7 +57,8 @@ export default defineConfig({
     () => import('#providers/api_provider'),
     () => import('@adonisjs/core/providers/edge_provider'),
     () => import('@adonisjs/vite/vite_provider'),
-    () => import('@adonisjs/bouncer/bouncer_provider')
+    () => import('@adonisjs/bouncer/bouncer_provider'),
+    () => import('@adonisjs/inertia/inertia_provider')
   ],
 
   /*
@@ -114,6 +115,10 @@ export default defineConfig({
   },
   {
     pattern: 'public/**',
+    reloadServer: false,
+  },
+  {
+    pattern: 'resources/js/Pages/**/*.vue',
     reloadServer: false,
   }
   ],
