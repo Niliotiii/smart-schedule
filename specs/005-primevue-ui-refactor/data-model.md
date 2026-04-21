@@ -81,9 +81,9 @@ Behavior: Toggles `.dark` class on `document.documentElement`. Persists to local
 ```typescript
 interface MenuItem {
   label: string
-  icon: string        // PrimeIcons class name, e.g., 'pi pi-home'
-  to: string         // Route path, e.g., '/dashboard'
-  visible: boolean   // Controlled by RBAC can props
+  icon: string // PrimeIcons class name, e.g., 'pi pi-home'
+  to: string // Route path, e.g., '/dashboard'
+  visible: boolean // Controlled by RBAC can props
 }
 ```
 
@@ -120,12 +120,12 @@ toast.add({
 
 ```typescript
 defineProps<{
-  can: Record<string, boolean>  // RBAC permissions from $page.props.can
-  currentUrl: string            // $page.url for active item highlighting
-  open: boolean                 // Mobile overlay state
+  can: Record<string, boolean> // RBAC permissions from $page.props.can
+  currentUrl: string // $page.url for active item highlighting
+  open: boolean // Mobile overlay state
 }>()
 defineEmits<{
-  close: []                     // Close mobile overlay
+  close: [] // Close mobile overlay
 }>()
 ```
 
@@ -153,26 +153,26 @@ No emits — uses Inertia `<Link>` for navigation directly.
 
 ## File Changes Summary
 
-| File | Action | Key Changes |
-|------|--------|-------------|
-| `resources/css/app.css` | MODIFY | Add `@import "tailwindcss-primeui/v4"`, layer order |
-| `resources/js/app.ts` | MODIFY | Register PrimeVue, Aura, ConfirmationService, ToastService |
-| `resources/js/Layouts/AuthenticatedLayout.vue` | MODIFY | Use AppSidebar, AppTopbar, add ConfirmDialog + Toast |
-| `resources/js/Layouts/GuestLayout.vue` | MODIFY | PrimeVue styled layout |
-| `resources/js/Components/Sidebar.vue` | DELETE | Replaced by AppSidebar.vue |
-| `resources/js/Components/Navbar.vue` | DELETE | Replaced by AppTopbar.vue |
-| `resources/js/Components/Icon.vue` | DELETE | Replaced by PrimeIcons |
-| `resources/js/Components/Pagination.vue` | DELETE | Replaced by PrimeVue DataTable paginator |
-| `resources/js/Components/AppSidebar.vue` | NEW | Sakai-vue styled sidebar |
-| `resources/js/Components/AppTopbar.vue` | NEW | Sakai-vue styled topbar |
-| `resources/js/Components/AppMenu.vue` | NEW | Menu component with PrimeIcons |
-| `resources/js/Composables/useTheme.ts` | MODIFY | Integrate with PrimeVue dark mode |
-| `resources/js/Pages/Auth/Login.vue` | MODIFY | PrimeVue InputText, Password, Button, Message |
-| `resources/js/Pages/Dashboard/Index.vue` | MODIFY | PrimeVue Card, Tag |
-| `resources/js/Pages/Users/Index.vue` | MODIFY | PrimeVue DataTable, Column, Toolbar, IconField |
-| `resources/js/Pages/Users/Form.vue` | MODIFY | PrimeVue InputText, Password, Select, Button |
-| `resources/js/Pages/Users/Show.vue` | MODIFY | PrimeVue Card, Tag |
-| `resources/js/Pages/Profiles/Index.vue` | MODIFY | PrimeVue DataTable, Column, Toolbar |
-| `resources/js/Pages/Profiles/Form.vue` | MODIFY | PrimeVue InputText, Textarea, Checkbox, Button |
-| `resources/js/Pages/Profiles/Show.vue` | MODIFY | PrimeVue Card, Tag |
-| `package.json` | MODIFY | Add primevue, @primeuix/themes, tailwindcss-primeui, primeicons |
+| File                                           | Action | Key Changes                                                     |
+| ---------------------------------------------- | ------ | --------------------------------------------------------------- |
+| `resources/css/app.css`                        | MODIFY | Add `@import "tailwindcss-primeui/v4"`, layer order             |
+| `resources/js/app.ts`                          | MODIFY | Register PrimeVue, Aura, ConfirmationService, ToastService      |
+| `resources/js/Layouts/AuthenticatedLayout.vue` | MODIFY | Use AppSidebar, AppTopbar, add ConfirmDialog + Toast            |
+| `resources/js/Layouts/GuestLayout.vue`         | MODIFY | PrimeVue styled layout                                          |
+| `resources/js/Components/Sidebar.vue`          | DELETE | Replaced by AppSidebar.vue                                      |
+| `resources/js/Components/Navbar.vue`           | DELETE | Replaced by AppTopbar.vue                                       |
+| `resources/js/Components/Icon.vue`             | DELETE | Replaced by PrimeIcons                                          |
+| `resources/js/Components/Pagination.vue`       | DELETE | Replaced by PrimeVue DataTable paginator                        |
+| `resources/js/Components/AppSidebar.vue`       | NEW    | Sakai-vue styled sidebar                                        |
+| `resources/js/Components/AppTopbar.vue`        | NEW    | Sakai-vue styled topbar                                         |
+| `resources/js/Components/AppMenu.vue`          | NEW    | Menu component with PrimeIcons                                  |
+| `resources/js/Composables/useTheme.ts`         | MODIFY | Integrate with PrimeVue dark mode                               |
+| `resources/js/Pages/Auth/Login.vue`            | MODIFY | PrimeVue InputText, Password, Button, Message                   |
+| `resources/js/Pages/Dashboard/Index.vue`       | MODIFY | PrimeVue Card, Tag                                              |
+| `resources/js/Pages/Users/Index.vue`           | MODIFY | PrimeVue DataTable, Column, Toolbar, IconField                  |
+| `resources/js/Pages/Users/Form.vue`            | MODIFY | PrimeVue InputText, Password, Select, Button                    |
+| `resources/js/Pages/Users/Show.vue`            | MODIFY | PrimeVue Card, Tag                                              |
+| `resources/js/Pages/Profiles/Index.vue`        | MODIFY | PrimeVue DataTable, Column, Toolbar                             |
+| `resources/js/Pages/Profiles/Form.vue`         | MODIFY | PrimeVue InputText, Textarea, Checkbox, Button                  |
+| `resources/js/Pages/Profiles/Show.vue`         | MODIFY | PrimeVue Card, Tag                                              |
+| `package.json`                                 | MODIFY | Add primevue, @primeuix/themes, tailwindcss-primeui, primeicons |

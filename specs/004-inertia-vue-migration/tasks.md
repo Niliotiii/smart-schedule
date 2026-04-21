@@ -17,10 +17,10 @@
 
 **Purpose**: Install and configure Inertia.js + Vue 3 dependencies and scaffolding
 
-- [X] T001 Install Inertia and Vue dependencies: `@adonisjs/inertia`, `@inertiajs/vue3`, `vue`, `@vitejs/plugin-vue`, `vue-tsc` via npm in package.json
-- [X] T002 Run `node ace configure inertia` to scaffold Inertia config, middleware, and root template — accept SPA mode (not SSR)
-- [X] T003 Update `vite.config.ts` to add `@vitejs/plugin-vue`, change entrypoints from `resources/js/app.js` to `resources/js/app.ts`, and update reload patterns from `.edge` to `.vue` files
-- [X] T004 Add Vue SFC type support: update `tsconfig.json` to include `.vue` files and create `resources/js/env.d.ts` with Vue module declaration
+- [x] T001 Install Inertia and Vue dependencies: `@adonisjs/inertia`, `@inertiajs/vue3`, `vue`, `@vitejs/plugin-vue`, `vue-tsc` via npm in package.json
+- [x] T002 Run `node ace configure inertia` to scaffold Inertia config, middleware, and root template — accept SPA mode (not SSR)
+- [x] T003 Update `vite.config.ts` to add `@vitejs/plugin-vue`, change entrypoints from `resources/js/app.js` to `resources/js/app.ts`, and update reload patterns from `.edge` to `.vue` files
+- [x] T004 Add Vue SFC type support: update `tsconfig.json` to include `.vue` files and create `resources/js/env.d.ts` with Vue module declaration
 
 ---
 
@@ -30,18 +30,18 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [X] T005 Create `InertiaSharedPropsMiddleware` in `app/middleware/inertia_shared_props_middleware.ts` — inject `auth.user`, `can` (Bouncer abilities as booleans), and `flash` messages as shared Inertia props on every request
-- [X] T006 Register Inertia middleware and `InertiaSharedPropsMiddleware` in `start/kernel.ts` — add Inertia middleware to server stack and shared props middleware to router stack
-- [X] T007 Modify `InitializeBouncerMiddleware` in `app/middleware/initialize_bouncer_middleware.ts` — remove the Edge template helper sharing (`ctx.view.share(ctx.bouncer.edgeHelpers)`) since Bouncer is now exposed via Inertia shared props
-- [X] T008 Create Inertia root HTML template in `resources/views/app.edge` — minimal HTML wrapper with FOUC prevention inline script (dark class from localStorage), Tailwind CSS classes on body, and `@vite()` entrypoint
-- [X] T009 Create Inertia+Vue app entry point in `resources/js/app.ts` — import `@inertiajs/vue3`, create Vue app with Inertia plugin, resolve page components dynamically, mount to `#app` div
-- [X] T010 Create `useTheme` composable in `resources/js/Composables/useTheme.ts` — reactive `isDark` state, `toggleTheme()` method (toggles `.dark` class on `<html>`, persists to localStorage), `onMounted` reads localStorage + OS preference
-- [X] T011 [P] Create `Icon.vue` component in `resources/js/Components/Icon.vue` — SVG icon component with `name` prop (users, shield, plus, pencil, trash, eye, chevron-left, chevron-right, home, logout, menu, magnifying-glass) rendering inline SVGs based on current Edge `icon.edge` component
-- [X] T012 Create `Navbar.vue` component in `resources/js/Components/Navbar.vue` — sticky header with mobile menu button, theme toggle (moon/sun icons), user initials + name, uses `useTheme` composable for theme toggle
-- [X] T013 Create `Sidebar.vue` component in `resources/js/Components/Sidebar.vue` — fixed left sidebar with nav links (Dashboard, Usuários, Perfis) using Inertia `<Link>`, permission-based visibility via `can` shared prop, logout form, mobile responsive with overlay
-- [X] T014 [P] Create `Pagination.vue` component in `resources/js/Components/Pagination.vue` — accepts `pagination` and `search` props, renders page links using Inertia `<Link>` preserving search params, shows "Mostrando X-Y de Z" text
-- [X] T015 Create `AuthenticatedLayout.vue` in `resources/js/Layouts/AuthenticatedLayout.vue` — persistent Inertia layout wrapping Sidebar + Navbar + `<slot>`, includes mobile sidebar toggle method
-- [X] T016 [P] Create `GuestLayout.vue` in `resources/js/Layouts/GuestLayout.vue` — minimal layout for unauthenticated pages (login), centered card with theme toggle button, uses `useTheme` composable
+- [x] T005 Create `InertiaSharedPropsMiddleware` in `app/middleware/inertia_shared_props_middleware.ts` — inject `auth.user`, `can` (Bouncer abilities as booleans), and `flash` messages as shared Inertia props on every request
+- [x] T006 Register Inertia middleware and `InertiaSharedPropsMiddleware` in `start/kernel.ts` — add Inertia middleware to server stack and shared props middleware to router stack
+- [x] T007 Modify `InitializeBouncerMiddleware` in `app/middleware/initialize_bouncer_middleware.ts` — remove the Edge template helper sharing (`ctx.view.share(ctx.bouncer.edgeHelpers)`) since Bouncer is now exposed via Inertia shared props
+- [x] T008 Create Inertia root HTML template in `resources/views/app.edge` — minimal HTML wrapper with FOUC prevention inline script (dark class from localStorage), Tailwind CSS classes on body, and `@vite()` entrypoint
+- [x] T009 Create Inertia+Vue app entry point in `resources/js/app.ts` — import `@inertiajs/vue3`, create Vue app with Inertia plugin, resolve page components dynamically, mount to `#app` div
+- [x] T010 Create `useTheme` composable in `resources/js/Composables/useTheme.ts` — reactive `isDark` state, `toggleTheme()` method (toggles `.dark` class on `<html>`, persists to localStorage), `onMounted` reads localStorage + OS preference
+- [x] T011 [P] Create `Icon.vue` component in `resources/js/Components/Icon.vue` — SVG icon component with `name` prop (users, shield, plus, pencil, trash, eye, chevron-left, chevron-right, home, logout, menu, magnifying-glass) rendering inline SVGs based on current Edge `icon.edge` component
+- [x] T012 Create `Navbar.vue` component in `resources/js/Components/Navbar.vue` — sticky header with mobile menu button, theme toggle (moon/sun icons), user initials + name, uses `useTheme` composable for theme toggle
+- [x] T013 Create `Sidebar.vue` component in `resources/js/Components/Sidebar.vue` — fixed left sidebar with nav links (Dashboard, Usuários, Perfis) using Inertia `<Link>`, permission-based visibility via `can` shared prop, logout form, mobile responsive with overlay
+- [x] T014 [P] Create `Pagination.vue` component in `resources/js/Components/Pagination.vue` — accepts `pagination` and `search` props, renders page links using Inertia `<Link>` preserving search params, shows "Mostrando X-Y de Z" text
+- [x] T015 Create `AuthenticatedLayout.vue` in `resources/js/Layouts/AuthenticatedLayout.vue` — persistent Inertia layout wrapping Sidebar + Navbar + `<slot>`, includes mobile sidebar toggle method
+- [x] T016 [P] Create `GuestLayout.vue` in `resources/js/Layouts/GuestLayout.vue` — minimal layout for unauthenticated pages (login), centered card with theme toggle button, uses `useTheme` composable
 
 **Checkpoint**: Foundation ready — all shared components, layouts, composables, and middleware are in place. User story implementation can now begin.
 
@@ -55,19 +55,19 @@
 
 ### Implementation for User Story 1
 
-- [X] T017 [US1] Migrate `AuthController` in `app/controllers/auth_controller.ts` — change `showLogin` from `view.render('auth/login')` to `inertia.render('Auth/Login')`, keep login/logout redirect behavior unchanged
-- [X] T018 [P] [US1] Create `Login.vue` page in `resources/js/Pages/Auth/Login.vue` — form with email/password fields, CSRF via Inertia (automatic), flash error message display, themed card layout, uses `GuestLayout`, Inertia form submission via `useForm`
-- [X] T019 [US1] Migrate `DashboardController` in `app/controllers/dashboard_controller.ts` — change `view.render('dashboard/index')` to `inertia.render('Dashboard/Index')` with serialized user props (serialize DateTime to ISO, include profile with permissions)
-- [X] T020 [P] [US1] Create `Dashboard/Index.vue` page in `resources/js/Pages/Dashboard/Index.vue` — permission-based cards (Users, Perfis) with Inertia `<Link>`, uses `AuthenticatedLayout` + `can` shared prop for visibility
-- [X] T021 [US1] Migrate `UsersController` in `app/controllers/users_controller.ts` — replace all `view.render()` calls with `inertia.render()`, serialize paginator to plain object for props, serialize DateTime fields, keep search/pagination logic unchanged
-- [X] T022 [P] [US1] Create `Users/Index.vue` page in `resources/js/Pages/Users/Index.vue` — search form using Inertia `<Link>` with search params, user table with permission-based action buttons via `can` shared prop, flash success message, pagination using `Pagination.vue` component
-- [X] T023 [P] [US1] Create `Users/Form.vue` page in `resources/js/Pages/Users/Form.vue` — create/edit form using Inertia `useForm()`, profile select dropdown, password field (optional on edit), validation error display from `errors` prop, back link to `/users`, conditional title (Novo Usuário vs Editar Usuário)
-- [X] T024 [P] [US1] Create `Users/Show.vue` page in `resources/js/Pages/Users/Show.vue` — detail view showing fullName, email, profile name, createdAt (formatted from ISO string), permission-based edit link, back link to `/users`
-- [X] T025 [US1] Migrate `ProfilesController` in `app/controllers/profiles_controller.ts` — replace all `view.render()` calls with `inertia.render()`, serialize paginator, preloaded permissions, and groupedPermissions to plain objects, keep search/pagination logic unchanged
-- [X] T026 [P] [US1] Create `Profiles/Index.vue` page in `resources/js/Pages/Profiles/Index.vue` — search form, profiles table with permissions count, permission-based action buttons, flash success message, pagination
-- [X] T027 [P] [US1] Create `Profiles/Form.vue` page in `resources/js/Pages/Profiles/Profiles/Form.vue` — create/edit form with name, description textarea, permission checkboxes grouped by module using `groupedPermissions` and `selectedPermissionIds` props, validation error display
-- [X] T028 [P] [US1] Create `Profiles/Show.vue` page in `resources/js/Pages/Profiles/Show.vue` — detail view showing name, description, permissions list (as badges), createdAt, permission-based edit link, back link to `/profiles`
-- [X] T029 [US1] Verify all controllers return Inertia responses — ensure no `view.render()` calls remain in `auth_controller.ts`, `dashboard_controller.ts`, `users_controller.ts`, `profiles_controller.ts`
+- [x] T017 [US1] Migrate `AuthController` in `app/controllers/auth_controller.ts` — change `showLogin` from `view.render('auth/login')` to `inertia.render('Auth/Login')`, keep login/logout redirect behavior unchanged
+- [x] T018 [P] [US1] Create `Login.vue` page in `resources/js/Pages/Auth/Login.vue` — form with email/password fields, CSRF via Inertia (automatic), flash error message display, themed card layout, uses `GuestLayout`, Inertia form submission via `useForm`
+- [x] T019 [US1] Migrate `DashboardController` in `app/controllers/dashboard_controller.ts` — change `view.render('dashboard/index')` to `inertia.render('Dashboard/Index')` with serialized user props (serialize DateTime to ISO, include profile with permissions)
+- [x] T020 [P] [US1] Create `Dashboard/Index.vue` page in `resources/js/Pages/Dashboard/Index.vue` — permission-based cards (Users, Perfis) with Inertia `<Link>`, uses `AuthenticatedLayout` + `can` shared prop for visibility
+- [x] T021 [US1] Migrate `UsersController` in `app/controllers/users_controller.ts` — replace all `view.render()` calls with `inertia.render()`, serialize paginator to plain object for props, serialize DateTime fields, keep search/pagination logic unchanged
+- [x] T022 [P] [US1] Create `Users/Index.vue` page in `resources/js/Pages/Users/Index.vue` — search form using Inertia `<Link>` with search params, user table with permission-based action buttons via `can` shared prop, flash success message, pagination using `Pagination.vue` component
+- [x] T023 [P] [US1] Create `Users/Form.vue` page in `resources/js/Pages/Users/Form.vue` — create/edit form using Inertia `useForm()`, profile select dropdown, password field (optional on edit), validation error display from `errors` prop, back link to `/users`, conditional title (Novo Usuário vs Editar Usuário)
+- [x] T024 [P] [US1] Create `Users/Show.vue` page in `resources/js/Pages/Users/Show.vue` — detail view showing fullName, email, profile name, createdAt (formatted from ISO string), permission-based edit link, back link to `/users`
+- [x] T025 [US1] Migrate `ProfilesController` in `app/controllers/profiles_controller.ts` — replace all `view.render()` calls with `inertia.render()`, serialize paginator, preloaded permissions, and groupedPermissions to plain objects, keep search/pagination logic unchanged
+- [x] T026 [P] [US1] Create `Profiles/Index.vue` page in `resources/js/Pages/Profiles/Index.vue` — search form, profiles table with permissions count, permission-based action buttons, flash success message, pagination
+- [x] T027 [P] [US1] Create `Profiles/Form.vue` page in `resources/js/Pages/Profiles/Profiles/Form.vue` — create/edit form with name, description textarea, permission checkboxes grouped by module using `groupedPermissions` and `selectedPermissionIds` props, validation error display
+- [x] T028 [P] [US1] Create `Profiles/Show.vue` page in `resources/js/Pages/Profiles/Show.vue` — detail view showing name, description, permissions list (as badges), createdAt, permission-based edit link, back link to `/profiles`
+- [x] T029 [US1] Verify all controllers return Inertia responses — ensure no `view.render()` calls remain in `auth_controller.ts`, `dashboard_controller.ts`, `users_controller.ts`, `profiles_controller.ts`
 
 **Checkpoint**: At this point, User Story 1 is fully functional — all CRUD pages work via Inertia+Vue with SPA navigation.
 
@@ -81,9 +81,9 @@
 
 ### Implementation for User Story 2
 
-- [X] T030 [US2] Verify `useTheme` composable works across all authenticated and guest pages — toggle in `Navbar.vue` updates `<html>` dark class reactively, `localStorage` read/write works, OS `prefers-color-scheme` detection works on first visit
-- [X] T031 [US2] Verify FOUC prevention works — ensure the inline `<script>` in `resources/views/app.edge` reads localStorage and applies `.dark` class before Vue mounts, no flash of light theme on reload when dark is selected
-- [X] T032 [US2] Verify theme persistence across Inertia page navigations — since `AuthenticatedLayout.vue` is persistent, theme state should survive navigation without re-mounting; verify sidebar, navbar, and page content all reflect the current theme
+- [x] T030 [US2] Verify `useTheme` composable works across all authenticated and guest pages — toggle in `Navbar.vue` updates `<html>` dark class reactively, `localStorage` read/write works, OS `prefers-color-scheme` detection works on first visit
+- [x] T031 [US2] Verify FOUC prevention works — ensure the inline `<script>` in `resources/views/app.edge` reads localStorage and applies `.dark` class before Vue mounts, no flash of light theme on reload when dark is selected
+- [x] T032 [US2] Verify theme persistence across Inertia page navigations — since `AuthenticatedLayout.vue` is persistent, theme state should survive navigation without re-mounting; verify sidebar, navbar, and page content all reflect the current theme
 
 **Checkpoint**: Theme toggle works perfectly in the Inertia+Vue frontend — light/dark switching, persistence, OS detection, no FOUC.
 
@@ -97,10 +97,10 @@
 
 ### Implementation for User Story 3
 
-- [X] T033 [US3] Audit all Vue pages to confirm navigation uses Inertia `<Link>` instead of HTML `<a>` tags — verify Dashboard cards, Sidebar nav links, Navbar, show/edit/delete action links, back links, cancel links, create buttons all use `<Link>`
-- [X] T034 [US3] Verify form submissions use Inertia `useForm()` — ensure create, update, delete, and login forms all use Inertia's form helper so redirects happen via SPA navigation, not full page reloads
-- [X] T035 [US3] Verify browser back/forward buttons work correctly — after navigating between pages, use browser back/forward and confirm the correct page renders with correct props
-- [X] T036 [US3] Verify error handling for failed requests — when a server error occurs, Inertia should display an error page or message gracefully, not crash the SPA
+- [x] T033 [US3] Audit all Vue pages to confirm navigation uses Inertia `<Link>` instead of HTML `<a>` tags — verify Dashboard cards, Sidebar nav links, Navbar, show/edit/delete action links, back links, cancel links, create buttons all use `<Link>`
+- [x] T034 [US3] Verify form submissions use Inertia `useForm()` — ensure create, update, delete, and login forms all use Inertia's form helper so redirects happen via SPA navigation, not full page reloads
+- [x] T035 [US3] Verify browser back/forward buttons work correctly — after navigating between pages, use browser back/forward and confirm the correct page renders with correct props
+- [x] T036 [US3] Verify error handling for failed requests — when a server error occurs, Inertia should display an error page or message gracefully, not crash the SPA
 
 **Checkpoint**: SPA navigation is fully functional — all navigation uses Inertia, no full page reloads.
 
@@ -110,11 +110,11 @@
 
 **Purpose**: Remove legacy code, final validation
 
-- [X] T037 Delete `resources/js/app.js` — replaced by `resources/js/app.ts` (Inertia entry point)
-- [X] T038 [P] Delete all Edge templates except `resources/views/app.edge` — remove `resources/views/home.edge`, `resources/views/components/`, `resources/views/dashboard/`, `resources/views/users/`, `resources/views/profiles/`, `resources/views/auth/login.edge`
-- [X] T039 Remove `edge.js` from `package.json` dependencies if no longer needed
-- [X] T040 Update `resources/css/app.css` if needed — ensure Tailwind v4 dark mode `@custom-variant` still works with Vue components
-- [X] T041 Run full verification checklist from `specs/004-inertia-vue-migration/quickstart.md` — verify all scenarios (login, CRUD, search, pagination, theme, RBAC, SPA navigation)
+- [x] T037 Delete `resources/js/app.js` — replaced by `resources/js/app.ts` (Inertia entry point)
+- [x] T038 [P] Delete all Edge templates except `resources/views/app.edge` — remove `resources/views/home.edge`, `resources/views/components/`, `resources/views/dashboard/`, `resources/views/users/`, `resources/views/profiles/`, `resources/views/auth/login.edge`
+- [x] T039 Remove `edge.js` from `package.json` dependencies if no longer needed
+- [x] T040 Update `resources/css/app.css` if needed — ensure Tailwind v4 dark mode `@custom-variant` still works with Vue components
+- [x] T041 Run full verification checklist from `specs/004-inertia-vue-migration/quickstart.md` — verify all scenarios (login, CRUD, search, pagination, theme, RBAC, SPA navigation)
 
 ---
 

@@ -1,0 +1,62 @@
+declare module '@adonisjs/inertia/types' {
+  interface SharedProps {
+    flash: { success?: string | null; errors?: string | null }
+    auth: { user: { id: number; fullName: string | null; email: string; initials: string; profileId: number | null } | null }
+    can: {
+      usersRead: boolean
+      usersCreate: boolean
+      usersUpdate: boolean
+      usersDelete: boolean
+      profilesRead: boolean
+      profilesCreate: boolean
+      profilesUpdate: boolean
+      profilesDelete: boolean
+      userTypesRead: boolean
+      userTypesCreate: boolean
+      userTypesUpdate: boolean
+      userTypesDelete: boolean
+    }
+  }
+
+  interface InertiaPages {
+    'Auth/Login': {}
+    'Dashboard/Index': {}
+    'Profiles/Index': {
+      profiles: Array<{ id: number; name: string; description: string | null; permissions: Array<{ id: number; module: string; action: string }> }>
+      pagination: { total: number; currentPage: number; lastPage: number; perPage: number; firstItem: number; lastItem: number }
+      search: string
+    }
+    'Profiles/Show': {
+      profile: { id: number; name: string; description: string | null; permissions: Array<{ id: number; module: string; action: string }>; createdAt: string }
+    }
+    'Profiles/Form': {
+      profile: { id: number; name: string; description: string | null; permissions: Array<{ id: number; module: string; action: string }> } | null
+      groupedPermissions: Record<string, Array<{ id: number; action: string }>>
+      selectedPermissionIds: number[]
+    }
+    'UserTypes/Index': {
+      userTypes: Array<{ id: number; name: string; usersCount: number }>
+      pagination: { total: number; currentPage: number; lastPage: number; perPage: number; firstItem: number; lastItem: number }
+      search: string
+    }
+    'UserTypes/Show': {
+      userType: { id: number; name: string; users: Array<{ id: number; fullName: string | null; email: string }>; createdAt: string }
+    }
+    'UserTypes/Form': {
+      userType: { id: number; name: string } | null
+    }
+    'Users/Index': {
+      users: Array<{ id: number; fullName: string | null; email: string; profileId: number | null; profile: { id: number; name: string } | null; userType: { id: number; name: string } | null }>
+      pagination: { total: number; currentPage: number; lastPage: number; perPage: number; firstItem: number; lastItem: number }
+      search: string
+    }
+    'Users/Show': {
+      userToShow: { id: number; fullName: string | null; email: string; profileId: number | null; profile: { id: number; name: string } | null; userType: { id: number; name: string } | null; createdAt: string }
+    }
+    'Users/Form': {
+      user: { id: number; fullName: string | null; email: string; profileId: number | null; userTypeId: number | null } | null
+      profiles: Array<{ id: number; name: string }>
+      userTypes: Array<{ id: number; name: string }>
+    }
+  }
+}

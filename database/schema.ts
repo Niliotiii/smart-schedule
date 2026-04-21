@@ -77,8 +77,21 @@ export class ProfileSchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class UserTypeSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'name', 'updatedAt'] as const
+  $columns = UserTypeSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class UserSchema extends BaseModel {
-  static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'profileId', 'updatedAt'] as const
+  static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'profileId', 'updatedAt', 'userTypeId'] as const
   $columns = UserSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -94,6 +107,8 @@ export class UserSchema extends BaseModel {
   declare profileId: number | null
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
+  @column()
+  declare userTypeId: number | null
 }
 
 export class VerifyConnectionSchema extends BaseModel {

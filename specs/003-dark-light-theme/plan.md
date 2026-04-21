@@ -21,7 +21,7 @@ Implementar alternância de tema claro/escuro usando Tailwind CSS v4 com estrat�
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 - [x] **I. Extensibilidade**: A alternância de tema é genérica e não acoplada a nenhuma pastoral específica.
 - [x] **II. Respeito à Disponibilidade e III. Simplicidade**: Um único botão na navbar para alternância — intuitivo e acessível.

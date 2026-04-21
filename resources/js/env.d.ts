@@ -5,3 +5,9 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>
   export default component
 }
+
+declare namespace NodeJS {
+  interface ProcessEnv {
+    VITE_INERTIA_APP_NAME: string
+  }
+}

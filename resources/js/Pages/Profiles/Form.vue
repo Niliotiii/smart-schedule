@@ -54,25 +54,32 @@ const submit = () => {
       <Breadcrumb :home="home" :model="model" />
     </div>
 
-    <form @submit.prevent="submit" class="bg-surface-ground border border-surface rounded-lg flex-1 flex flex-col min-h-0">
+    <form
+      @submit.prevent="submit"
+      class="bg-surface-ground border border-surface rounded-lg flex-1 flex flex-col min-h-0"
+    >
       <div class="p-4 flex-1">
         <TabView v-model:activeIndex="activeTab">
           <TabPanel header="Informações Gerais">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
+              <div class="pt-4">
                 <FloatLabel>
                   <InputText id="name" v-model="form.name" fluid />
                   <label for="name">Nome</label>
                 </FloatLabel>
-                <Message v-if="form.errors.name" severity="error" size="small">{{ form.errors.name }}</Message>
+                <Message v-if="form.errors.name" severity="error" size="small">{{
+                  form.errors.name
+                }}</Message>
               </div>
 
-              <div class="md:col-span-2">
+              <div class="md:col-span-2 pt-4">
                 <FloatLabel>
                   <Textarea id="description" v-model="form.description" rows="4" fluid />
                   <label for="description">Descrição</label>
                 </FloatLabel>
-                <Message v-if="form.errors.description" severity="error" size="small">{{ form.errors.description }}</Message>
+                <Message v-if="form.errors.description" severity="error" size="small">{{
+                  form.errors.description
+                }}</Message>
               </div>
             </div>
           </TabPanel>
@@ -87,7 +94,9 @@ const submit = () => {
                     v-model="form.permissionIds"
                     :inputId="`perm-${perm.id}`"
                   />
-                  <label :for="`perm-${perm.id}`" class="text-sm text-color">{{ perm.action }}</label>
+                  <label :for="`perm-${perm.id}`" class="text-sm text-color">{{
+                    perm.action
+                  }}</label>
                 </div>
               </div>
             </div>
@@ -96,7 +105,13 @@ const submit = () => {
       </div>
 
       <div class="flex justify-end gap-2 p-4 border-t border-surface">
-        <Button v-if="activeTab === 1" type="submit" label="Salvar" :disabled="form.processing" severity="info" />
+        <Button
+          v-if="activeTab === 1"
+          type="submit"
+          label="Salvar"
+          :disabled="form.processing"
+          severity="info"
+        />
         <Button label="Cancelar" severity="secondary" outlined @click="$inertia.get('/profiles')" />
       </div>
     </form>

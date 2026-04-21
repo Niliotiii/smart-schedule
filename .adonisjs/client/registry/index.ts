@@ -114,6 +114,48 @@ const routes = {
     tokens: [{"old":"/users/:id","type":0,"val":"users","end":""},{"old":"/users/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['users.destroy']['types'],
   },
+  'user_types.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/user-types',
+    tokens: [{"old":"/user-types","type":0,"val":"user-types","end":""}],
+    types: placeholder as Registry['user_types.index']['types'],
+  },
+  'user_types.create': {
+    methods: ["GET","HEAD"],
+    pattern: '/user-types/create',
+    tokens: [{"old":"/user-types/create","type":0,"val":"user-types","end":""},{"old":"/user-types/create","type":0,"val":"create","end":""}],
+    types: placeholder as Registry['user_types.create']['types'],
+  },
+  'user_types.store': {
+    methods: ["POST"],
+    pattern: '/user-types',
+    tokens: [{"old":"/user-types","type":0,"val":"user-types","end":""}],
+    types: placeholder as Registry['user_types.store']['types'],
+  },
+  'user_types.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/user-types/:id',
+    tokens: [{"old":"/user-types/:id","type":0,"val":"user-types","end":""},{"old":"/user-types/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['user_types.show']['types'],
+  },
+  'user_types.edit': {
+    methods: ["GET","HEAD"],
+    pattern: '/user-types/:id/edit',
+    tokens: [{"old":"/user-types/:id/edit","type":0,"val":"user-types","end":""},{"old":"/user-types/:id/edit","type":1,"val":"id","end":""},{"old":"/user-types/:id/edit","type":0,"val":"edit","end":""}],
+    types: placeholder as Registry['user_types.edit']['types'],
+  },
+  'user_types.update': {
+    methods: ["PUT","PATCH"],
+    pattern: '/user-types/:id',
+    tokens: [{"old":"/user-types/:id","type":0,"val":"user-types","end":""},{"old":"/user-types/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['user_types.update']['types'],
+  },
+  'user_types.destroy': {
+    methods: ["DELETE"],
+    pattern: '/user-types/:id',
+    tokens: [{"old":"/user-types/:id","type":0,"val":"user-types","end":""},{"old":"/user-types/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['user_types.destroy']['types'],
+  },
   'api.signup': {
     methods: ["POST"],
     pattern: '/api/v1/auth/signup',

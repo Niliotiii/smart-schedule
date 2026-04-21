@@ -22,8 +22,8 @@ npm install primevue @primeuix/themes primeicons tailwindcss-primeui
 ### Step 1: Configure CSS — `resources/css/app.css`
 
 ```css
-@import "tailwindcss";
-@import "tailwindcss-primeui/v4";
+@import 'tailwindcss';
+@import 'tailwindcss-primeui/v4';
 
 @layer tailwind-base, primeui, tailwind-utilities;
 

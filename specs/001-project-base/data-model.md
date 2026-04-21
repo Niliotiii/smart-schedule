@@ -3,6 +3,7 @@
 Nenhuma entidade específica do negócio (ex: usuários, escalas, disponibilidades) é modelada nesta fase de fundação de infraestrutura. O modelo foca apenas na viabilização da arquitetura de conexão ao banco.
 
 ## Banco de Dados
+
 - **Tipo**: Relacional
 - **SGBD**: PostgreSQL 16+
 

@@ -19,9 +19,9 @@
 
 **Purpose**: Install PrimeVue dependencies and configure the integration with Vue 3, Inertia, and Tailwind CSS v4.
 
-- [X] T001 Install PrimeVue packages: `npm install primevue @primeuix/themes primeicons tailwindcss-primeui`
-- [X] T002 Configure CSS layers and PrimeVue design tokens in `resources/css/app.css` — add `@import "tailwindcss-primeui/v4"`, `@layer tailwind-base, primeui, tailwind-utilities` per `quickstart.md` Step 1
-- [X] T003 Register PrimeVue plugin with Aura preset, ConfirmationService, and ToastService in `resources/js/app.ts` per `quickstart.md` Step 2
+- [x] T001 Install PrimeVue packages: `npm install primevue @primeuix/themes primeicons tailwindcss-primeui`
+- [x] T002 Configure CSS layers and PrimeVue design tokens in `resources/css/app.css` — add `@import "tailwindcss-primeui/v4"`, `@layer tailwind-base, primeui, tailwind-utilities` per `quickstart.md` Step 1
+- [x] T003 Register PrimeVue plugin with Aura preset, ConfirmationService, and ToastService in `resources/js/app.ts` per `quickstart.md` Step 2
 
 **Checkpoint**: Dev server starts without errors, existing pages still render (no PrimeVue components used yet), dark mode toggle still works.
 
@@ -33,16 +33,16 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete.
 
-- [X] T004 Refactor `resources/js/Composables/useTheme.ts` — keep `.dark` class toggle on `document.documentElement`, keep localStorage persistence, keep `matchMedia` detection; add `matchMedia` change listener for live system preference updates per research.md Decision 6
-- [X] T005 Create `resources/js/Components/AppMenu.vue` — computed menu items filtered by RBAC `can` props, PrimeIcons (`pi pi-home`, `pi pi-users`, `pi pi-shield`, `pi pi-sign-out`), Inertia `<Link>` navigation, active item highlighting based on `currentUrl`, divider before logout per `contracts/layout-shell.md`
-- [X] T006 Create `resources/js/Components/AppTopbar.vue` — hamburger button (`pi pi-bars`, mobile only), logo "Smart Schedule", theme toggle (`pi pi-moon`/`pi pi-sun` via `useTheme`), user avatar with initials and name per `contracts/layout-shell.md`
-- [X] T007 [P] Create `resources/js/Components/AppSidebar.vue` — fixed sidebar with AppMenu, static mode on desktop, overlay mode on mobile with mask backdrop, logout button at bottom per `contracts/layout-shell.md`
-- [X] T008 Refactor `resources/js/Layouts/AuthenticatedLayout.vue` — replace Sidebar/Navbar with AppSidebar/AppTopbar, add `<ConfirmDialog />` and `<Toast />` global instances, mobile overlay mask with close-on-click, content area offset by sidebar width on desktop per `contracts/layout-shell.md`
-- [X] T009 Refactor `resources/js/Layouts/GuestLayout.vue` — PrimeVue styled centered layout with theme toggle button using PrimeIcons per `contracts/layout-shell.md`
-- [X] T010 Delete `resources/js/Components/Sidebar.vue` — replaced by AppSidebar.vue
-- [X] T011 [P] Delete `resources/js/Components/Navbar.vue` — replaced by AppTopbar.vue
-- [X] T012 [P] Delete `resources/js/Components/Icon.vue` — replaced by PrimeIcons
-- [X] T013 [P] Delete `resources/js/Components/Pagination.vue` — replaced by PrimeVue DataTable paginator
+- [x] T004 Refactor `resources/js/Composables/useTheme.ts` — keep `.dark` class toggle on `document.documentElement`, keep localStorage persistence, keep `matchMedia` detection; add `matchMedia` change listener for live system preference updates per research.md Decision 6
+- [x] T005 Create `resources/js/Components/AppMenu.vue` — computed menu items filtered by RBAC `can` props, PrimeIcons (`pi pi-home`, `pi pi-users`, `pi pi-shield`, `pi pi-sign-out`), Inertia `<Link>` navigation, active item highlighting based on `currentUrl`, divider before logout per `contracts/layout-shell.md`
+- [x] T006 Create `resources/js/Components/AppTopbar.vue` — hamburger button (`pi pi-bars`, mobile only), logo "Smart Schedule", theme toggle (`pi pi-moon`/`pi pi-sun` via `useTheme`), user avatar with initials and name per `contracts/layout-shell.md`
+- [x] T007 [P] Create `resources/js/Components/AppSidebar.vue` — fixed sidebar with AppMenu, static mode on desktop, overlay mode on mobile with mask backdrop, logout button at bottom per `contracts/layout-shell.md`
+- [x] T008 Refactor `resources/js/Layouts/AuthenticatedLayout.vue` — replace Sidebar/Navbar with AppSidebar/AppTopbar, add `<ConfirmDialog />` and `<Toast />` global instances, mobile overlay mask with close-on-click, content area offset by sidebar width on desktop per `contracts/layout-shell.md`
+- [x] T009 Refactor `resources/js/Layouts/GuestLayout.vue` — PrimeVue styled centered layout with theme toggle button using PrimeIcons per `contracts/layout-shell.md`
+- [x] T010 Delete `resources/js/Components/Sidebar.vue` — replaced by AppSidebar.vue
+- [x] T011 [P] Delete `resources/js/Components/Navbar.vue` — replaced by AppTopbar.vue
+- [x] T012 [P] Delete `resources/js/Components/Icon.vue` — replaced by PrimeIcons
+- [x] T013 [P] Delete `resources/js/Components/Pagination.vue` — replaced by PrimeVue DataTable paginator
 
 **Checkpoint**: App loads with new layout shell. Sidebar menu works with RBAC filtering. Theme toggle works. Mobile overlay works. ConfirmDialog and Toast are available globally. Old components deleted. App still functionally works (pages still use old HTML but layout is new).
 
@@ -56,8 +56,8 @@
 
 ### Implementation for User Story 1
 
-- [X] T014 [US1] Refactor `resources/js/Pages/Dashboard/Index.vue` — replace custom card `<div>` with PrimeVue `<Card>`, replace Icon.vue with PrimeIcons (`pi pi-users`, `pi pi-shield`), use `<Button>` and `<Tag>` for links/permissions, use PrimeVue surface tokens (`bg-surface-0`, `text-color`) per `contracts/primevue-components.md`
-- [X] T015 [US1] Verify layout shell responsiveness — test sidebar static mode on desktop (≥992px) and overlay mode on mobile (<992px), verify hamburger toggle, mask click-to-close, and active menu highlighting across all pages
+- [x] T014 [US1] Refactor `resources/js/Pages/Dashboard/Index.vue` — replace custom card `<div>` with PrimeVue `<Card>`, replace Icon.vue with PrimeIcons (`pi pi-users`, `pi pi-shield`), use `<Button>` and `<Tag>` for links/permissions, use PrimeVue surface tokens (`bg-surface-0`, `text-color`) per `contracts/primevue-components.md`
+- [x] T015 [US1] Verify layout shell responsiveness — test sidebar static mode on desktop (≥992px) and overlay mode on mobile (<992px), verify hamburger toggle, mask click-to-close, and active menu highlighting across all pages
 
 **Checkpoint**: Dashboard page renders with PrimeVue Card and PrimeIcons. Layout shell works on desktop and mobile. All authenticated pages show new sidebar/topbar. This is the MVP.
 
@@ -71,12 +71,12 @@
 
 ### Implementation for User Story 2
 
-- [X] T016 [US2] Refactor `resources/js/Pages/Users/Index.vue` — replace HTML table with `<DataTable>` + `<Column>` (lazy mode, server-side pagination via `@page`), replace search form with `<Toolbar>` + `<IconField>` + `<InputIcon>` + `<InputText>`, replace `confirm()` with `useConfirm()`, replace flash `<div>` with `useToast()`, replace Icon.vue with PrimeIcons, replace "New User" `<Link>` with `<Button>`, action column with `<Button icon="pi pi-..." text rounded />` per `contracts/primevue-components.md`
-- [X] T017 [P] [US2] Refactor `resources/js/Pages/Profiles/Index.vue` — same pattern as Users/Index: `<DataTable>` lazy with `@page`, `<Toolbar>` + `<IconField>` for search, `useConfirm()` for delete, `useToast()` for flash, PrimeIcons for action buttons, permissions column with `<Tag>` per `contracts/primevue-components.md`
-- [X] T018 [P] [US2] Refactor `resources/js/Pages/Users/Form.vue` — replace `<input>` with `<InputText>`, `<input type="password">` with `<Password>`, `<select>` with `<Select>` (optionLabel, optionValue, showClear), replace submit `<button>` with `<Button>`, replace cancel `<Link>` with `<Button outlined>`, replace error `<p>` with `<Message severity="error">`, use PrimeIcons for back button (`pi pi-arrow-left`) per `contracts/primevue-components.md`
-- [X] T019 [P] [US2] Refactor `resources/js/Pages/Profiles/Form.vue` — replace `<input>` with `<InputText>`, `<textarea>` with `<Textarea>`, `<input type="checkbox">` with `<Checkbox>`, replace submit/cancel buttons with `<Button>`, replace error messages with `<Message>`, use PrimeIcons for back button per `contracts/primevue-components.md`
-- [X] T020 [P] [US2] Refactor `resources/js/Pages/Users/Show.vue` — replace card `<div>` with `<Card>`, permission/fields display with `<Tag>`, edit `<Link>` with `<Button>`, back `<Link>` with `<Button outlined>`, use PrimeIcons for edit button (`pi pi-pencil`) per `contracts/primevue-components.md`
-- [X] T021 [P] [US2] Refactor `resources/js/Pages/Profiles/Show.vue` — replace card `<div>` with `<Card>`, permissions `<span>` badges with `<Tag>`, edit button with `<Button>`, back button with `<Button outlined>`, use PrimeIcons per `contracts/primevue-components.md`
+- [x] T016 [US2] Refactor `resources/js/Pages/Users/Index.vue` — replace HTML table with `<DataTable>` + `<Column>` (lazy mode, server-side pagination via `@page`), replace search form with `<Toolbar>` + `<IconField>` + `<InputIcon>` + `<InputText>`, replace `confirm()` with `useConfirm()`, replace flash `<div>` with `useToast()`, replace Icon.vue with PrimeIcons, replace "New User" `<Link>` with `<Button>`, action column with `<Button icon="pi pi-..." text rounded />` per `contracts/primevue-components.md`
+- [x] T017 [P] [US2] Refactor `resources/js/Pages/Profiles/Index.vue` — same pattern as Users/Index: `<DataTable>` lazy with `@page`, `<Toolbar>` + `<IconField>` for search, `useConfirm()` for delete, `useToast()` for flash, PrimeIcons for action buttons, permissions column with `<Tag>` per `contracts/primevue-components.md`
+- [x] T018 [P] [US2] Refactor `resources/js/Pages/Users/Form.vue` — replace `<input>` with `<InputText>`, `<input type="password">` with `<Password>`, `<select>` with `<Select>` (optionLabel, optionValue, showClear), replace submit `<button>` with `<Button>`, replace cancel `<Link>` with `<Button outlined>`, replace error `<p>` with `<Message severity="error">`, use PrimeIcons for back button (`pi pi-arrow-left`) per `contracts/primevue-components.md`
+- [x] T019 [P] [US2] Refactor `resources/js/Pages/Profiles/Form.vue` — replace `<input>` with `<InputText>`, `<textarea>` with `<Textarea>`, `<input type="checkbox">` with `<Checkbox>`, replace submit/cancel buttons with `<Button>`, replace error messages with `<Message>`, use PrimeIcons for back button per `contracts/primevue-components.md`
+- [x] T020 [P] [US2] Refactor `resources/js/Pages/Users/Show.vue` — replace card `<div>` with `<Card>`, permission/fields display with `<Tag>`, edit `<Link>` with `<Button>`, back `<Link>` with `<Button outlined>`, use PrimeIcons for edit button (`pi pi-pencil`) per `contracts/primevue-components.md`
+- [x] T021 [P] [US2] Refactor `resources/js/Pages/Profiles/Show.vue` — replace card `<div>` with `<Card>`, permissions `<span>` badges with `<Tag>`, edit button with `<Button>`, back button with `<Button outlined>`, use PrimeIcons per `contracts/primevue-components.md`
 
 **Checkpoint**: All CRUD pages (Users Index/Form/Show, Profiles Index/Form/Show) use PrimeVue components. DataTable pagination, search, ConfirmationService delete, and Toast feedback all work. No `confirm()` calls remain. No manual flash `<div>` elements remain.
 
@@ -90,8 +90,8 @@
 
 ### Implementation for User Story 3
 
-- [X] T022 [US3] Audit and replace hardcoded Tailwind color classes with PrimeVue design tokens across all Vue files — replace `bg-white dark:bg-gray-800` with `bg-surface-0`, `text-gray-900 dark:text-gray-100` with `text-color`, `border-gray-200 dark:border-gray-700` with `border-surface`, `text-gray-500 dark:text-gray-400` with `text-muted-color`, and similar patterns per `contracts/primevue-components.md` dark mode section
-- [X] T023 [US3] Add `matchMedia` change event listener in `resources/js/Composables/useTheme.ts` so theme reacts when system preference changes while app is open (per edge case in spec.md)
+- [x] T022 [US3] Audit and replace hardcoded Tailwind color classes with PrimeVue design tokens across all Vue files — replace `bg-white dark:bg-gray-800` with `bg-surface-0`, `text-gray-900 dark:text-gray-100` with `text-color`, `border-gray-200 dark:border-gray-700` with `border-surface`, `text-gray-500 dark:text-gray-400` with `text-muted-color`, and similar patterns per `contracts/primevue-components.md` dark mode section
+- [x] T023 [US3] Add `matchMedia` change event listener in `resources/js/Composables/useTheme.ts` so theme reacts when system preference changes while app is open (per edge case in spec.md)
 
 **Checkpoint**: Theme toggle switches all components consistently. PrimeVue design tokens are used instead of hardcoded Tailwind dark: variants where tokens exist. System preference changes are detected live.
 
@@ -105,7 +105,7 @@
 
 ### Implementation for User Story 4
 
-- [X] T024 [US4] Refactor `resources/js/Pages/Auth/Login.vue` — replace `<input type="email">` with `<InputText>`, `<input type="password">` with `<Password>`, submit `<button>` with `<Button label="Entrar">`, error flash `<div>` with `<Message severity="error">`, use PrimeVue surface tokens for card styling, use PrimeIcons for branding per `contracts/primevue-components.md`
+- [x] T024 [US4] Refactor `resources/js/Pages/Auth/Login.vue` — replace `<input type="email">` with `<InputText>`, `<input type="password">` with `<Password>`, submit `<button>` with `<Button label="Entrar">`, error flash `<div>` with `<Message severity="error">`, use PrimeVue surface tokens for card styling, use PrimeIcons for branding per `contracts/primevue-components.md`
 
 **Checkpoint**: Login page uses PrimeVue components. Error messages display with Message component. Form submission works. Theme toggle in GuestLayout works.
 
@@ -115,11 +115,11 @@
 
 **Purpose**: Clean up, verify, and ensure consistency across all refactored pages.
 
-- [X] T025 [P] Verify all pages use PrimeIcons consistently — no remaining references to Icon.vue component in imports or templates across `resources/js/`
-- [X] T026 [P] Verify no `window.confirm()` calls remain in `resources/js/` — all replaced by `useConfirm()`
-- [X] T027 [P] Verify no manual flash `<div>` elements remain in page components — all replaced by `useToast()`
-- [X] T028 Run full manual test: login, dashboard, users CRUD (create/read/update/delete), profiles CRUD, search, pagination, theme toggle, mobile responsiveness per quickstart.md verification checklist
-- [X] T029 Run `node ace test` to confirm all existing backend tests still pass
+- [x] T025 [P] Verify all pages use PrimeIcons consistently — no remaining references to Icon.vue component in imports or templates across `resources/js/`
+- [x] T026 [P] Verify no `window.confirm()` calls remain in `resources/js/` — all replaced by `useConfirm()`
+- [x] T027 [P] Verify no manual flash `<div>` elements remain in page components — all replaced by `useToast()`
+- [x] T028 Run full manual test: login, dashboard, users CRUD (create/read/update/delete), profiles CRUD, search, pagination, theme toggle, mobile responsiveness per quickstart.md verification checklist
+- [x] T029 Run `node ace test` to confirm all existing backend tests still pass
 
 ---
 

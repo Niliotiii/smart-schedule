@@ -49,7 +49,10 @@ test.group('Auth login flow', () => {
       { email: 'login-test@paroquia.com' },
       { fullName: 'Login Test', password: 'secret' }
     )
-    const response = await client.post('/login').form({ email: user.email, password: 'secret' }).redirects(0)
+    const response = await client
+      .post('/login')
+      .form({ email: user.email, password: 'secret' })
+      .redirects(0)
     response.assertStatus(302)
   })
 

@@ -39,7 +39,13 @@ defineProps<{
         <Message v-if="form.errors.password" severity="error">{{ form.errors.password }}</Message>
       </div>
 
-      <Button type="submit" label="Entrar" :disabled="form.processing" severity="info" class="w-full" />
+      <Button
+        type="submit"
+        label="Entrar"
+        :disabled="form.processing"
+        severity="info"
+        class="w-full"
+      />
     </form>
   </div>
 </template>
