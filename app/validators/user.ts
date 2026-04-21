@@ -19,6 +19,7 @@ export const createUserValidator = vine.create({
   fullName: vine.string().nullable(),
   email: email().unique({ table: 'users', column: 'email' }),
   password: password(),
+  passwordConfirmation: password().sameAs('password'),
   profileId: vine.number().nullable(),
 })
 

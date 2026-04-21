@@ -1,7 +1,15 @@
 <script setup lang="ts">
-import { Link, useForm } from '@inertiajs/vue3'
-import Icon from '../../Components/Icon.vue'
-import { ref } from 'vue'
+import { useForm, router } from '@inertiajs/vue3'
+import { ref, computed } from 'vue'
+import InputText from 'primevue/inputtext'
+import Textarea from 'primevue/textarea'
+import Checkbox from 'primevue/checkbox'
+import Button from 'primevue/button'
+import Message from 'primevue/message'
+import TabView from 'primevue/tabview'
+import TabPanel from 'primevue/tabpanel'
+import Breadcrumb from 'primevue/breadcrumb'
+import FloatLabel from 'primevue/floatlabel'
 
 const props = defineProps<{
   profile: {
@@ -14,20 +22,21 @@ const props = defineProps<{
   selectedPermissionIds: number[]
 }>()
 
+const isEditing = computed(() => !!props.profile)
+
+const home = ref({ icon: 'pi pi-home', command: () => router.get('/dashboard') })
+const model = computed(() => [
+  { label: 'Perfis', command: () => router.get('/profiles') },
+  { label: isEditing.value ? 'Editar Perfil' : 'Novo Perfil' },
+])
+
 const form = useForm({
   name: props.profile?.name || '',
   description: props.profile?.description || '',
   permissionIds: ref([...(props.selectedPermissionIds || [])]),
 })
 
-const togglePermission = (id: number) => {
-  const idx = form.permissionIds.indexOf(id)
-  if (idx >= 0) {
-    form.permissionIds.splice(idx, 1)
-  } else {
-    form.permissionIds.push(id)
-  }
-}
+const activeTab = ref(0)
 
 const submit = () => {
   if (props.profile) {
@@ -39,56 +48,57 @@ const submit = () => {
 </script>
 
 <template>
-  <div>
-    <div class="mb-6 flex items-center gap-4">
-      <Link href="/profiles" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
-        <Icon name="chevron-left" cssClass="w-5 h-5" />
-      </Link>
-      <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ profile ? 'Editar Perfil' : 'Novo Perfil' }}</h2>
+  <div class="flex flex-col h-full">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-2xl font-bold text-color">{{ profile ? 'Editar Perfil' : 'Novo Perfil' }}</h2>
+      <Breadcrumb :home="home" :model="model" />
     </div>
 
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 max-w-2xl">
-      <form @submit.prevent="submit">
-        <div class="space-y-4">
-          <div>
-            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nome</label>
-            <input type="text" v-model="form.name" id="name" required
-              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500">
-            <p v-if="form.errors.name" class="mt-1 text-sm text-red-600 dark:text-red-400">{{ form.errors.name }}</p>
-          </div>
+    <form @submit.prevent="submit" class="bg-surface-ground border border-surface rounded-lg flex-1 flex flex-col min-h-0">
+      <div class="p-4 flex-1">
+        <TabView v-model:activeIndex="activeTab">
+          <TabPanel header="Informações Gerais">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <FloatLabel>
+                  <InputText id="name" v-model="form.name" fluid />
+                  <label for="name">Nome</label>
+                </FloatLabel>
+                <Message v-if="form.errors.name" severity="error" size="small">{{ form.errors.name }}</Message>
+              </div>
 
-          <div>
-            <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Descrição</label>
-            <textarea v-model="form.description" id="description" rows="3"
-              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500"></textarea>
-            <p v-if="form.errors.description" class="mt-1 text-sm text-red-600 dark:text-red-400">{{ form.errors.description }}</p>
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Permissões</label>
-            <div v-for="(perms, module) in groupedPermissions" :key="module" class="mb-3">
-              <h4 class="text-sm font-medium text-gray-600 dark:text-gray-400 capitalize mb-2">{{ module }}</h4>
-              <div class="flex flex-wrap gap-3">
-                <label v-for="perm in perms" :key="perm.id" class="inline-flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                  <input type="checkbox" :checked="form.permissionIds.includes(perm.id)" @change="togglePermission(perm.id)"
-                    class="rounded border-gray-300 dark:border-gray-600 text-violet-600 focus:ring-violet-500">
-                  {{ perm.action }}
-                </label>
+              <div class="md:col-span-2">
+                <FloatLabel>
+                  <Textarea id="description" v-model="form.description" rows="4" fluid />
+                  <label for="description">Descrição</label>
+                </FloatLabel>
+                <Message v-if="form.errors.description" severity="error" size="small">{{ form.errors.description }}</Message>
               </div>
             </div>
-          </div>
+          </TabPanel>
 
-          <div class="flex gap-3 pt-4">
-            <button type="submit" :disabled="form.processing"
-              class="bg-violet-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-violet-700 transition-colors disabled:opacity-50">
-              {{ profile ? 'Atualizar' : 'Criar' }}
-            </button>
-            <Link href="/profiles" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-              Cancelar
-            </Link>
-          </div>
-        </div>
-      </form>
-    </div>
+          <TabPanel header="Permissões">
+            <div v-for="(perms, module) in groupedPermissions" :key="module" class="mb-6">
+              <div class="font-semibold text-sm capitalize text-color mb-3">{{ module }}</div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                <div v-for="perm in perms" :key="perm.id" class="flex items-center gap-2">
+                  <Checkbox
+                    :value="perm.id"
+                    v-model="form.permissionIds"
+                    :inputId="`perm-${perm.id}`"
+                  />
+                  <label :for="`perm-${perm.id}`" class="text-sm text-color">{{ perm.action }}</label>
+                </div>
+              </div>
+            </div>
+          </TabPanel>
+        </TabView>
+      </div>
+
+      <div class="flex justify-end gap-2 p-4 border-t border-surface">
+        <Button v-if="activeTab === 1" type="submit" label="Salvar" :disabled="form.processing" severity="info" />
+        <Button label="Cancelar" severity="secondary" outlined @click="$inertia.get('/profiles')" />
+      </div>
+    </form>
   </div>
 </template>
