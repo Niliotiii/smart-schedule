@@ -17,11 +17,11 @@ defineProps<{
       <p class="text-muted-color text-sm mt-1">Bem-vindo ao Smart Schedule</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       <div v-if="can.usersRead" class="cursor-pointer" @click="$inertia.get('/users')">
         <Card>
           <template #header>
-            <div class="flex items-center gap-4 p-6">
+            <div class="flex items-center gap-4 p-4">
               <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-primary/10">
                 <i class="pi pi-users text-xl text-primary" />
               </div>
@@ -36,7 +36,7 @@ defineProps<{
       <div v-else>
         <Card>
           <template #header>
-            <div class="flex items-center gap-4 p-6">
+            <div class="flex items-center gap-4 p-4">
               <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-surface-100">
                 <i class="pi pi-users text-xl text-muted-color" />
               </div>
@@ -52,7 +52,7 @@ defineProps<{
       <div v-if="can.profilesRead" class="cursor-pointer" @click="$inertia.get('/profiles')">
         <Card>
           <template #header>
-            <div class="flex items-center gap-4 p-6">
+            <div class="flex items-center gap-4 p-4">
               <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-primary/10">
                 <i class="pi pi-shield text-xl text-primary" />
               </div>
@@ -67,7 +67,7 @@ defineProps<{
       <div v-else>
         <Card>
           <template #header>
-            <div class="flex items-center gap-4 p-6">
+            <div class="flex items-center gap-4 p-4">
               <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-surface-100">
                 <i class="pi pi-shield text-xl text-muted-color" />
               </div>

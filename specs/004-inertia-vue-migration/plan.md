@@ -21,19 +21,19 @@ Migrate the Smart Schedule frontend from Edge SSR templates to a SPA using Inert
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
-| Principle | Status | Notes |
-|-----------|--------|-------|
-| I. Extensibilidade | PASS | Vue components are more modular and reusable than Edge templates — improves extensibility |
-| II. Respeito à Disponibilidade | PASS | No changes to scheduling logic — purely a frontend migration |
-| III. Simplicidade e Usabilidade | PASS | SPA navigation improves UX; Vue components enable better responsive design |
-| IV. Confiabilidade | PASS | Same controller logic, same data — only rendering layer changes |
-| V. Segurança e Privacidade | PASS | Session auth preserved, CSRF handled by Inertia, Bouncer RBAC preserved via shared props |
-| Tech: Monolito com frontend via Edge ou Inertia | PASS | Constitution explicitly permits Inertia: "via Edge ou Inertia" |
-| Tech: Responsivo | PASS | Tailwind CSS classes preserved identically |
-| Flow: Modularidade | PASS | Vue pages/components naturally more modular than Edge templates |
-| Flow: Testes | PASS | Existing backend tests continue; frontend tests can be added incrementally |
+| Principle                                       | Status | Notes                                                                                     |
+| ----------------------------------------------- | ------ | ----------------------------------------------------------------------------------------- |
+| I. Extensibilidade                              | PASS   | Vue components are more modular and reusable than Edge templates — improves extensibility |
+| II. Respeito à Disponibilidade                  | PASS   | No changes to scheduling logic — purely a frontend migration                              |
+| III. Simplicidade e Usabilidade                 | PASS   | SPA navigation improves UX; Vue components enable better responsive design                |
+| IV. Confiabilidade                              | PASS   | Same controller logic, same data — only rendering layer changes                           |
+| V. Segurança e Privacidade                      | PASS   | Session auth preserved, CSRF handled by Inertia, Bouncer RBAC preserved via shared props  |
+| Tech: Monolito com frontend via Edge ou Inertia | PASS   | Constitution explicitly permits Inertia: "via Edge ou Inertia"                            |
+| Tech: Responsivo                                | PASS   | Tailwind CSS classes preserved identically                                                |
+| Flow: Modularidade                              | PASS   | Vue pages/components naturally more modular than Edge templates                           |
+| Flow: Testes                                    | PASS   | Existing backend tests continue; frontend tests can be added incrementally                |
 
 **Gate Result**: PASS — All constitution principles satisfied. Migration to Inertia+Vue is explicitly allowed.
 
@@ -122,6 +122,7 @@ No constitution violations. No complexity justifications needed.
 See [research.md](./research.md) for all 12 technology decisions.
 
 Key decisions:
+
 - **SPA mode** (not SSR) — simpler, sufficient for internal tool
 - **Vue 3 + Composition API** with `<script setup>` — modern standard
 - **`@adonisjs/inertia`** package with `node ace configure inertia` scaffolding

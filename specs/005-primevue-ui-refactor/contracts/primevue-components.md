@@ -6,44 +6,44 @@
 
 ### Form Inputs
 
-| Current HTML | PrimeVue Replacement | Import Path |
-|-------------|---------------------|-------------|
-| `<input type="text">` | `<InputText>` | `primevue/inputtext` |
-| `<input type="email">` | `<InputText>` | `primevue/inputtext` |
-| `<input type="password">` | `<Password>` | `primevue/password` |
-| `<select>` | `<Select>` | `primevue/select` |
-| `<textarea>` | `<Textarea>` | `primevue/textarea` |
-| `<input type="checkbox">` | `<Checkbox>` | `primevue/checkbox` |
+| Current HTML              | PrimeVue Replacement | Import Path          |
+| ------------------------- | -------------------- | -------------------- |
+| `<input type="text">`     | `<InputText>`        | `primevue/inputtext` |
+| `<input type="email">`    | `<InputText>`        | `primevue/inputtext` |
+| `<input type="password">` | `<Password>`         | `primevue/password`  |
+| `<select>`                | `<Select>`           | `primevue/select`    |
+| `<textarea>`              | `<Textarea>`         | `primevue/textarea`  |
+| `<input type="checkbox">` | `<Checkbox>`         | `primevue/checkbox`  |
 
 ### Buttons & Links
 
-| Current HTML | PrimeVue Replacement | Import Path |
-|-------------|---------------------|-------------|
-| `<button>` (primary) | `<Button label="..." severity="primary" />` | `primevue/button` |
+| Current HTML           | PrimeVue Replacement                                   | Import Path       |
+| ---------------------- | ------------------------------------------------------ | ----------------- |
+| `<button>` (primary)   | `<Button label="..." severity="primary" />`            | `primevue/button` |
 | `<button>` (secondary) | `<Button label="..." severity="secondary" outlined />` | `primevue/button` |
-| `<button>` (danger) | `<Button label="..." severity="danger" text />` | `primevue/button` |
-| Navigation `<Link>` | `<Link>` (Inertia) styled with PrimeVue classes | `@inertiajs/vue3` |
-| `<Link>` (icon action) | `<Button icon="pi pi-..." text rounded />` | `primevue/button` |
+| `<button>` (danger)    | `<Button label="..." severity="danger" text />`        | `primevue/button` |
+| Navigation `<Link>`    | `<Link>` (Inertia) styled with PrimeVue classes        | `@inertiajs/vue3` |
+| `<Link>` (icon action) | `<Button icon="pi pi-..." text rounded />`             | `primevue/button` |
 
 ### Data Display
 
-| Current HTML | PrimeVue Replacement | Import Path |
-|-------------|---------------------|-------------|
-| `<table>` with pagination | `<DataTable>` + `<Column>` | `primevue/datatable` + `primevue/column` |
-| Manual pagination | DataTable `paginator` prop | Built-in |
-| Manual search input | `<IconField>` + `<InputIcon>` + `<InputText>` | `primevue/iconfield` + `primevue/inputicon` |
-| Manual flash `<div>` | `<Toast>` + `useToast()` | `primevue/toast` + `primevue/usetoast` |
-| `<div>` card | `<Card>` | `primevue/card` |
-| `<span>` badge | `<Tag>` | `primevue/tag` |
-| `window.confirm()` | `<ConfirmDialog>` + `useConfirm()` | `primevue/confirmdialog` + `primevue/useconfirm` |
-| Error `<div>` | `<Message>` | `primevue/message` |
+| Current HTML              | PrimeVue Replacement                          | Import Path                                      |
+| ------------------------- | --------------------------------------------- | ------------------------------------------------ |
+| `<table>` with pagination | `<DataTable>` + `<Column>`                    | `primevue/datatable` + `primevue/column`         |
+| Manual pagination         | DataTable `paginator` prop                    | Built-in                                         |
+| Manual search input       | `<IconField>` + `<InputIcon>` + `<InputText>` | `primevue/iconfield` + `primevue/inputicon`      |
+| Manual flash `<div>`      | `<Toast>` + `useToast()`                      | `primevue/toast` + `primevue/usetoast`           |
+| `<div>` card              | `<Card>`                                      | `primevue/card`                                  |
+| `<span>` badge            | `<Tag>`                                       | `primevue/tag`                                   |
+| `window.confirm()`        | `<ConfirmDialog>` + `useConfirm()`            | `primevue/confirmdialog` + `primevue/useconfirm` |
+| Error `<div>`             | `<Message>`                                   | `primevue/message`                               |
 
 ### Layout
 
-| Current Component | PrimeVue Replacement | Import Path |
-|-------------------|---------------------|-------------|
-| Custom `Icon.vue` SVG | PrimeIcons font classes | `primeicons` (CSS) |
-| Search bar + button | `<Toolbar>` with `<IconField>` | `primevue/toolbar` + `primevue/iconfield` |
+| Current Component     | PrimeVue Replacement           | Import Path                               |
+| --------------------- | ------------------------------ | ----------------------------------------- |
+| Custom `Icon.vue` SVG | PrimeIcons font classes        | `primeicons` (CSS)                        |
+| Search bar + button   | `<Toolbar>` with `<IconField>` | `primevue/toolbar` + `primevue/iconfield` |
 
 ## DataTable Usage Pattern
 
@@ -164,12 +164,13 @@ To use PrimeVue design tokens in Tailwind utility classes:
 ```html
 <!-- Instead of hardcoded colors -->
 <div class="bg-white dark:bg-gray-800">
-
-<!-- Use PrimeVue surface tokens -->
-<div class="bg-surface-0 text-color">
+  <!-- Use PrimeVue surface tokens -->
+  <div class="bg-surface-0 text-color"></div>
+</div>
 ```
 
 Available token-based classes from `tailwindcss-primeui`:
+
 - `text-color`, `text-color-emphasis`, `text-muted-color`
 - `bg-surface-0`, `bg-surface-50`, `bg-surface-100`
 - `bg-primary`, `text-primary`

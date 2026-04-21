@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smart Schedule</title>
-  @vite(['resources/css/app.css', 'resources/js/app.ts'])
-  <script>
-    // FOUC prevention: apply dark class before Vue mounts
-    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark')
-    }
-  </script>
-</head>
-<body class="bg-surface-50 min-h-screen">
-  <div id="app" data-page="{{ JSON.stringify(page) }}"></div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Smart Schedule
+    </title>
+    @vite(['resources/css/app.css', 'resources/js/app.ts'])
+    <script>
+      // FOUC prevention: apply dark class before Vue mounts
+      if (localStorage.theme === "dark" || !("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        document.documentElement.classList.add("dark");
+      }
+    </script>
+  </head>
+  <body class="bg-surface-50 min-h-screen">
+    <div id="app" data-page="{{ JSON.stringify(page) }}">
+    </div>
+  </body>
 </html>

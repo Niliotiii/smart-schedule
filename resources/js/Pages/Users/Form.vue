@@ -17,8 +17,10 @@ const props = defineProps<{
     fullName: string | null
     email: string
     profileId: number | null
+    userTypeId: number | null
   } | null
   profiles: Array<{ id: number; name: string }>
+  userTypes: Array<{ id: number; name: string }>
 }>()
 
 const isEditing = computed(() => !!props.user)
@@ -35,18 +37,22 @@ const form = useForm({
   password: '',
   passwordConfirmation: '',
   profileId: props.user?.profileId ?? ('' as number | string),
+  userTypeId: props.user?.userTypeId ?? ('' as number | string),
 })
 
 const activeTab = ref(0)
 
 const submit = () => {
   if (props.user) {
-    form.transform((data) => ({
-      fullName: data.fullName,
-      email: data.email,
-      ...(data.password ? { password: data.password } : {}),
-      profileId: data.profileId,
-    })).put(`/users/${props.user.id}`)
+    form
+      .transform((data) => ({
+        fullName: data.fullName,
+        email: data.email,
+        ...(data.password ? { password: data.password } : {}),
+        profileId: data.profileId,
+        userTypeId: data.userTypeId,
+      }))
+      .put(`/users/${props.user.id}`)
   } else {
     form.post('/users')
   }
@@ -56,57 +62,110 @@ const submit = () => {
 <template>
   <div class="flex flex-col h-full">
     <div class="flex items-center justify-between mb-6">
-      <h2 class="text-2xl font-bold text-color">{{ isEditing ? 'Editar Usuário' : 'Novo Usuário' }}</h2>
+      <h2 class="text-2xl font-bold text-color">
+        {{ isEditing ? 'Editar Usuário' : 'Novo Usuário' }}
+      </h2>
       <Breadcrumb :home="home" :model="model" />
     </div>
 
-    <form @submit.prevent="submit" class="bg-surface-ground border border-surface rounded-lg flex-1 flex flex-col min-h-0">
+    <form
+      @submit.prevent="submit"
+      class="bg-surface-ground border border-surface rounded-lg flex-1 flex flex-col min-h-0"
+    >
       <div class="p-4 flex-1">
         <TabView v-model:activeIndex="activeTab">
           <TabPanel header="Informações Pessoais">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
+              <div class="pt-4">
                 <FloatLabel>
                   <InputText id="fullName" v-model="form.fullName" fluid />
                   <label for="fullName">Nome completo</label>
                 </FloatLabel>
-                <Message v-if="form.errors.fullName" severity="error" size="small">{{ form.errors.fullName }}</Message>
+                <Message v-if="form.errors.fullName" severity="error" size="small">{{
+                  form.errors.fullName
+                }}</Message>
               </div>
 
-              <div>
+              <div class="pt-4">
                 <FloatLabel>
                   <InputText id="email" v-model="form.email" type="email" fluid />
                   <label for="email">Email</label>
                 </FloatLabel>
-                <Message v-if="form.errors.email" severity="error" size="small">{{ form.errors.email }}</Message>
+                <Message v-if="form.errors.email" severity="error" size="small">{{
+                  form.errors.email
+                }}</Message>
               </div>
             </div>
           </TabPanel>
 
           <TabPanel header="Segurança">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
+              <div class="pt-4">
                 <FloatLabel>
-                  <Password id="password" v-model="form.password" :feedback="!isEditing" toggleMask fluid />
+                  <Password
+                    id="password"
+                    v-model="form.password"
+                    :feedback="!isEditing"
+                    toggleMask
+                    fluid
+                  />
                   <label for="password">Senha{{ isEditing ? ' (manter atual)' : '' }}</label>
                 </FloatLabel>
-                <Message v-if="form.errors.password" severity="error" size="small">{{ form.errors.password }}</Message>
+                <Message v-if="form.errors.password" severity="error" size="small">{{
+                  form.errors.password
+                }}</Message>
               </div>
 
-              <div v-if="!isEditing">
+              <div v-if="!isEditing" class="pt-4">
                 <FloatLabel>
-                  <Password id="passwordConfirmation" v-model="form.passwordConfirmation" :feedback="false" toggleMask fluid />
+                  <Password
+                    id="passwordConfirmation"
+                    v-model="form.passwordConfirmation"
+                    :feedback="false"
+                    toggleMask
+                    fluid
+                  />
                   <label for="passwordConfirmation">Confirmar senha</label>
                 </FloatLabel>
-                <Message v-if="form.errors.passwordConfirmation" severity="error" size="small">{{ form.errors.passwordConfirmation }}</Message>
+                <Message v-if="form.errors.passwordConfirmation" severity="error" size="small">{{
+                  form.errors.passwordConfirmation
+                }}</Message>
               </div>
 
-              <div>
+              <div class="pt-4">
                 <FloatLabel>
-                  <Select id="profileId" v-model="form.profileId" :options="profiles" optionLabel="name" optionValue="id" showClear fluid />
+                  <Select
+                    id="profileId"
+                    v-model="form.profileId"
+                    :options="profiles"
+                    optionLabel="name"
+                    optionValue="id"
+                    showClear
+                    fluid
+                  />
                   <label for="profileId">Perfil</label>
                 </FloatLabel>
-                <Message v-if="form.errors.profileId" severity="error" size="small">{{ form.errors.profileId }}</Message>
+                <Message v-if="form.errors.profileId" severity="error" size="small">{{
+                  form.errors.profileId
+                }}</Message>
+              </div>
+
+              <div class="pt-4">
+                <FloatLabel>
+                  <Select
+                    id="userTypeId"
+                    v-model="form.userTypeId"
+                    :options="userTypes"
+                    optionLabel="name"
+                    optionValue="id"
+                    showClear
+                    fluid
+                  />
+                  <label for="userTypeId">Tipo de Usuário</label>
+                </FloatLabel>
+                <Message v-if="form.errors.userTypeId" severity="error" size="small">{{
+                  form.errors.userTypeId
+                }}</Message>
               </div>
             </div>
           </TabPanel>
@@ -114,7 +173,13 @@ const submit = () => {
       </div>
 
       <div class="flex justify-end gap-2 p-4 border-t border-surface">
-        <Button v-if="activeTab === 1" type="submit" label="Salvar" :disabled="form.processing" severity="info" />
+        <Button
+          v-if="activeTab === 1"
+          type="submit"
+          label="Salvar"
+          :disabled="form.processing"
+          severity="info"
+        />
         <Button label="Cancelar" severity="secondary" outlined @click="$inertia.get('/users')" />
       </div>
     </form>

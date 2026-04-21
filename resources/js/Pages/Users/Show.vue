@@ -12,6 +12,7 @@ const props = defineProps<{
     email: string
     profileId: number | null
     profile: { id: number; name: string } | null
+    userType: { id: number; name: string } | null
     createdAt: string
   }
   can: {
@@ -27,7 +28,13 @@ const model = ref([
 
 const formatDate = (iso: string) => {
   const d = new Date(iso)
-  return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+  return d.toLocaleDateString('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
 }
 </script>
 
@@ -40,7 +47,11 @@ const formatDate = (iso: string) => {
 
     <div class="bg-surface-ground border border-surface rounded-lg flex-1 flex flex-col min-h-0">
       <div class="p-4 flex-1">
-        <h3 class="text-lg font-semibold text-color mb-4 flex items-center w-full gap-4 after:content-[''] after:flex-1 after:border-b after:border-surface">Dados Gerais</h3>
+        <h3
+          class="text-lg font-semibold text-color mb-4 flex items-center w-full gap-4 after:content-[''] after:flex-1 after:border-b after:border-surface"
+        >
+          Dados Gerais
+        </h3>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-4">
           <div>
             <label class="block text-sm font-medium text-muted-color">Nome</label>
@@ -58,6 +69,13 @@ const formatDate = (iso: string) => {
             </p>
           </div>
           <div>
+            <label class="block text-sm font-medium text-muted-color">Tipo de Usuário</label>
+            <p class="mt-1">
+              <Tag v-if="userToShow.userType" :value="userToShow.userType.name" severity="info" />
+              <span v-else class="text-sm text-muted-color">-</span>
+            </p>
+          </div>
+          <div>
             <label class="block text-sm font-medium text-muted-color">Criado em</label>
             <p class="mt-1 text-sm text-color">{{ formatDate(userToShow.createdAt) }}</p>
           </div>
@@ -65,8 +83,19 @@ const formatDate = (iso: string) => {
       </div>
 
       <div class="flex justify-end gap-2 p-4 border-t border-surface">
-        <Button v-if="can.usersUpdate" v-tooltip="'Editar usuário'" label="Editar" severity="warn" @click="$inertia.get(`/users/${userToShow.id}/edit`)" />
-        <Button v-tooltip="'Voltar para listagem'" label="Voltar" severity="secondary" @click="$inertia.get('/users')" />
+        <Button
+          v-if="can.usersUpdate"
+          v-tooltip="'Editar usuário'"
+          label="Editar"
+          severity="warn"
+          @click="$inertia.get(`/users/${userToShow.id}/edit`)"
+        />
+        <Button
+          v-tooltip="'Voltar para listagem'"
+          label="Voltar"
+          severity="secondary"
+          @click="$inertia.get('/users')"
+        />
       </div>
     </div>
   </div>

@@ -29,7 +29,7 @@ export default defineConfig({
     () => import('@adonisjs/core/commands'),
     () => import('@adonisjs/lucid/commands'),
     () => import('@adonisjs/session/commands'),
-    () => import('@adonisjs/bouncer/commands')
+    () => import('@adonisjs/bouncer/commands'),
   ],
 
   /*
@@ -58,7 +58,7 @@ export default defineConfig({
     () => import('@adonisjs/core/providers/edge_provider'),
     () => import('@adonisjs/vite/vite_provider'),
     () => import('@adonisjs/bouncer/bouncer_provider'),
-    () => import('@adonisjs/inertia/inertia_provider')
+    () => import('@adonisjs/inertia/inertia_provider'),
   ],
 
   /*
@@ -109,18 +109,19 @@ export default defineConfig({
   | the production build.
   |
   */
-  metaFiles: [{
-    pattern: 'resources/views/**/*.edge',
-    reloadServer: false,
-  },
-  {
-    pattern: 'public/**',
-    reloadServer: false,
-  },
-  {
-    pattern: 'resources/js/Pages/**/*.vue',
-    reloadServer: false,
-  }
+  metaFiles: [
+    {
+      pattern: 'resources/views/**/*.edge',
+      reloadServer: false,
+    },
+    {
+      pattern: 'public/**',
+      reloadServer: false,
+    },
+    {
+      pattern: 'resources/js/Pages/**/*.vue',
+      reloadServer: false,
+    },
   ],
 
   hooks: {
@@ -129,8 +130,8 @@ export default defineConfig({
         transformers: { enabled: true },
       }),
       generateRegistry(),
-      indexPolicies()
+      indexPolicies(),
     ],
-    buildStarting: [() => import('@adonisjs/vite/build_hook')]
+    buildStarting: [() => import('@adonisjs/vite/build_hook')],
   },
 })

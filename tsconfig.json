@@ -18,8 +18,6 @@
       "#validators/*": ["./app/validators/*.js"]
     }
   },
-  "include": [
-    "**/*.ts",
-    "**/*.vue"
-  ]
+  "include": ["**/*.ts", "**/*.vue"],
+  "exclude": ["resources/js"]
 }

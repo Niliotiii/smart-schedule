@@ -4,7 +4,7 @@ import type User from '#models/user'
 
 const checkPermission = (user: User, permission: string): AuthorizerResponse => {
   if (!user.profile) return false
-  return user.profile.permissions.some((p) => `${p.module}:${p.action}` === permission)
+  return user.profile.permissions.some((p: { module: string; action: string }) => `${p.module}:${p.action}` === permission)
 }
 
 export const usersRead = Bouncer.ability((user: User) => checkPermission(user, 'users:read'))
@@ -13,6 +13,26 @@ export const usersUpdate = Bouncer.ability((user: User) => checkPermission(user,
 export const usersDelete = Bouncer.ability((user: User) => checkPermission(user, 'users:delete'))
 
 export const profilesRead = Bouncer.ability((user: User) => checkPermission(user, 'profiles:read'))
-export const profilesCreate = Bouncer.ability((user: User) => checkPermission(user, 'profiles:create'))
-export const profilesUpdate = Bouncer.ability((user: User) => checkPermission(user, 'profiles:update'))
-export const profilesDelete = Bouncer.ability((user: User) => checkPermission(user, 'profiles:delete'))
+export const profilesCreate = Bouncer.ability((user: User) =>
+  checkPermission(user, 'profiles:create')
+)
+export const profilesUpdate = Bouncer.ability((user: User) =>
+  checkPermission(user, 'profiles:update')
+)
+export const profilesDelete = Bouncer.ability((user: User) =>
+  checkPermission(user, 'profiles:delete')
+)
+
+export const userTypesRead = Bouncer.ability((user: User) =>
+  checkPermission(user, 'user_types:read')
+)
+export const userTypesCreate = Bouncer.ability((user: User) =>
+  checkPermission(user, 'user_types:create')
+)
+export const userTypesUpdate = Bouncer.ability((user: User) =>
+  checkPermission(user, 'user_types:update')
+)
+export const userTypesDelete = Bouncer.ability((user: User) =>
+  checkPermission(user, 'user_types:delete')
+)
+

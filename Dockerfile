@@ -12,6 +12,14 @@ COPY --chown=node:node ./package*.json ./
 RUN npm ci
 COPY --chown=node:node . .
 
+FROM base AS development
+COPY --chown=node:node ./package*.json ./
+RUN npm ci
+COPY --chown=node:node . .
+
+EXPOSE 3333
+CMD [ "dumb-init", "node", "ace", "serve", "--watch" ]
+
 FROM dependencies AS build
 RUN node ace build
 

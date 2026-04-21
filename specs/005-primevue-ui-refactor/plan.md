@@ -21,19 +21,19 @@ Refatorar a UI do Smart Schedule para usar PrimeVue 4 com preset Aura e design t
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
-| Principle | Status | Notes |
-|-----------|--------|-------|
-| I. Extensibilidade | PASS | PrimeVue components are more modular and reusable than hand-rolled HTML — improves extensibility for future pastorais |
-| II. Respeito à Disponibilidade | PASS | No changes to scheduling logic — purely a UI layer refactor |
-| III. Simplicidade e Usabilidade | PASS | PrimeVue provides polished, accessible UI components — improves usability for coordinators and volunteers |
-| IV. Confiabilidade | PASS | Same controller logic, same data — only rendering layer changes |
-| V. Segurança e Privacidade | PASS | Session auth preserved, RBAC via Bouncer still enforced, no data exposure changes |
-| Tech: Monolito com frontend via Edge ou Inertia | PASS | Constitution explicitly permits Inertia |
-| Tech: Responsivo | PASS | PrimeVue components are responsive by default + Tailwind utilities preserved |
-| Flow: Modularidade | PASS | PrimeVue components are naturally modular; layout shell promotes reuse |
-| Flow: Testes | PASS | Existing backend tests continue; frontend tests can be added incrementally |
+| Principle                                       | Status | Notes                                                                                                                 |
+| ----------------------------------------------- | ------ | --------------------------------------------------------------------------------------------------------------------- |
+| I. Extensibilidade                              | PASS   | PrimeVue components are more modular and reusable than hand-rolled HTML — improves extensibility for future pastorais |
+| II. Respeito à Disponibilidade                  | PASS   | No changes to scheduling logic — purely a UI layer refactor                                                           |
+| III. Simplicidade e Usabilidade                 | PASS   | PrimeVue provides polished, accessible UI components — improves usability for coordinators and volunteers             |
+| IV. Confiabilidade                              | PASS   | Same controller logic, same data — only rendering layer changes                                                       |
+| V. Segurança e Privacidade                      | PASS   | Session auth preserved, RBAC via Bouncer still enforced, no data exposure changes                                     |
+| Tech: Monolito com frontend via Edge ou Inertia | PASS   | Constitution explicitly permits Inertia                                                                               |
+| Tech: Responsivo                                | PASS   | PrimeVue components are responsive by default + Tailwind utilities preserved                                          |
+| Flow: Modularidade                              | PASS   | PrimeVue components are naturally modular; layout shell promotes reuse                                                |
+| Flow: Testes                                    | PASS   | Existing backend tests continue; frontend tests can be added incrementally                                            |
 
 **Gate Result**: PASS — All constitution principles satisfied. UI refactor using a component library improves extensibility and usability without affecting core logic.
 
@@ -104,6 +104,7 @@ No constitution violations. No complexity justifications needed.
 See [research.md](./research.md) for all 7 technology decisions.
 
 Key decisions:
+
 - **PrimeVue 4 with Aura preset** — modern theming via @primeuix/themes with design tokens
 - **Dark mode via `.dark` selector** — matches existing Tailwind `@custom-variant dark` config
 - **CSS layers** — `tailwind-base, primeui, tailwind-utilities` order for proper cascade

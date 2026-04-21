@@ -13,6 +13,10 @@ const AuthController = () => import('#controllers/auth_controller')
 const DashboardController = () => import('#controllers/dashboard_controller')
 const ProfilesController = () => import('#controllers/profiles_controller')
 const UsersController = () => import('#controllers/users_controller')
+const UserTypesController = () => import('#controllers/user_types_controller')
+const NewAccountController = () => import('#controllers/new_account_controller')
+const AccessTokenController = () => import('#controllers/access_token_controller')
+const ProfileController = () => import('#controllers/profile_controller')
 
 // Public web routes
 router.get('/login', [AuthController, 'showLogin']).as('login.show')
@@ -26,6 +30,7 @@ router
 
     router.resource('profiles', ProfilesController).as('profiles')
     router.resource('users', UsersController).as('users')
+    router.resource('user-types', UserTypesController).as('userTypes')
   })
   .use(middleware.auth({ guards: ['web'] }))
 
@@ -34,10 +39,10 @@ router
   .group(() => {
     router
       .group(() => {
-        router.post('signup', ['#controllers/new_account_controller', 'store']).as('api.signup')
-        router.post('login', ['#controllers/access_token_controller', 'store']).as('api.login')
+        router.post('signup', [NewAccountController, 'store']).as('api.signup')
+        router.post('login', [AccessTokenController, 'store']).as('api.login')
         router
-          .post('logout', ['#controllers/access_token_controller', 'destroy'])
+          .post('logout', [AccessTokenController, 'destroy'])
           .as('api.logout')
           .use(middleware.auth())
       })
@@ -45,7 +50,7 @@ router
 
     router
       .group(() => {
-        router.get('/profile', ['#controllers/profile_controller', 'show']).as('api.profile')
+        router.get('/profile', [ProfileController, 'show']).as('api.profile')
       })
       .prefix('account')
       .use(middleware.auth())
