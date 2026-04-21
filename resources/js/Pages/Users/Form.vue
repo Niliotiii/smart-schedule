@@ -1,6 +1,15 @@
 <script setup lang="ts">
-import { Link, useForm } from '@inertiajs/vue3'
-import Icon from '../../Components/Icon.vue'
+import { useForm, router } from '@inertiajs/vue3'
+import { ref, computed } from 'vue'
+import InputText from 'primevue/inputtext'
+import Password from 'primevue/password'
+import Select from 'primevue/select'
+import Button from 'primevue/button'
+import Message from 'primevue/message'
+import TabView from 'primevue/tabview'
+import TabPanel from 'primevue/tabpanel'
+import Breadcrumb from 'primevue/breadcrumb'
+import FloatLabel from 'primevue/floatlabel'
 
 const props = defineProps<{
   user: {
@@ -12,16 +21,32 @@ const props = defineProps<{
   profiles: Array<{ id: number; name: string }>
 }>()
 
+const isEditing = computed(() => !!props.user)
+
+const home = ref({ icon: 'pi pi-home', command: () => router.get('/dashboard') })
+const model = computed(() => [
+  { label: 'Usuários', command: () => router.get('/users') },
+  { label: isEditing.value ? 'Editar Usuário' : 'Novo Usuário' },
+])
+
 const form = useForm({
   fullName: props.user?.fullName || '',
   email: props.user?.email || '',
   password: '',
-  profileId: props.user?.profileId ?? '' as number | string,
+  passwordConfirmation: '',
+  profileId: props.user?.profileId ?? ('' as number | string),
 })
+
+const activeTab = ref(0)
 
 const submit = () => {
   if (props.user) {
-    form.put(`/users/${props.user.id}`)
+    form.transform((data) => ({
+      fullName: data.fullName,
+      email: data.email,
+      ...(data.password ? { password: data.password } : {}),
+      profileId: data.profileId,
+    })).put(`/users/${props.user.id}`)
   } else {
     form.post('/users')
   }
@@ -29,61 +54,69 @@ const submit = () => {
 </script>
 
 <template>
-  <div>
-    <div class="mb-6 flex items-center gap-4">
-      <Link href="/users" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
-        <Icon name="chevron-left" cssClass="w-5 h-5" />
-      </Link>
-      <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ user ? 'Editar Usuário' : 'Novo Usuário' }}</h2>
+  <div class="flex flex-col h-full">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-2xl font-bold text-color">{{ isEditing ? 'Editar Usuário' : 'Novo Usuário' }}</h2>
+      <Breadcrumb :home="home" :model="model" />
     </div>
 
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 max-w-2xl">
-      <form @submit.prevent="submit">
-        <div class="space-y-4">
-          <div>
-            <label for="fullName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nome completo</label>
-            <input type="text" v-model="form.fullName" id="fullName"
-              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500">
-            <p v-if="form.errors.fullName" class="mt-1 text-sm text-red-600 dark:text-red-400">{{ form.errors.fullName }}</p>
-          </div>
+    <form @submit.prevent="submit" class="bg-surface-ground border border-surface rounded-lg flex-1 flex flex-col min-h-0">
+      <div class="p-4 flex-1">
+        <TabView v-model:activeIndex="activeTab">
+          <TabPanel header="Informações Pessoais">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <FloatLabel>
+                  <InputText id="fullName" v-model="form.fullName" fluid />
+                  <label for="fullName">Nome completo</label>
+                </FloatLabel>
+                <Message v-if="form.errors.fullName" severity="error" size="small">{{ form.errors.fullName }}</Message>
+              </div>
 
-          <div>
-            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
-            <input type="email" v-model="form.email" id="email" required
-              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500">
-            <p v-if="form.errors.email" class="mt-1 text-sm text-red-600 dark:text-red-400">{{ form.errors.email }}</p>
-          </div>
+              <div>
+                <FloatLabel>
+                  <InputText id="email" v-model="form.email" type="email" fluid />
+                  <label for="email">Email</label>
+                </FloatLabel>
+                <Message v-if="form.errors.email" severity="error" size="small">{{ form.errors.email }}</Message>
+              </div>
+            </div>
+          </TabPanel>
 
-          <div>
-            <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Senha {{ user ? '(deixe vazio para manter a atual)' : '' }}
-            </label>
-            <input type="password" v-model="form.password" id="password" :required="!user"
-              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500">
-            <p v-if="form.errors.password" class="mt-1 text-sm text-red-600 dark:text-red-400">{{ form.errors.password }}</p>
-          </div>
+          <TabPanel header="Segurança">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <FloatLabel>
+                  <Password id="password" v-model="form.password" :feedback="!isEditing" toggleMask fluid />
+                  <label for="password">Senha{{ isEditing ? ' (manter atual)' : '' }}</label>
+                </FloatLabel>
+                <Message v-if="form.errors.password" severity="error" size="small">{{ form.errors.password }}</Message>
+              </div>
 
-          <div>
-            <label for="profileId" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Perfil</label>
-            <select v-model="form.profileId" id="profileId"
-              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500">
-              <option value="">Sem perfil</option>
-              <option v-for="profile in profiles" :key="profile.id" :value="profile.id">{{ profile.name }}</option>
-            </select>
-            <p v-if="form.errors.profileId" class="mt-1 text-sm text-red-600 dark:text-red-400">{{ form.errors.profileId }}</p>
-          </div>
+              <div v-if="!isEditing">
+                <FloatLabel>
+                  <Password id="passwordConfirmation" v-model="form.passwordConfirmation" :feedback="false" toggleMask fluid />
+                  <label for="passwordConfirmation">Confirmar senha</label>
+                </FloatLabel>
+                <Message v-if="form.errors.passwordConfirmation" severity="error" size="small">{{ form.errors.passwordConfirmation }}</Message>
+              </div>
 
-          <div class="flex gap-3 pt-4">
-            <button type="submit" :disabled="form.processing"
-              class="bg-violet-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-violet-700 transition-colors disabled:opacity-50">
-              {{ user ? 'Atualizar' : 'Criar' }}
-            </button>
-            <Link href="/users" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-              Cancelar
-            </Link>
-          </div>
-        </div>
-      </form>
-    </div>
+              <div>
+                <FloatLabel>
+                  <Select id="profileId" v-model="form.profileId" :options="profiles" optionLabel="name" optionValue="id" showClear fluid />
+                  <label for="profileId">Perfil</label>
+                </FloatLabel>
+                <Message v-if="form.errors.profileId" severity="error" size="small">{{ form.errors.profileId }}</Message>
+              </div>
+            </div>
+          </TabPanel>
+        </TabView>
+      </div>
+
+      <div class="flex justify-end gap-2 p-4 border-t border-surface">
+        <Button v-if="activeTab === 1" type="submit" label="Salvar" :disabled="form.processing" severity="info" />
+        <Button label="Cancelar" severity="secondary" outlined @click="$inertia.get('/users')" />
+      </div>
+    </form>
   </div>
 </template>
