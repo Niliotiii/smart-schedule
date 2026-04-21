@@ -17,6 +17,7 @@ export default class UsersController {
       })
     }
     const users = await query.paginate(page, 15)
+    const users = await query.paginate(page, 15)
 
     const firstItem = users.total > 0 ? (users.currentPage - 1) * users.perPage + 1 : 0
     const lastItem = Math.min(users.currentPage * users.perPage, users.total)
