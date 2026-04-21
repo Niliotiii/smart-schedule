@@ -17,6 +17,7 @@ export default class ProfilesController {
       })
     }
     const profiles = await query.paginate(page, 15)
+    const profiles = await query.paginate(page, 15)
 
     const firstItem = profiles.total > 0 ? (profiles.currentPage - 1) * profiles.perPage + 1 : 0
     const lastItem = Math.min(profiles.currentPage * profiles.perPage, profiles.total)
