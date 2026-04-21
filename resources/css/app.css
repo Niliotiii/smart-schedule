@@ -1,8 +1,8 @@
-@import "tailwindcss";
-@import "tailwindcss-primeui";
-@import "primeicons/primeicons.css";
+@import 'tailwindcss';
+@import 'tailwindcss-primeui';
+@import 'primeicons/primeicons.css';
 
-@layer tailwind-base, primeui, tailwind-utilities;
+@layer theme, base, primeui, components, utilities;
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -49,7 +49,9 @@
   font-weight: 500 !important;
   border-radius: 0 !important;
   padding: 0.75rem 1.5rem !important;
-  transition: color 0.2s, background 0.2s !important;
+  transition:
+    color 0.2s,
+    background 0.2s !important;
   border-bottom: 2px solid var(--p-content-border-color) !important;
   margin: 0 0.25rem !important;
 }
@@ -70,194 +72,4 @@
 
 .dark .p-tab-active {
   border-bottom-color: var(--p-sky-400) !important;
-}
-
-@layer primeui {
-  /* Button severity - filled */
-  .p-button-secondary {
-    background: var(--p-surface-100);
-    border-color: var(--p-surface-100);
-    color: var(--p-surface-600);
-  }
-  .p-button-secondary:not(:disabled):hover {
-    background: var(--p-surface-200);
-    border-color: var(--p-surface-200);
-    color: var(--p-surface-700);
-  }
-  .p-button-info {
-    background: var(--p-sky-500);
-    border-color: var(--p-sky-500);
-    color: #ffffff;
-  }
-  .p-button-info:not(:disabled):hover {
-    background: var(--p-sky-600);
-    border-color: var(--p-sky-600);
-    color: #ffffff;
-  }
-  .p-button-warn {
-    background: var(--p-orange-500);
-    border-color: var(--p-orange-500);
-    color: #ffffff;
-  }
-  .p-button-warn:not(:disabled):hover {
-    background: var(--p-orange-600);
-    border-color: var(--p-orange-600);
-    color: #ffffff;
-  }
-  .p-button-danger {
-    background: var(--p-red-500);
-    border-color: var(--p-red-500);
-    color: #ffffff;
-  }
-  .p-button-danger:not(:disabled):hover {
-    background: var(--p-red-600);
-    border-color: var(--p-red-600);
-    color: #ffffff;
-  }
-
-  /* Button severity - text variant */
-  .p-button-text.p-button-secondary {
-    background: transparent;
-    border-color: transparent;
-    color: var(--p-surface-500);
-  }
-  .p-button-text.p-button-secondary:not(:disabled):hover {
-    background: var(--p-surface-50);
-    color: var(--p-surface-500);
-  }
-  .p-button-text.p-button-info {
-    background: transparent;
-    border-color: transparent;
-    color: var(--p-sky-500);
-  }
-  .p-button-text.p-button-info:not(:disabled):hover {
-    background: var(--p-sky-50);
-    color: var(--p-sky-500);
-  }
-  .p-button-text.p-button-warn {
-    background: transparent;
-    border-color: transparent;
-    color: var(--p-orange-500);
-  }
-  .p-button-text.p-button-warn:not(:disabled):hover {
-    background: var(--p-orange-50);
-    color: var(--p-orange-500);
-  }
-  .p-button-text.p-button-danger {
-    background: transparent;
-    border-color: transparent;
-    color: var(--p-red-500);
-  }
-  .p-button-text.p-button-danger:not(:disabled):hover {
-    background: var(--p-red-50);
-    color: var(--p-red-500);
-  }
-
-  /* Button severity - outlined variant */
-  .p-button-outlined.p-button-secondary {
-    border-color: var(--p-surface-200);
-    color: var(--p-surface-500);
-  }
-  .p-button-outlined.p-button-info {
-    border-color: var(--p-sky-200);
-    color: var(--p-sky-500);
-  }
-  .p-button-outlined.p-button-warn {
-    border-color: var(--p-orange-200);
-    color: var(--p-orange-500);
-  }
-  .p-button-outlined.p-button-danger {
-    border-color: var(--p-red-200);
-    color: var(--p-red-500);
-  }
-
-  /* Dark mode - filled */
-  .dark .p-button-secondary {
-    background: var(--p-surface-800);
-    border-color: var(--p-surface-800);
-    color: var(--p-surface-300);
-  }
-  .dark .p-button-secondary:not(:disabled):hover {
-    background: var(--p-surface-700);
-    border-color: var(--p-surface-700);
-    color: var(--p-surface-200);
-  }
-  .dark .p-button-info {
-    background: var(--p-sky-400);
-    border-color: var(--p-sky-400);
-    color: var(--p-sky-950);
-  }
-  .dark .p-button-info:not(:disabled):hover {
-    background: var(--p-sky-300);
-    border-color: var(--p-sky-300);
-    color: var(--p-sky-950);
-  }
-  .dark .p-button-warn {
-    background: var(--p-orange-400);
-    border-color: var(--p-orange-400);
-    color: var(--p-orange-950);
-  }
-  .dark .p-button-warn:not(:disabled):hover {
-    background: var(--p-orange-300);
-    border-color: var(--p-orange-300);
-    color: var(--p-orange-950);
-  }
-  .dark .p-button-danger {
-    background: var(--p-red-400);
-    border-color: var(--p-red-400);
-    color: var(--p-red-950);
-  }
-  .dark .p-button-danger:not(:disabled):hover {
-    background: var(--p-red-300);
-    border-color: var(--p-red-300);
-    color: var(--p-red-950);
-  }
-
-  /* Dark mode - text variant */
-  .dark .p-button-text.p-button-secondary {
-    color: var(--p-surface-400);
-  }
-  .dark .p-button-text.p-button-secondary:not(:disabled):hover {
-    background: var(--p-surface-800);
-    color: var(--p-surface-400);
-  }
-  .dark .p-button-text.p-button-info {
-    color: var(--p-sky-400);
-  }
-  .dark .p-button-text.p-button-info:not(:disabled):hover {
-    background: rgba(56, 189, 248, 0.08);
-    color: var(--p-sky-400);
-  }
-  .dark .p-button-text.p-button-warn {
-    color: var(--p-orange-400);
-  }
-  .dark .p-button-text.p-button-warn:not(:disabled):hover {
-    background: rgba(251, 146, 60, 0.08);
-    color: var(--p-orange-400);
-  }
-  .dark .p-button-text.p-button-danger {
-    color: var(--p-red-400);
-  }
-  .dark .p-button-text.p-button-danger:not(:disabled):hover {
-    background: rgba(248, 113, 113, 0.08);
-    color: var(--p-red-400);
-  }
-
-  /* Dark mode - outlined variant */
-  .dark .p-button-outlined.p-button-secondary {
-    border-color: var(--p-surface-700);
-    color: var(--p-surface-400);
-  }
-  .dark .p-button-outlined.p-button-info {
-    border-color: var(--p-sky-700);
-    color: var(--p-sky-400);
-  }
-  .dark .p-button-outlined.p-button-warn {
-    border-color: var(--p-orange-700);
-    color: var(--p-orange-400);
-  }
-  .dark .p-button-outlined.p-button-danger {
-    border-color: var(--p-red-700);
-    color: var(--p-red-400);
-  }
 }

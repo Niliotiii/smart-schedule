@@ -223,28 +223,112 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/users_controller').default['destroy']>>>
     }
   }
-  'api.signup': {
-    methods: ["POST"]
-    pattern: '/api/v1/auth/signup'
+  'user_types.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/user-types'
     types: {
       body: {}
       paramsTuple: []
       params: {}
       query: {}
-      response: unknown
-      errorResponse: unknown
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_types_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_types_controller').default['index']>>>
+    }
+  }
+  'user_types.create': {
+    methods: ["GET","HEAD"]
+    pattern: '/user-types/create'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_types_controller').default['create']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_types_controller').default['create']>>>
+    }
+  }
+  'user_types.store': {
+    methods: ["POST"]
+    pattern: '/user-types'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/user_type').createUserTypeValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/user_type').createUserTypeValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_types_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_types_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'user_types.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/user-types/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_types_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_types_controller').default['show']>>>
+    }
+  }
+  'user_types.edit': {
+    methods: ["GET","HEAD"]
+    pattern: '/user-types/:id/edit'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_types_controller').default['edit']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_types_controller').default['edit']>>>
+    }
+  }
+  'user_types.update': {
+    methods: ["PUT","PATCH"]
+    pattern: '/user-types/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/user_type').updateUserTypeValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/user_type').updateUserTypeValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_types_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_types_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'user_types.destroy': {
+    methods: ["DELETE"]
+    pattern: '/user-types/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_types_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_types_controller').default['destroy']>>>
+    }
+  }
+  'api.signup': {
+    methods: ["POST"]
+    pattern: '/api/v1/auth/signup'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/user').signupValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/user').signupValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'api.login': {
     methods: ["POST"]
     pattern: '/api/v1/auth/login'
     types: {
-      body: {}
+      body: ExtractBody<InferInput<(typeof import('#validators/user').loginValidator)>>
       paramsTuple: []
       params: {}
-      query: {}
-      response: unknown
-      errorResponse: unknown
+      query: ExtractQuery<InferInput<(typeof import('#validators/user').loginValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/access_token_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/access_token_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'api.logout': {
@@ -255,8 +339,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: unknown
-      errorResponse: unknown
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/access_token_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/access_token_controller').default['destroy']>>>
     }
   }
   'api.profile': {
@@ -267,8 +351,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: unknown
-      errorResponse: unknown
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/profile_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/profile_controller').default['show']>>>
     }
   }
 }

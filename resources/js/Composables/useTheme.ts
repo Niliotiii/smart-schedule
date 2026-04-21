@@ -20,7 +20,10 @@ export function useTheme() {
 
   onMounted(() => {
     const stored = localStorage.getItem('theme')
-    if (stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    if (
+      stored === 'dark' ||
+      (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
       isDark.value = true
       document.documentElement.classList.add('dark')
     } else {

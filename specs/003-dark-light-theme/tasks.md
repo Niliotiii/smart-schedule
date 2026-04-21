@@ -17,9 +17,9 @@
 
 **Purpose**: Configure Tailwind CSS v4 dark mode and create the core JavaScript theme logic
 
-- [X] T001 Configure `@custom-variant dark (&:where(.dark, .dark *))` in resources/css/app.css
-- [X] T002 Add theme toggle, localStorage persistence, and OS detection logic in resources/js/app.js
-- [X] T003 [P] Add sun and moon SVG icons to resources/views/components/icon.edge
+- [x] T001 Configure `@custom-variant dark (&:where(.dark, .dark *))` in resources/css/app.css
+- [x] T002 Add theme toggle, localStorage persistence, and OS detection logic in resources/js/app.js
+- [x] T003 [P] Add sun and moon SVG icons to resources/views/components/icon.edge
 
 ---
 
@@ -29,10 +29,10 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [X] T004 Add theme toggle button and dark classes to navbar component in resources/views/components/navbar.edge
-- [X] T005 [P] Add dark classes to sidebar component in resources/views/components/sidebar.edge
-- [X] T006 [P] Add dark classes to pagination component in resources/views/components/pagination.edge
-- [X] T007 [P] Add dark classes to action_button component in resources/views/components/action_button.edge
+- [x] T004 Add theme toggle button and dark classes to navbar component in resources/views/components/navbar.edge
+- [x] T005 [P] Add dark classes to sidebar component in resources/views/components/sidebar.edge
+- [x] T006 [P] Add dark classes to pagination component in resources/views/components/pagination.edge
+- [x] T007 [P] Add dark classes to action_button component in resources/views/components/action_button.edge
 
 **Checkpoint**: All reusable components support dark theme. User stories can now proceed.
 
@@ -46,9 +46,9 @@
 
 ### Implementation for User Story 1
 
-- [X] T008 [US1] Add dark classes and FOUC prevention inline script to dashboard view in resources/views/dashboard/index.edge
-- [X] T009 [P] [US1] Add dark classes and FOUC prevention inline script to users views in resources/views/users/index.edge, resources/views/users/form.edge, resources/views/users/show.edge
-- [X] T010 [P] [US1] Add dark classes and FOUC prevention inline script to profiles views in resources/views/profiles/index.edge, resources/views/profiles/form.edge, resources/views/profiles/show.edge
+- [x] T008 [US1] Add dark classes and FOUC prevention inline script to dashboard view in resources/views/dashboard/index.edge
+- [x] T009 [P] [US1] Add dark classes and FOUC prevention inline script to users views in resources/views/users/index.edge, resources/views/users/form.edge, resources/views/users/show.edge
+- [x] T010 [P] [US1] Add dark classes and FOUC prevention inline script to profiles views in resources/views/profiles/index.edge, resources/views/profiles/form.edge, resources/views/profiles/show.edge
 
 **Checkpoint**: At this point, User Story 1 is fully functional — authenticated users can toggle theme and all pages adapt correctly.
 
@@ -62,7 +62,7 @@
 
 ### Implementation for User Story 2 + User Story 3
 
-- [X] T011 [US2] [US3] Add theme toggle button, dark classes, and FOUC prevention inline script to login page in resources/views/auth/login.edge
+- [x] T011 [US2] [US3] Add theme toggle button, dark classes, and FOUC prevention inline script to login page in resources/views/auth/login.edge
 
 **Checkpoint**: All user stories are now functional. Theme persists across sessions, respects OS preference, and works on the login page.
 
@@ -72,8 +72,8 @@
 
 **Purpose**: Final validation that all components work correctly in both themes
 
-- [X] T012 Verify all components render correctly in both light and dark themes per quickstart.md test checklist
-- [X] T013 Verify theme persists across page navigation, browser restart, and multiple tabs per quickstart.md scenarios
+- [x] T012 Verify all components render correctly in both light and dark themes per quickstart.md test checklist
+- [x] T013 Verify theme persists across page navigation, browser restart, and multiple tabs per quickstart.md scenarios
 
 ---
 

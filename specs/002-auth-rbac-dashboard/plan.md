@@ -21,7 +21,7 @@ Implementar a camada de autenticação (Email/Senha), um Dashboard base com layo
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 - [x] **I. Extensibilidade**: O uso do sistema RBAC amarra permissões a "Módulos" genéricos que futuramente abrigarão os módulos pastorais.
 - [x] **II. Respeito à Disponibilidade e III. Simplicidade**: Interfaces simples, paginadas e padronizadas respeitando a diretiva de ser "intuitivo" e "responsivo (mobile-first)".

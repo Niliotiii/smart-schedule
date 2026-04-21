@@ -5,7 +5,7 @@
 **Status**: Draft
 **Input**: User description: "Instale o prime-vue (npm install primevue @primeuix/themes) e refatore a UI tendo como exemplo o projeto sakai-vue que é um template de tema"
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Layout Shell with PrimeVue Components (Priority: P1)
 
@@ -79,7 +79,7 @@ Um usuário não autenticado visualiza e utiliza a página de login estilizada c
 - Como o DataTable lida com um conjunto vazio de dados? — Deve exibir mensagem amigável usando emptyMessage do DataTable.
 - Como o tema reage quando a preferência do sistema muda enquanto o app está aberto? — O composable detecta via `matchMedia` listener.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -104,7 +104,7 @@ Um usuário não autenticado visualiza e utiliza a página de login estilizada c
 - **Theme Configuration**: Estado reativo do tema (claro/escuro, preset Aura) com design tokens PrimeVue — substitui o useTheme atual baseado em classes CSS Tailwind
 - **Menu Definition**: Estrutura de itens de menu com permissões RBAC, ícones PrimeIcons e rotas — substitui os links hardcoded no Sidebar atual
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

@@ -27,7 +27,7 @@ server.use([
   () => import('@adonisjs/core/bodyparser_middleware'),
   () => import('@adonisjs/cors/cors_middleware'),
   () => import('#middleware/inertia_middleware'),
-  () => import('@adonisjs/vite/vite_middleware')
+  () => import('@adonisjs/vite/vite_middleware'),
 ])
 
 /**
@@ -40,12 +40,12 @@ router.use([
   () => import('@adonisjs/auth/initialize_auth_middleware'),
   () => import('#middleware/silent_auth_middleware'),
   () => import('#middleware/initialize_bouncer_middleware'),
-  () => import('#middleware/inertia_shared_props_middleware')
+  () => import('#middleware/inertia_shared_props_middleware'),
 ])
 
 /**
  * Named middleware collection must be explicitly assigned to
- * the routes or the routes group.
+ * the routes or the route groups.
  */
 export const middleware = router.named({
   auth: () => import('#middleware/auth_middleware'),

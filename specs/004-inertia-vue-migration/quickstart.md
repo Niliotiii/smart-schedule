@@ -158,6 +158,7 @@ After migration is complete, verify:
 ## Rollback Plan
 
 If critical issues arise:
+
 1. Revert controller changes (restore `view.render()` calls)
 2. Restore Edge templates from git history
 3. Remove Inertia/Vue dependencies from package.json

@@ -3,9 +3,9 @@
 **Feature Branch**: `001-project-base`  
 **Created**: 2026-04-19  
 **Status**: Draft  
-**Input**: User description: "Construir a base do projeto com o comando npm create adonisjs@latest --here  e colocar para rodar em docker com banco de dados postgres"
+**Input**: User description: "Construir a base do projeto com o comando npm create adonisjs@latest --here e colocar para rodar em docker com banco de dados postgres"
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Developer Environment Setup (Priority: P1)
 
@@ -39,7 +39,7 @@ Como um desenvolvedor, quero que a aplicação web já esteja previamente config
 - O que acontece se a porta padrão do banco de dados ou da aplicação já estiver em uso na máquina do desenvolvedor?
 - Como o sistema lida com a inicialização se o serviço do banco de dados demorar mais para ficar pronto do que a aplicação web?
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -49,7 +49,7 @@ Como um desenvolvedor, quero que a aplicação web já esteja previamente config
 - **FR-004**: A aplicação web DEVE ser configurada (via variáveis de ambiente ou arquivos de configuração) para se conectar automaticamente ao banco de dados PostgreSQL containerizado.
 - **FR-005**: O sistema DEVE incluir scripts ou configurações (ex: Docker Compose) para gerenciar o ciclo de vida dos contêineres (iniciar, parar, reconstruir).
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

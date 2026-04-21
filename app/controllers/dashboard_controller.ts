@@ -1,4 +1,4 @@
-import { HttpContext } from '@adonisjs/core/http'
+import { type HttpContext } from '@adonisjs/core/http'
 
 export default class DashboardController {
   async index({ inertia, auth }: HttpContext) {
@@ -7,6 +7,6 @@ export default class DashboardController {
       profileQuery.preload('permissions')
     })
 
-    return inertia.render('Dashboard/Index')
+    return inertia.render('Dashboard/Index', {})
   }
 }

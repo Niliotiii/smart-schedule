@@ -15,7 +15,7 @@
     "test": "node ace test",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --noEmit --project resources/js/tsconfig.json",
     "postinstall": "sed -i.bak 's/--import=@poppinss\\/ts-exec/--import=tsx\\/esm/g' node_modules/@adonisjs/assembler/build/virtual_file_system-BFFXmame.js 2>/dev/null && rm -f node_modules/@adonisjs/assembler/build/virtual_file_system-BFFXmame.js.bak 2>/dev/null || true"
   },
   "imports": {

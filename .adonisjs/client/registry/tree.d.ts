@@ -26,6 +26,15 @@ export interface ApiDefinition {
     update: typeof routes['users.update']
     destroy: typeof routes['users.destroy']
   }
+  userTypes: {
+    index: typeof routes['user_types.index']
+    create: typeof routes['user_types.create']
+    store: typeof routes['user_types.store']
+    show: typeof routes['user_types.show']
+    edit: typeof routes['user_types.edit']
+    update: typeof routes['user_types.update']
+    destroy: typeof routes['user_types.destroy']
+  }
   api: {
     signup: typeof routes['api.signup']
     login: typeof routes['api.login']

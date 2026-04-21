@@ -7,8 +7,8 @@
 
 ### Theme Preference (client-side only)
 
-| Field | Type | Description |
-|-------|------|-------------|
+| Field | Type                           | Description                                        |
+| ----- | ------------------------------ | -------------------------------------------------- |
 | theme | string (`"light"` \| `"dark"`) | Preferência do usuário, armazenada em localStorage |
 
 **Storage**: localStorage (chave: `theme`)

@@ -87,12 +87,22 @@ const confirmDelete = (id: number) => {
     <div class="flex items-center justify-between mb-4">
       <span class="relative w-72">
         <i class="pi pi-search absolute left-3 top-1/2 -mt-2 text-muted-color" />
-        <InputText v-model="searchInput" placeholder="Buscar por nome ou descrição..." class="w-full pl-10 !bg-white !rounded-xl !shadow-[0_2px_4px_rgba(0,0,0,0.1)]" />
+        <InputText
+          v-model="searchInput"
+          placeholder="Buscar..."
+          class="w-full pl-10 !rounded-xl"
+        />
       </span>
-      <Button v-if="can.profilesCreate" label="Novo Perfil" icon="pi pi-plus" @click="$inertia.get('/profiles/create')" />
+      <Button
+        v-if="can.profilesCreate"
+        label="Novo Perfil"
+        @click="$inertia.get('/profiles/create')"
+      />
     </div>
 
-    <div class="bg-surface-ground border border-surface rounded-lg p-4 flex flex-1 flex-col min-h-0">
+    <div
+      class="bg-surface-ground border border-surface rounded-lg p-4 flex flex-1 flex-col min-h-0"
+    >
       <DataTable
         :value="profiles"
         :rows="pagination.perPage"
@@ -100,6 +110,7 @@ const confirmDelete = (id: number) => {
         stripedRows
         size="small"
         scrollHeight="flex"
+        :tableStyle="{ minWidth: '100%' }"
         class="flex-1"
       >
         <Column field="name" header="Nome" />
@@ -109,15 +120,37 @@ const confirmDelete = (id: number) => {
           </template>
         </Column>
         <Column header="Permissões">
-          <template #body="{ data }">
-            {{ data.permissions.length }} permissões
-          </template>
+          <template #body="{ data }"> {{ data.permissions.length }} permissões </template>
         </Column>
         <Column header="Ações" :exportable="false" style="min-width: 8rem">
           <template #body="{ data }">
-            <Button v-if="can.profilesRead" v-tooltip="'Visualizar'" icon="pi pi-eye" text rounded severity="info" @click="$inertia.get(`/profiles/${data.id}`)" />
-            <Button v-if="can.profilesUpdate" v-tooltip="'Editar'" icon="pi pi-pencil" text rounded severity="warn" @click="$inertia.get(`/profiles/${data.id}/edit`)" />
-            <Button v-if="can.profilesDelete" v-tooltip="'Excluir'" icon="pi pi-trash" text rounded severity="danger" @click="confirmDelete(data.id)" />
+            <Button
+              v-if="can.profilesRead"
+              v-tooltip="'Visualizar'"
+              icon="pi pi-eye"
+              text
+              rounded
+              severity="info"
+              @click="$inertia.get(`/profiles/${data.id}`)"
+            />
+            <Button
+              v-if="can.profilesUpdate"
+              v-tooltip="'Editar'"
+              icon="pi pi-pencil"
+              text
+              rounded
+              severity="warn"
+              @click="$inertia.get(`/profiles/${data.id}/edit`)"
+            />
+            <Button
+              v-if="can.profilesDelete"
+              v-tooltip="'Excluir'"
+              icon="pi pi-trash"
+              text
+              rounded
+              severity="danger"
+              @click="confirmDelete(data.id)"
+            />
           </template>
         </Column>
         <template #empty>
@@ -126,13 +159,45 @@ const confirmDelete = (id: number) => {
       </DataTable>
 
       <div class="flex items-center justify-between mt-4 pt-3 border-t border-surface">
-        <span class="text-sm text-muted-color">{{ pagination.firstItem }}-{{ pagination.lastItem }} de {{ pagination.total }}</span>
+        <span class="text-sm text-muted-color"
+          >{{ pagination.firstItem }}-{{ pagination.lastItem }} de {{ pagination.total }}</span
+        >
         <div class="flex items-center gap-1">
-          <Button v-tooltip.top="'Primeira página'" icon="pi pi-angle-double-left" text rounded :disabled="isFirstPage" @click="changePage(1)" />
-          <Button v-tooltip.top="'Página anterior'" icon="pi pi-angle-left" text rounded :disabled="isFirstPage" @click="changePage(pagination.currentPage - 1)" />
-          <span class="text-sm px-2 text-muted-color">{{ pagination.currentPage }} / {{ pagination.lastPage }}</span>
-          <Button v-tooltip.top="'Próxima página'" icon="pi pi-angle-right" text rounded :disabled="isLastPage" @click="changePage(pagination.currentPage + 1)" />
-          <Button v-tooltip.top="'Última página'" icon="pi pi-angle-double-right" text rounded :disabled="isLastPage" @click="changePage(pagination.lastPage)" />
+          <Button
+            v-tooltip.top="'Primeira página'"
+            icon="pi pi-angle-double-left"
+            text
+            rounded
+            :disabled="isFirstPage"
+            @click="changePage(1)"
+          />
+          <Button
+            v-tooltip.top="'Página anterior'"
+            icon="pi pi-angle-left"
+            text
+            rounded
+            :disabled="isFirstPage"
+            @click="changePage(pagination.currentPage - 1)"
+          />
+          <span class="text-sm px-2 text-muted-color"
+            >{{ pagination.currentPage }} / {{ pagination.lastPage }}</span
+          >
+          <Button
+            v-tooltip.top="'Próxima página'"
+            icon="pi pi-angle-right"
+            text
+            rounded
+            :disabled="isLastPage"
+            @click="changePage(pagination.currentPage + 1)"
+          />
+          <Button
+            v-tooltip.top="'Última página'"
+            icon="pi pi-angle-double-right"
+            text
+            rounded
+            :disabled="isLastPage"
+            @click="changePage(pagination.lastPage)"
+          />
         </div>
       </div>
     </div>
