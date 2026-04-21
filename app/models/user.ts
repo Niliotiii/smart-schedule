@@ -1,5 +1,5 @@
 import { column, belongsTo } from '@adonisjs/lucid/orm'
-import type { BelongsTo } from '@adonisjs/lucid/orm/types'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
@@ -7,6 +7,7 @@ import { type AccessToken, DbAccessTokensProvider } from '@adonisjs/auth/access_
 import { DateTime } from 'luxon'
 import { BaseModel } from '@adonisjs/lucid/orm'
 import Profile from './profile.js'
+import UserType from './user_type.js'
 
 const AuthFinder = withAuthFinder(hash, {
   uids: ['email'],
@@ -29,6 +30,9 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column()
   declare profileId: number | null
 
+  @column()
+  declare userTypeId: number | null
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
@@ -37,6 +41,9 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @belongsTo(() => Profile)
   declare profile: BelongsTo<typeof Profile>
+
+  @belongsTo(() => UserType)
+  declare userType: BelongsTo<typeof UserType>
 
   static accessTokens = DbAccessTokensProvider.forModel(User)
   declare currentAccessToken?: AccessToken

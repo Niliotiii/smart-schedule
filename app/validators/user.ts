@@ -21,6 +21,7 @@ export const createUserValidator = vine.create({
   password: password(),
   passwordConfirmation: password().sameAs('password'),
   profileId: vine.number().nullable(),
+  userTypeId: vine.number().nullable().optional(),
 })
 
 export const updateUserValidator = vine.create({
@@ -28,4 +29,5 @@ export const updateUserValidator = vine.create({
   email: email(),
   password: password().optional(),
   profileId: vine.number().nullable(),
+  userTypeId: vine.number().nullable().optional(),
 })

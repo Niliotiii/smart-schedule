@@ -139,7 +139,7 @@ Each controller returns page-specific props via `inertia.render()`. Props must b
     name: string
     description: string | null
     permissions: Array<{ id: number; module: string; action: string }>
-    createdAt: string  // ISO date string
+    createdAt: string // ISO date string
   }
 }
 ```
@@ -179,6 +179,7 @@ Automatically injected by Inertia shared data middleware.
 ```
 
 **Notes**:
+
 - `auth.user` replaces the `user` prop that was manually passed to every Edge template
 - `can` replaces Bouncer's `@can()` Edge helper — all ability checks serialize to boolean
 - `flash` replaces `flashMessages.get('success')` and `flashMessages.get('errors')` from Edge

@@ -21,7 +21,7 @@ Construir a infraestrutura básica do projeto utilizando AdonisJS como um framew
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 - [x] **I. Extensibilidade**: A base AdonisJS e PostgreSQL suporta o crescimento para múltiplas pastorais.
 - [x] **V. Segurança**: O uso de containers garante isolamento e as variáveis de ambiente protegerão credenciais.

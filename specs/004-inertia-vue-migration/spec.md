@@ -5,7 +5,7 @@
 **Status**: Draft
 **Input**: User description: "Quero migrar a interface gráfica para parar de usar SSR com .edge e passar usar inertia+vue para ter um tempo de desenvolvimento menor e mais opções de UI"
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Acesso às funcionalidades existentes após migração (Priority: P1)
 
@@ -65,7 +65,7 @@ Como usuário, quero que a navegação entre páginas seja instantânea sem reca
 - O que acontece com formulários que exigem confirmação antes de excluir? O mecanismo de confirmação deve funcionar via mecanismo nativo do novo framework
 - O que acontece com validações de backend? Erros de validação devem ser exibidos nos formulários via dados compartilhados automaticamente
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -84,7 +84,7 @@ Como usuário, quero que a navegação entre páginas seja instantânea sem reca
 - **Página SPA**: Cada rota existente (login, dashboard, usuários index/create/edit/show, perfis index/create/edit/show) deve ser convertida para um componente de página equivalente
 - **Dados Compartilhados**: Dados compartilhados entre todas as páginas (usuário autenticado, erros, mensagens flash, permissões) devem ser passados automaticamente
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

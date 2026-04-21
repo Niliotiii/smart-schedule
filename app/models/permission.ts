@@ -1,5 +1,5 @@
 import { BaseModel, column, manyToMany } from '@adonisjs/lucid/orm'
-import type { ManyToMany } from '@adonisjs/lucid/orm/types'
+import type { ManyToMany } from '@adonisjs/lucid/types/relations'
 import { DateTime } from 'luxon'
 import Profile from './profile.js'
 
@@ -24,7 +24,7 @@ export default class Permission extends BaseModel {
 
   @manyToMany(() => Profile, {
     pivotTable: 'profile_permissions',
-    withTimestamps: true,
+    pivotTimestamps: true,
   })
   declare profiles: ManyToMany<typeof Profile>
 }

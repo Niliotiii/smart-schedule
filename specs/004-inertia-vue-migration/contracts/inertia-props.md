@@ -352,10 +352,12 @@ errors: {
 ### Authorization Errors (Bouncer)
 
 When Bouncer denies access, it throws `E_AUTHORIZATION_FAILURE`. The exception handler returns:
+
 - For Inertia requests: 403 response with error message
 - For direct browser requests: 403 page
 
 ### Authentication Errors
 
 When unauthenticated user hits a protected route:
+
 - Middleware redirects to `/login` (same as current behavior)

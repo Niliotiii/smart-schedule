@@ -22,4 +22,5 @@ Projeto base estruturado em AdonisJS e orquestrado por Docker, atuando como um m
 
 - **Parar o ambiente**: `docker compose down`
 - **Rodar migrations**: `docker compose exec app node ace migration:run`
+- **Rodar seeder**: `docker compose exec app node ace db:seed`
 - **Ver logs**: `docker compose logs -f app`

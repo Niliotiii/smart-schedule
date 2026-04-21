@@ -91,10 +91,10 @@ Includes theme toggle button in top-right corner.
 
 ### Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| auth | `{ user: { initials, fullName, email } \| null }` | Authenticated user info |
-| onToggleSidebar | `() => void` | Hamburger menu click handler |
+| Prop            | Type                                              | Description                  |
+| --------------- | ------------------------------------------------- | ---------------------------- |
+| auth            | `{ user: { initials, fullName, email } \| null }` | Authenticated user info      |
+| onToggleSidebar | `() => void`                                      | Hamburger menu click handler |
 
 ### Elements
 
@@ -107,27 +107,27 @@ Includes theme toggle button in top-right corner.
 
 ### Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| can | `Record<string, boolean>` | RBAC permissions from `page.props.can` |
-| currentUrl | `string` | Current page URL for active highlighting |
-| open | `boolean` | Mobile overlay state |
+| Prop       | Type                      | Description                              |
+| ---------- | ------------------------- | ---------------------------------------- |
+| can        | `Record<string, boolean>` | RBAC permissions from `page.props.can`   |
+| currentUrl | `string`                  | Current page URL for active highlighting |
+| open       | `boolean`                 | Mobile overlay state                     |
 
 ### Emits
 
-| Emit | Description |
-|------|-------------|
+| Emit  | Description          |
+| ----- | -------------------- |
 | close | Close mobile overlay |
 
 ### Menu Items
 
-| Label | Icon | Route | Permission |
-|-------|------|-------|------------|
-| Dashboard | `pi pi-home` | `/dashboard` | Always visible |
-| Usuários | `pi pi-users` | `/users` | `can.usersRead` |
-| Perfis | `pi pi-shield` | `/profiles` | `can.profilesRead` |
-| ──── | (divider) | — | — |
-| Sair | `pi pi-sign-out` | POST `/logout` | Always visible |
+| Label     | Icon             | Route          | Permission         |
+| --------- | ---------------- | -------------- | ------------------ |
+| Dashboard | `pi pi-home`     | `/dashboard`   | Always visible     |
+| Usuários  | `pi pi-users`    | `/users`       | `can.usersRead`    |
+| Perfis    | `pi pi-shield`   | `/profiles`    | `can.profilesRead` |
+| ────      | (divider)        | —              | —                  |
+| Sair      | `pi pi-sign-out` | POST `/logout` | Always visible     |
 
 ## AppMenu
 
@@ -135,7 +135,7 @@ Renders menu items from a computed list filtered by RBAC permissions. Uses Inert
 
 ### Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| can | `Record<string, boolean>` | RBAC permissions |
-| currentUrl | `string` | Current URL for active highlighting |
+| Prop       | Type                      | Description                         |
+| ---------- | ------------------------- | ----------------------------------- |
+| can        | `Record<string, boolean>` | RBAC permissions                    |
+| currentUrl | `string`                  | Current URL for active highlighting |

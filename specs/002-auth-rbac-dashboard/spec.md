@@ -5,7 +5,7 @@
 **Status**: Draft
 **Input**: User description: "Quero fazer login com email e senha e cair na tela principal do sistema que será um dashboard com menu lateral esquerdo fixo no desktop e hamburguer no mobile. A princípil deverá ter os menus usuários e perfis, onde ao clicar em cada menu será redirecionado para uma tela de listagem paginada com botão de criar novo no topo superior direito e em cada registro terá botões apenas com ícones para vizualizar, editar e excluir. O sistema de permissões deve ser RBAC onde cada usuário terá um perfil e cada perfil poderá marcar ou não permissões que serão com base nos modulo e ações que possa ser executadas. Essas permissões também será quem ditará se o modulo vai aparecer ou não no menu lateral esquerdo e os botoes de acoes"
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Authentication & Dashboard Access (Priority: P1)
 
@@ -57,7 +57,7 @@ Como um administrador com as devidas permissões, quero gerenciar Usuários e Pe
 - Como o sistema lida com um usuário que não está atrelado a nenhum perfil? O sistema deve proibir o login, ou assumir um perfil padrão (default)?
 - Como tratar a expiração da sessão (ex: cookie/token expirado) enquanto o usuário interage na listagem?
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -75,7 +75,7 @@ Como um administrador com as devidas permissões, quero gerenciar Usuários e Pe
 - **Profile (Perfil)**: Representa um papel no sistema (ex: Admin, Coordenador). Relaciona-se 1:N com `User` e N:M com `Permission`.
 - **Permission**: A definição de uma ação sobre um módulo. (Exemplo prático de estrutura: Entidade base com as chaves `module` (ex: "users") e `action` (ex: "create", "read", "update", "delete")).
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 
@@ -88,5 +88,5 @@ Como um administrador com as devidas permissões, quero gerenciar Usuários e Pe
 
 - Presume-se que o sistema será utilizado em navegadores modernos, tanto em desktops quanto em smartphones.
 - Presume-se que a autenticação utilizará o provedor de sessões baseado em cookies (padrão configurado no `001-project-base`).
-- As permissões iniciais do sistema (as ações e módulos existentes) podem ser provisionadas via *seeder* no banco de dados para evitar a criação de uma tela estritamente para cadastrar módulos lógicos na infraestrutura.
+- As permissões iniciais do sistema (as ações e módulos existentes) podem ser provisionadas via _seeder_ no banco de dados para evitar a criação de uma tela estritamente para cadastrar módulos lógicos na infraestrutura.
 - Um usuário possui apenas um único Perfil ativo por vez (relação 1:N entre Perfil e Usuários).

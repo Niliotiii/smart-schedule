@@ -22,6 +22,13 @@ export type ScannedRoutes = {
     'users.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'users.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'users.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'user_types.index': { paramsTuple?: []; params?: {} }
+    'user_types.create': { paramsTuple?: []; params?: {} }
+    'user_types.store': { paramsTuple?: []; params?: {} }
+    'user_types.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'user_types.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'user_types.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'user_types.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api.signup': { paramsTuple?: []; params?: {} }
     'api.login': { paramsTuple?: []; params?: {} }
     'api.logout': { paramsTuple?: []; params?: {} }
@@ -38,6 +45,10 @@ export type ScannedRoutes = {
     'users.create': { paramsTuple?: []; params?: {} }
     'users.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'users.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'user_types.index': { paramsTuple?: []; params?: {} }
+    'user_types.create': { paramsTuple?: []; params?: {} }
+    'user_types.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'user_types.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api.profile': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
@@ -51,6 +62,10 @@ export type ScannedRoutes = {
     'users.create': { paramsTuple?: []; params?: {} }
     'users.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'users.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'user_types.index': { paramsTuple?: []; params?: {} }
+    'user_types.create': { paramsTuple?: []; params?: {} }
+    'user_types.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'user_types.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api.profile': { paramsTuple?: []; params?: {} }
   }
   POST: {
@@ -58,6 +73,7 @@ export type ScannedRoutes = {
     'logout': { paramsTuple?: []; params?: {} }
     'profiles.store': { paramsTuple?: []; params?: {} }
     'users.store': { paramsTuple?: []; params?: {} }
+    'user_types.store': { paramsTuple?: []; params?: {} }
     'api.signup': { paramsTuple?: []; params?: {} }
     'api.login': { paramsTuple?: []; params?: {} }
     'api.logout': { paramsTuple?: []; params?: {} }
@@ -65,14 +81,17 @@ export type ScannedRoutes = {
   PUT: {
     'profiles.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'users.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'user_types.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   PATCH: {
     'profiles.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'users.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'user_types.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   DELETE: {
     'profiles.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'users.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'user_types.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }
 declare module '@adonisjs/core/types/http' {

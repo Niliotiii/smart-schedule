@@ -5,7 +5,7 @@
 **Status**: Draft
 **Input**: User description: "Quero poder alternar o tema do sistema entre escuro e claro"
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Alternar tema via botão na interface (Priority: P1)
 
@@ -59,7 +59,7 @@ Como usuário, quero que o sistema detecte automaticamente a preferência de tem
 - O que acontece quando múltiplas abas estão abertas e o tema é alterado em uma delas? As outras abas devem refletir a mudança ao serem focadas/recarregadas.
 - O que acontece em componentes com cores customizadas (badges, alertas)? Devem ter variantes de cor para ambos os temas.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -76,7 +76,7 @@ Como usuário, quero que o sistema detecte automaticamente a preferência de tem
 
 - **Preferência de Tema**: Preferência do usuário entre tema claro ou escuro, armazenada de forma persistente e associada ao contexto do usuário
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 
