@@ -72,6 +72,7 @@ const confirmDelete = (id: number) => {
     icon: 'pi pi-exclamation-triangle',
     acceptLabel: 'Sim',
     rejectLabel: 'Não',
+    rejectProps: { severity: 'danger' },
     accept: () => router.delete(`/profiles/${id}`),
   })
 }
