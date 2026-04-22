@@ -20,6 +20,9 @@ export default class Profile extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+
   @hasMany(() => User)
   declare users: HasMany<typeof User>
 
@@ -28,4 +31,18 @@ export default class Profile extends BaseModel {
     pivotTimestamps: true,
   })
   declare permissions: ManyToMany<typeof Permission>
+
+  async delete() {
+    this.deletedAt = DateTime.now()
+    await this.save()
+  }
+
+  async restore() {
+    this.deletedAt = null
+    await this.save()
+  }
+
+  static withoutTrashed(query: any) {
+    return query.whereNull('deleted_at')
+  }
 }

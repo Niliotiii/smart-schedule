@@ -25,6 +25,8 @@ Add a `Church` entity with a dedicated address section managed through a reusabl
 - 5 new models, 1 new controller, 1 new service, 2 new validators, 6 migrations, 3 seeders
 - 3 new Vue pages + 1 API endpoint Inertia component + AppMenu update
 - Address reusable for future entities (polymorphic)
+- **Soft delete migration**: add `deleted_at` to `users`, `profiles`, `user_types` tables (existing entities); all new tables (`addresses`, `churches`, `countries`, `states`, `cities`) include `deleted_at` at creation time
+- Controller destroy actions updated to soft delete for users, profiles, user_types, churches
 
 ## Constitution Check
 
@@ -64,11 +66,14 @@ specs/007-church-registration/
 ```text
 database/
 ├── migrations/
-│   ├── XXX_create_countries_table.ts         # NEW
-│   ├── XXX_create_states_table.ts            # NEW
-│   ├── XXX_create_cities_table.ts            # NEW
-│   ├── XXX_create_addresses_table.ts         # NEW
-│   └── XXX_create_churches_table.ts          # NEW
+│   ├── XXX_add_deleted_at_to_users_table.ts         # ALTER — soft delete existing
+│   ├── XXX_add_deleted_at_to_profiles_table.ts      # ALTER — soft delete existing
+│   ├── XXX_add_deleted_at_to_user_types_table.ts    # ALTER — soft delete existing
+│   ├── XXX_create_countries_table.ts                # NEW
+│   ├── XXX_create_states_table.ts                   # NEW
+│   ├── XXX_create_cities_table.ts                   # NEW
+│   ├── XXX_create_addresses_table.ts                # NEW
+│   └── XXX_create_churches_table.ts                 # NEW
 ├── seeders/
 │   ├── country_seeder.ts                     # NEW
 │   ├── state_seeder.ts                       # NEW

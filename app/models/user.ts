@@ -39,6 +39,9 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+
   @belongsTo(() => Profile)
   declare profile: BelongsTo<typeof Profile>
 
@@ -47,6 +50,20 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   static accessTokens = DbAccessTokensProvider.forModel(User)
   declare currentAccessToken?: AccessToken
+
+  async delete() {
+    this.deletedAt = DateTime.now()
+    await this.save()
+  }
+
+  async restore() {
+    this.deletedAt = null
+    await this.save()
+  }
+
+  static withoutTrashed(query: any) {
+    return query.whereNull('deleted_at')
+  }
 
   get initials() {
     const [first, last] = this.fullName ? this.fullName.split(' ') : this.email.split('@')

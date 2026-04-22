@@ -14,7 +14,7 @@
 | GET       | /churches/:id          | show      | churches:read    | Show church detail                               |
 | GET       | /churches/:id/edit     | edit      | churches:update  | Show edit form                                   |
 | PUT/PATCH | /churches/:id          | update    | churches:update  | Update church + address                          |
-| DELETE    | /churches/:id          | destroy   | churches:delete  | Delete church (cascade address)                  |
+| DELETE    | /churches/:id          | destroy   | churches:delete  | Soft delete church and linked address            |
 | GET       | /churches/lookup-cep   | lookupCep | churches:create  | Query CEP and return address JSON (ViaCEP primary, Correios fallback) |
 
 All routes except `lookupCep` are Inertia page routes. `lookupCep` returns `response.json(...)` directly.
@@ -244,5 +244,5 @@ interface GeocodingService {
 - `show` — render detail with fully preloaded address (country, state, city).
 - `edit` — render form with existing church + address + all countries/states/cities.
 - `update` — validate input, update Church, update/replace Address, call `GeocodingService` if address changed, redirect to `/churches`.
-- `destroy` — delete Church (Lucid should cascade to Address via model hook or FK `onDelete` if configured).
+- `destroy` — soft delete Church and its linked Address via model hooks (set `deleted_at` instead of hard delete).
 - `lookupCep` — validate `cep` param, call `CepLookupService`, return JSON or error.

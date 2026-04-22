@@ -27,6 +27,7 @@
 - name (varchar(100), not null) — e.g., "Brazil"
 - created_at (timestamp)
 - updated_at (timestamp)
+- deleted_at (timestamp, nullable) — soft delete
 ```
 
 **Relationships**: hasMany State, hasMany City
@@ -45,6 +46,7 @@
 - name (varchar(100), not null) — e.g., "Rondônia"
 - created_at (timestamp)
 - updated_at (timestamp)
+- deleted_at (timestamp, nullable) — soft delete
 ```
 
 **Relationships**: belongsTo Country, hasMany City
@@ -62,6 +64,7 @@
 - name (varchar(150), not null) — e.g., "Alta Floresta D'Oeste"
 - created_at (timestamp)
 - updated_at (timestamp)
+- deleted_at (timestamp, nullable) — soft delete
 ```
 
 **Relationships**: belongsTo State
@@ -88,6 +91,7 @@
 - longitude (decimal(11, 8), nullable)
 - created_at (timestamp)
 - updated_at (timestamp)
+- deleted_at (timestamp, nullable) — soft delete
 ```
 
 **Relationships**:
@@ -112,6 +116,7 @@
 - name (varchar(255), not null)
 - created_at (timestamp)
 - updated_at (timestamp)
+- deleted_at (timestamp, nullable) — soft delete
 ```
 
 **Relationships**:
@@ -119,7 +124,7 @@
 
 **Validation Rules**:
 - `name` mandatory, max 255 characters, unique per organization context (or globally unique for MVP).
-- Deleting a Church must cascade-delete its linked Address record (or set up a model hook).
+- Soft-deleting a Church must cascade-soft-delete its linked Address record (controller or model hook).
 
 ---
 
