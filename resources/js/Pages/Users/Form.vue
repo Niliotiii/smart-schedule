@@ -74,7 +74,7 @@ const submit = () => {
     >
       <div class="p-4 flex-1">
         <TabView v-model:activeIndex="activeTab">
-          <TabPanel header="Informações Pessoais">
+          <TabPanel header="Informações Gerais">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div class="pt-4">
                 <FloatLabel>

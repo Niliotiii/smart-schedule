@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useForm, router } from '@inertiajs/vue3'
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
 import InputText from 'primevue/inputtext'
 import Select from 'primevue/select'
 import Button from 'primevue/button'
@@ -38,10 +38,12 @@ const model = computed(() => [
   { label: isEditing.value ? 'Editar Igreja' : 'Nova Igreja' },
 ])
 
+const brasil = props.countries.find((c) => c.name === 'Brasil')
+
 const form = useForm({
   name: props.church?.name || '',
   postalCode: props.church?.postalCode || '',
-  countryId: props.church?.countryId ?? ('' as number | string),
+  countryId: props.church?.countryId ?? (brasil ? brasil.id : ('' as number | string)),
   stateId: props.church?.stateId ?? ('' as number | string | null),
   cityId: props.church?.cityId ?? ('' as number | string | null),
   neighborhood: props.church?.neighborhood || '',
@@ -53,6 +55,7 @@ const form = useForm({
 })
 
 const activeTab = ref(0)
+const isFillingFromCep = ref(false)
 
 const filteredCities = computed(() => {
   if (!form.stateId) return []
@@ -62,8 +65,10 @@ const filteredCities = computed(() => {
 watch(
   () => form.stateId,
   () => {
+    if (isFillingFromCep.value) return
     form.cityId = ''
-  }
+  },
+  { flush: 'sync' }
 )
 
 function formatPostalCode(value: string): string {
@@ -108,13 +113,16 @@ async function lookupCep() {
 
     const matchedState = props.states.find((s) => s.uf === data.state)
     if (matchedState) {
+      isFillingFromCep.value = true
       form.stateId = matchedState.id
+      await nextTick()
       const matchedCity = props.cities.find(
         (c) => c.stateId === matchedState.id && c.name.toLowerCase() === (data.city || '').toLowerCase()
       )
       if (matchedCity) {
         form.cityId = matchedCity.id
       }
+      isFillingFromCep.value = false
     }
   } catch {
     cepError.value = 'Erro ao buscar CEP'
@@ -173,7 +181,7 @@ const submit = () => {
     >
       <div class="p-4 flex-1">
         <TabView v-model:activeIndex="activeTab">
-          <TabPanel header="Informações">
+          <TabPanel header="Informações Gerais">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div class="pt-4">
                 <FloatLabel>
