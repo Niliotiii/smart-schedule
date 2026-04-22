@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Card from 'primevue/card'
 import Tag from 'primevue/tag'
 
 defineProps<{
@@ -18,66 +17,58 @@ defineProps<{
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <div v-if="can.usersRead" class="cursor-pointer" @click="$inertia.get('/users')">
-        <Card>
-          <template #header>
-            <div class="flex items-center gap-4 p-4">
-              <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-primary/10">
-                <i class="pi pi-users text-xl text-primary" />
-              </div>
-              <div>
-                <h3 class="text-lg font-semibold text-color">Usuários</h3>
-                <p class="text-sm text-muted-color">Gerenciar usuários do sistema</p>
-              </div>
-            </div>
-          </template>
-        </Card>
+      <div
+        v-if="can.usersRead"
+        class="cursor-pointer rounded-lg border border-surface shadow-sm bg-surface-ground hover:shadow-md transition-shadow"
+        @click="$inertia.get('/users')"
+      >
+        <div class="flex items-center gap-4 p-4">
+          <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-primary/10">
+            <i class="pi pi-users text-xl text-primary" />
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-color">Usuários</h3>
+            <p class="text-sm text-muted-color">Gerenciar usuários do sistema</p>
+          </div>
+        </div>
       </div>
-      <div v-else>
-        <Card>
-          <template #header>
-            <div class="flex items-center gap-4 p-4">
-              <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-surface-100">
-                <i class="pi pi-users text-xl text-muted-color" />
-              </div>
-              <div>
-                <h3 class="text-lg font-semibold text-muted-color">Usuários</h3>
-                <Tag value="Sem permissão" severity="secondary" class="mt-1" />
-              </div>
-            </div>
-          </template>
-        </Card>
+      <div v-else class="rounded-lg border border-surface shadow-sm bg-surface-ground">
+        <div class="flex items-center gap-4 p-4">
+          <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-surface-100">
+            <i class="pi pi-users text-xl text-muted-color" />
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-muted-color">Usuários</h3>
+            <Tag value="Sem permissão" severity="secondary" class="mt-1" />
+          </div>
+        </div>
       </div>
 
-      <div v-if="can.profilesRead" class="cursor-pointer" @click="$inertia.get('/profiles')">
-        <Card>
-          <template #header>
-            <div class="flex items-center gap-4 p-4">
-              <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-primary/10">
-                <i class="pi pi-shield text-xl text-primary" />
-              </div>
-              <div>
-                <h3 class="text-lg font-semibold text-color">Perfis</h3>
-                <p class="text-sm text-muted-color">Gerenciar perfis e permissões</p>
-              </div>
-            </div>
-          </template>
-        </Card>
+      <div
+        v-if="can.profilesRead"
+        class="cursor-pointer rounded-lg border border-surface shadow-sm bg-surface-ground hover:shadow-md transition-shadow"
+        @click="$inertia.get('/profiles')"
+      >
+        <div class="flex items-center gap-4 p-4">
+          <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-primary/10">
+            <i class="pi pi-shield text-xl text-primary" />
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-color">Perfis</h3>
+            <p class="text-sm text-muted-color">Gerenciar perfis e permissões</p>
+          </div>
+        </div>
       </div>
-      <div v-else>
-        <Card>
-          <template #header>
-            <div class="flex items-center gap-4 p-4">
-              <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-surface-100">
-                <i class="pi pi-shield text-xl text-muted-color" />
-              </div>
-              <div>
-                <h3 class="text-lg font-semibold text-muted-color">Perfis</h3>
-                <Tag value="Sem permissão" severity="secondary" class="mt-1" />
-              </div>
-            </div>
-          </template>
-        </Card>
+      <div v-else class="rounded-lg border border-surface shadow-sm bg-surface-ground">
+        <div class="flex items-center gap-4 p-4">
+          <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-surface-100">
+            <i class="pi pi-shield text-xl text-muted-color" />
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-muted-color">Perfis</h3>
+            <Tag value="Sem permissão" severity="secondary" class="mt-1" />
+          </div>
+        </div>
       </div>
     </div>
   </div>
