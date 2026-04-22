@@ -29,6 +29,7 @@ const navItems = computed<MenuItem[]>(() => {
       permission: 'userTypesRead',
     },
     { label: 'Perfis', icon: 'pi pi-shield', route: '/profiles', permission: 'profilesRead' },
+    { label: 'Igrejas', icon: 'pi pi-building', route: '/churches', permission: 'churchesRead' },
   ]
   return items.filter((item) => !item.permission || props.can[item.permission])
 })

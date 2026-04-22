@@ -36,3 +36,14 @@ export const userTypesDelete = Bouncer.ability((user: User) =>
   checkPermission(user, 'user_types:delete')
 )
 
+export const churchesRead = Bouncer.ability((user: User) => checkPermission(user, 'churches:read'))
+export const churchesCreate = Bouncer.ability((user: User) =>
+  checkPermission(user, 'churches:create')
+)
+export const churchesUpdate = Bouncer.ability((user: User) =>
+  checkPermission(user, 'churches:update')
+)
+export const churchesDelete = Bouncer.ability((user: User) =>
+  checkPermission(user, 'churches:delete')
+)
+

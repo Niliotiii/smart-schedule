@@ -23,6 +23,10 @@ database/data/
 node ace migration:run
 ```
 
+Migrations include:
+1. New tables: `countries`, `states`, `cities`, `addresses`, `churches` (all with `deleted_at` at creation).
+2. Alter existing tables: `users`, `profiles`, `user_types` — add `deleted_at` column for soft delete.
+
 ### 3. Seed reference data
 
 ```bash

@@ -9,7 +9,7 @@ export default class UserTypesController {
     const page = request.input('page', 1)
     const search = request.input('search', '').trim()
 
-    const query = UserType.query().withCount('users')
+    const query = UserType.withoutTrashed(UserType.query().withCount('users'))
     if (search) {
       query.where('name', 'ilike', `%${search}%`)
     }
@@ -20,7 +20,7 @@ export default class UserTypesController {
 
     return inertia.render('UserTypes/Index', {
       userTypes: [
-        ...userTypes.map((ut) => ({
+        ...userTypes.map((ut: UserType) => ({
           id: ut.id,
           name: ut.name,
           usersCount: ut.$extras.users_count as number,

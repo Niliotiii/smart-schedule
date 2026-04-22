@@ -15,6 +15,10 @@ declare module '@adonisjs/inertia/types' {
       userTypesCreate: boolean
       userTypesUpdate: boolean
       userTypesDelete: boolean
+      churchesRead: boolean
+      churchesCreate: boolean
+      churchesUpdate: boolean
+      churchesDelete: boolean
     }
   }
 
@@ -57,6 +61,20 @@ declare module '@adonisjs/inertia/types' {
       user: { id: number; fullName: string | null; email: string; profileId: number | null; userTypeId: number | null } | null
       profiles: Array<{ id: number; name: string }>
       userTypes: Array<{ id: number; name: string }>
+    }
+    'Churches/Index': {
+      churches: Array<{ id: number; name: string; address: { city: string | null; state: string | null } | null; createdAt: string }>
+      pagination: { total: number; currentPage: number; lastPage: number; perPage: number; firstItem: number; lastItem: number }
+      search: string
+    }
+    'Churches/Show': {
+      church: { id: number; name: string; address: { postalCode: string; street: string; number: string; complement: string | null; neighborhood: string; city: string | null; state: string | null; country: string | null; latitude: number | string | null; longitude: number | string | null } | null; createdAt: string }
+    }
+    'Churches/Form': {
+      church: { id: number; name: string; postalCode: string; countryId: number | string; stateId: number | string | null; cityId: number | string | null; neighborhood: string; street: string; number: string; complement: string | null; latitude: number | string | null; longitude: number | string | null } | null
+      countries: Array<{ id: number; name: string }>
+      states: Array<{ id: number; name: string; uf: string }>
+      cities: Array<{ id: number; name: string; stateId: number }>
     }
   }
 }

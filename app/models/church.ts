@@ -1,9 +1,7 @@
-import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
-import type { HasMany } from '@adonisjs/lucid/types/relations'
+import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
-import User from './user.js'
 
-export default class UserType extends BaseModel {
+export default class Church extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
@@ -18,9 +16,6 @@ export default class UserType extends BaseModel {
 
   @column.dateTime()
   declare deletedAt: DateTime | null
-
-  @hasMany(() => User)
-  declare users: HasMany<typeof User>
 
   async delete() {
     this.deletedAt = DateTime.now()
