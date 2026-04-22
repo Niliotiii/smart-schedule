@@ -2,6 +2,6 @@
 
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan:
-specs/006-user-types/plan.md
+specs/007-church-registration/plan.md
 
 <!-- SPECKIT END -->

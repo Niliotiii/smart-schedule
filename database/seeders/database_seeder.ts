@@ -2,11 +2,17 @@ import { BaseSeeder } from '@adonisjs/lucid/seeders'
 import Permission from '#models/permission'
 import Profile from '#models/profile'
 
-const MODULES = ['users', 'profiles', 'user_types'] as const
+const MODULES = ['users', 'profiles', 'user_types', 'churches'] as const
 const ACTIONS = ['create', 'read', 'update', 'delete'] as const
 
 export default class DatabaseSeeder extends BaseSeeder {
   async run() {
+    await this.seedPermissions()
+    await this.seedAdminProfile()
+    await this.seedAdminUser()
+  }
+
+  private async seedPermissions() {
     for (const mod of MODULES) {
       for (const action of ACTIONS) {
         await Permission.firstOrCreate(
@@ -15,24 +21,27 @@ export default class DatabaseSeeder extends BaseSeeder {
         )
       }
     }
+  }
 
-    const allPermissions = await Permission.all()
-
+  private async seedAdminProfile() {
     await Profile.firstOrCreate(
       { name: 'Administrador' },
       { description: 'Perfil com acesso total ao sistema' }
     )
 
+    const allPermissions = await Permission.all()
     const adminProfile = await Profile.findByOrFail('name', 'Administrador')
     await (adminProfile as any).related('permissions').sync(allPermissions.map((p) => p.id))
+  }
 
+  private async seedAdminUser() {
     const { default: User } = await import('#models/user')
     await User.firstOrCreate(
       { email: 'admin@paroquia.com' },
       {
         fullName: 'Administrador',
         password: 'secret',
-        profileId: adminProfile.id,
+        profileId: (await Profile.findByOrFail('name', 'Administrador')).id,
       }
     )
   }
@@ -52,6 +61,7 @@ export default class DatabaseSeeder extends BaseSeeder {
       users: 'usuários',
       profiles: 'perfis',
       user_types: 'tipos de usuário',
+      churches: 'igrejas',
     }
     return map[mod] ?? mod
   }

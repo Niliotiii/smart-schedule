@@ -7,6 +7,43 @@
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
+export class AddressSchema extends BaseModel {
+  static $columns = ['addressableId', 'addressableType', 'cityId', 'complement', 'countryId', 'createdAt', 'deletedAt', 'id', 'latitude', 'longitude', 'neighborhood', 'number', 'postalCode', 'stateId', 'street', 'updatedAt'] as const
+  $columns = AddressSchema.$columns
+  @column()
+  declare addressableId: number
+  @column()
+  declare addressableType: string
+  @column()
+  declare cityId: number | null
+  @column()
+  declare complement: string | null
+  @column()
+  declare countryId: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare latitude: string | null
+  @column()
+  declare longitude: string | null
+  @column()
+  declare neighborhood: string
+  @column()
+  declare number: string
+  @column()
+  declare postalCode: string
+  @column()
+  declare stateId: number | null
+  @column()
+  declare street: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class AuthAccessTokenSchema extends BaseModel {
   static $columns = ['abilities', 'createdAt', 'expiresAt', 'hash', 'id', 'lastUsedAt', 'name', 'tokenableId', 'type', 'updatedAt'] as const
   $columns = AuthAccessTokenSchema.$columns
@@ -28,6 +65,55 @@ export class AuthAccessTokenSchema extends BaseModel {
   declare tokenableId: number
   @column()
   declare type: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class ChurchSchema extends BaseModel {
+  static $columns = ['createdAt', 'deletedAt', 'id', 'name', 'updatedAt'] as const
+  $columns = ChurchSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class CitySchema extends BaseModel {
+  static $columns = ['createdAt', 'ibgeCode', 'id', 'name', 'stateId', 'updatedAt'] as const
+  $columns = CitySchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column()
+  declare ibgeCode: number
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column()
+  declare stateId: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class CountrySchema extends BaseModel {
+  static $columns = ['code', 'createdAt', 'deletedAt', 'id', 'name', 'updatedAt'] as const
+  $columns = CountrySchema.$columns
+  @column()
+  declare code: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 }
@@ -63,10 +149,12 @@ export class ProfilePermissionSchema extends BaseModel {
 }
 
 export class ProfileSchema extends BaseModel {
-  static $columns = ['createdAt', 'description', 'id', 'name', 'updatedAt'] as const
+  static $columns = ['createdAt', 'deletedAt', 'description', 'id', 'name', 'updatedAt'] as const
   $columns = ProfileSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
+  @column.dateTime()
+  declare deletedAt: DateTime | null
   @column()
   declare description: string | null
   @column({ isPrimary: true })
@@ -77,11 +165,34 @@ export class ProfileSchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class StateSchema extends BaseModel {
+  static $columns = ['countryId', 'createdAt', 'deletedAt', 'ibgeCode', 'id', 'name', 'uf', 'updatedAt'] as const
+  $columns = StateSchema.$columns
+  @column()
+  declare countryId: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column()
+  declare ibgeCode: number
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column()
+  declare uf: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class UserTypeSchema extends BaseModel {
-  static $columns = ['createdAt', 'id', 'name', 'updatedAt'] as const
+  static $columns = ['createdAt', 'deletedAt', 'id', 'name', 'updatedAt'] as const
   $columns = UserTypeSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
+  @column.dateTime()
+  declare deletedAt: DateTime | null
   @column({ isPrimary: true })
   declare id: number
   @column()
@@ -91,10 +202,12 @@ export class UserTypeSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'profileId', 'updatedAt', 'userTypeId'] as const
+  static $columns = ['createdAt', 'deletedAt', 'email', 'fullName', 'id', 'password', 'profileId', 'updatedAt', 'userTypeId'] as const
   $columns = UserSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
+  @column.dateTime()
+  declare deletedAt: DateTime | null
   @column()
   declare email: string
   @column()

@@ -35,6 +35,16 @@ export interface ApiDefinition {
     update: typeof routes['user_types.update']
     destroy: typeof routes['user_types.destroy']
   }
+  churches: {
+    lookupCep: typeof routes['churches.lookupCep']
+    index: typeof routes['churches.index']
+    create: typeof routes['churches.create']
+    store: typeof routes['churches.store']
+    show: typeof routes['churches.show']
+    edit: typeof routes['churches.edit']
+    update: typeof routes['churches.update']
+    destroy: typeof routes['churches.destroy']
+  }
   api: {
     signup: typeof routes['api.signup']
     login: typeof routes['api.login']

@@ -12,6 +12,7 @@ import router from '@adonisjs/core/services/router'
 const AuthController = () => import('#controllers/auth_controller')
 const DashboardController = () => import('#controllers/dashboard_controller')
 const ProfilesController = () => import('#controllers/profiles_controller')
+const ChurchesController = () => import('#controllers/churches_controller')
 const UsersController = () => import('#controllers/users_controller')
 const UserTypesController = () => import('#controllers/user_types_controller')
 const NewAccountController = () => import('#controllers/new_account_controller')
@@ -31,6 +32,8 @@ router
     router.resource('profiles', ProfilesController).as('profiles')
     router.resource('users', UsersController).as('users')
     router.resource('user-types', UserTypesController).as('userTypes')
+    router.get('churches/lookup-cep', [ChurchesController, 'lookupCep']).as('churches.lookupCep')
+    router.resource('churches', ChurchesController).as('churches')
   })
   .use(middleware.auth({ guards: ['web'] }))
 

@@ -11,9 +11,9 @@ export default class UsersController {
     const page = request.input('page', 1)
     const search = request.input('search', '').trim()
 
-    const query = User.query().preload('profile').preload('userType')
+    const query = User.withoutTrashed(User.query().preload('profile').preload('userType'))
     if (search) {
-      query.where((q) => {
+      query.where((q: any) => {
         q.where('full_name', 'ilike', `%${search}%`).orWhere('email', 'ilike', `%${search}%`)
       })
     }
@@ -24,7 +24,7 @@ export default class UsersController {
 
     return inertia.render('Users/Index', {
       users: [
-        ...users.map((u) => ({
+        ...users.map((u: User) => ({
           id: u.id,
           fullName: u.fullName,
           email: u.email,
