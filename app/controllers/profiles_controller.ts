@@ -10,9 +10,9 @@ export default class ProfilesController {
     const page = request.input('page', 1)
     const search = request.input('search', '').trim()
 
-    const query = Profile.query().preload('permissions')
+    const query = Profile.withoutTrashed(Profile.query().preload('permissions'))
     if (search) {
-      query.where((q) => {
+      query.where((q: any) => {
         q.where('name', 'ilike', `%${search}%`).orWhere('description', 'ilike', `%${search}%`)
       })
     }
@@ -23,7 +23,7 @@ export default class ProfilesController {
 
     return inertia.render('Profiles/Index', {
       profiles: [
-        ...profiles.map((p) => ({
+        ...profiles.map((p: Profile) => ({
           id: p.id,
           name: p.name,
           description: p.description,

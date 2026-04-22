@@ -307,6 +307,102 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_types_controller').default['destroy']>>>
     }
   }
+  'churches.lookupCep': {
+    methods: ["GET","HEAD"]
+    pattern: '/churches/lookup-cep'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/churches_controller').default['lookupCep']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/churches_controller').default['lookupCep']>>>
+    }
+  }
+  'churches.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/churches'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/churches_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/churches_controller').default['index']>>>
+    }
+  }
+  'churches.create': {
+    methods: ["GET","HEAD"]
+    pattern: '/churches/create'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/churches_controller').default['create']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/churches_controller').default['create']>>>
+    }
+  }
+  'churches.store': {
+    methods: ["POST"]
+    pattern: '/churches'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/church').createChurchValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/church').createChurchValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/churches_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/churches_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'churches.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/churches/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/churches_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/churches_controller').default['show']>>>
+    }
+  }
+  'churches.edit': {
+    methods: ["GET","HEAD"]
+    pattern: '/churches/:id/edit'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/churches_controller').default['edit']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/churches_controller').default['edit']>>>
+    }
+  }
+  'churches.update': {
+    methods: ["PUT","PATCH"]
+    pattern: '/churches/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/church').updateChurchValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/church').updateChurchValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/churches_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/churches_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'churches.destroy': {
+    methods: ["DELETE"]
+    pattern: '/churches/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/churches_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/churches_controller').default['destroy']>>>
+    }
+  }
   'api.signup': {
     methods: ["POST"]
     pattern: '/api/v1/auth/signup'

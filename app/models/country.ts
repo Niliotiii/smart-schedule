@@ -1,11 +1,15 @@
 import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 import { DateTime } from 'luxon'
-import User from './user.js'
+import State from './state.js'
+import City from './city.js'
 
-export default class UserType extends BaseModel {
+export default class Country extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
+
+  @column()
+  declare code: string
 
   @column()
   declare name: string
@@ -19,20 +23,14 @@ export default class UserType extends BaseModel {
   @column.dateTime()
   declare deletedAt: DateTime | null
 
-  @hasMany(() => User)
-  declare users: HasMany<typeof User>
+  @hasMany(() => State)
+  declare states: HasMany<typeof State>
+
+  @hasMany(() => City)
+  declare cities: HasMany<typeof City>
 
   async delete() {
     this.deletedAt = DateTime.now()
     await this.save()
-  }
-
-  async restore() {
-    this.deletedAt = null
-    await this.save()
-  }
-
-  static withoutTrashed(query: any) {
-    return query.whereNull('deleted_at')
   }
 }

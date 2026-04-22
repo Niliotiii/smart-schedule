@@ -1,11 +1,17 @@
-import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
-import type { HasMany } from '@adonisjs/lucid/types/relations'
+import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import { DateTime } from 'luxon'
-import User from './user.js'
+import State from './state.js'
 
-export default class UserType extends BaseModel {
+export default class City extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
+
+  @column()
+  declare stateId: number
+
+  @column()
+  declare ibgeCode: number
 
   @column()
   declare name: string
@@ -19,20 +25,11 @@ export default class UserType extends BaseModel {
   @column.dateTime()
   declare deletedAt: DateTime | null
 
-  @hasMany(() => User)
-  declare users: HasMany<typeof User>
+  @belongsTo(() => State)
+  declare state: BelongsTo<typeof State>
 
   async delete() {
     this.deletedAt = DateTime.now()
     await this.save()
-  }
-
-  async restore() {
-    this.deletedAt = null
-    await this.save()
-  }
-
-  static withoutTrashed(query: any) {
-    return query.whereNull('deleted_at')
   }
 }
