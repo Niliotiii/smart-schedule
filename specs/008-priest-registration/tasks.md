@@ -21,12 +21,12 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete.
 
-- [ ] T001 Create `priests` migration with `id`, `name`, `phone`, `created_at`, `updated_at`, `deleted_at` in `database/migrations/YYYYMMDD_create_priests_table.ts`
-- [ ] T002 Create `Priest` model with soft-delete methods in `app/models/priest.ts` (depends on T001)
-- [ ] T003 Create `priest` Vine validators (`createPriestValidator`, `updatePriestValidator`) in `app/validators/priest.ts`
-- [ ] T004 Add priests Bouncer abilities (`priestsRead`, `priestsCreate`, `priestsUpdate`, `priestsDelete`) in `app/abilities/main.ts`
-- [ ] T005 Add priests resource routes under auth group in `start/routes.ts`
-- [ ] T006 [P] Add priests navigation link to `AppMenu` in `resources/js/Components/AppMenu.vue`
+- [X] T001 Create `priests` migration with `id`, `name`, `phone`, `created_at`, `updated_at`, `deleted_at` in `database/migrations/YYYYMMDD_create_priests_table.ts`
+- [X] T002 Create `Priest` model with soft-delete methods in `app/models/priest.ts` (depends on T001)
+- [X] T003 Create `priest` Vine validators (`createPriestValidator`, `updatePriestValidator`) in `app/validators/priest.ts`
+- [X] T004 Add priests Bouncer abilities (`priestsRead`, `priestsCreate`, `priestsUpdate`, `priestsDelete`) in `app/abilities/main.ts`
+- [X] T005 Add priests resource routes under auth group in `start/routes.ts`
+- [X] T006 [P] Add priests navigation link to `AppMenu` in `resources/js/Components/AppMenu.vue`
 
 **Checkpoint**: Foundation ready — migration runs, model/validator/controller scaffold exists, menu has link to `/priests`.
 
@@ -40,10 +40,10 @@
 
 ### Implementation for User Story 1
 
-- [ ] T007 [US1] Create `PriestsController` with `create`, `store`, and `show` actions in `app/controllers/priests_controller.ts`
-- [ ] T008 [P] [US1] Create `Priests/Show.vue` Inertia page to display priest details in `resources/js/Pages/Priests/Show.vue`
-- [ ] T009 [P] [US1] Create `Priests/Form.vue` Inertia page with creation form (TabView with "Informações" tab) in `resources/js/Pages/Priests/Form.vue`
-- [ ] T010 [US1] Wire form POST submission: validate with `createPriestValidator`, flash success, redirect to `/priests`
+- [X] T007 [US1] Create `PriestsController` with `create`, `store`, and `show` actions in `app/controllers/priests_controller.ts`
+- [X] T008 [P] [US1] Create `Priests/Show.vue` Inertia page to display priest details in `resources/js/Pages/Priests/Show.vue`
+- [X] T009 [P] [US1] Create `Priests/Form.vue` Inertia page with creation form (TabView with "Informações" tab) in `resources/js/Pages/Priests/Form.vue`
+- [X] T010 [US1] Wire form POST submission: validate with `createPriestValidator`, flash success, redirect to `/priests`
 
 **Checkpoint**: At this point, an administrator can create a priest and view its details. User Story 1 is independently functional.
 
@@ -57,9 +57,9 @@
 
 ### Implementation for User Story 2
 
-- [ ] T011 [US2] Add `index` action to `PriestsController` with pagination, search (`ilike` on `name`), and `withoutTrashed` filter in `app/controllers/priests_controller.ts`
-- [ ] T012 [P] [US2] Create `Priests/Index.vue` Inertia page with `DataTable`, search input, pagination, and action buttons in `resources/js/Pages/Priests/Index.vue`
-- [ ] T013 [US2] Wire listing Inertia props: `priests` array, `pagination` object, `search` state; handle empty state
+- [X] T011 [US2] Add `index` action to `PriestsController` with pagination, search (`ilike` on `name`), and `withoutTrashed` filter in `app/controllers/priests_controller.ts`
+- [X] T012 [P] [US2] Create `Priests/Index.vue` Inertia page with `DataTable`, search input, pagination, and action buttons in `resources/js/Pages/Priests/Index.vue`
+- [X] T013 [US2] Wire listing Inertia props: `priests` array, `pagination` object, `search` state; handle empty state
 
 **Checkpoint**: At this point, both registration (US1) and listing (US2) work independently.
 
@@ -73,8 +73,8 @@
 
 ### Implementation for User Story 3
 
-- [ ] T014 [US3] Add `edit` and `update` actions to `PriestsController` with `updatePriestValidator` in `app/controllers/priests_controller.ts`
-- [ ] T015 [US3] Update `Priests/Form.vue` to support edit mode: pre-fill form from `props.priest`, use `PUT/PATCH` route for updates, show edit title in `resources/js/Pages/Priests/Form.vue`
+- [X] T014 [US3] Add `edit` and `update` actions to `PriestsController` with `updatePriestValidator` in `app/controllers/priests_controller.ts`
+- [X] T015 [US3] Update `Priests/Form.vue` to support edit mode: pre-fill form from `props.priest`, use `PUT/PATCH` route for updates, show edit title in `resources/js/Pages/Priests/Form.vue`
 
 **Checkpoint**: All user stories (create, list, edit) are now independently functional.
 
@@ -84,8 +84,8 @@
 
 **Purpose**: Final touches that affect the full feature.
 
-- [ ] T016 Add `destroy` action (soft delete) to `PriestsController` and wire "Excluir" button in `Index.vue` in `app/controllers/priests_controller.ts`
-- [ ] T017 [P] Run quickstart validation: manually test create, list, edit, delete flows end-to-end
+- [X] T016 Add `destroy` action (soft delete) to `PriestsController` and wire "Excluir" button in `Index.vue` in `app/controllers/priests_controller.ts`
+- [X] T017 [P] Run quickstart validation: manually test create, list, edit, delete flows end-to-end
 
 ---
 
