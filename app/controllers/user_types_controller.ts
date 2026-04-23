@@ -61,7 +61,11 @@ export default class UserTypesController {
       userType: {
         id: userType.id,
         name: userType.name,
-        users: userType.users.map((u: { id: number; fullName: string | null; email: string }) => ({ id: u.id, fullName: u.fullName, email: u.email })),
+        users: userType.users.map((u: { id: number; fullName: string | null; email: string }) => ({
+          id: u.id,
+          fullName: u.fullName,
+          email: u.email,
+        })),
         createdAt: userType.createdAt.toISO()!,
       },
     })

@@ -8,7 +8,24 @@ import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
 export class AddressSchema extends BaseModel {
-  static $columns = ['addressableId', 'addressableType', 'cityId', 'complement', 'countryId', 'createdAt', 'deletedAt', 'id', 'latitude', 'longitude', 'neighborhood', 'number', 'postalCode', 'stateId', 'street', 'updatedAt'] as const
+  static $columns = [
+    'addressableId',
+    'addressableType',
+    'cityId',
+    'complement',
+    'countryId',
+    'createdAt',
+    'deletedAt',
+    'id',
+    'latitude',
+    'longitude',
+    'neighborhood',
+    'number',
+    'postalCode',
+    'stateId',
+    'street',
+    'updatedAt',
+  ] as const
   $columns = AddressSchema.$columns
   @column()
   declare addressableId: number
@@ -45,7 +62,18 @@ export class AddressSchema extends BaseModel {
 }
 
 export class AuthAccessTokenSchema extends BaseModel {
-  static $columns = ['abilities', 'createdAt', 'expiresAt', 'hash', 'id', 'lastUsedAt', 'name', 'tokenableId', 'type', 'updatedAt'] as const
+  static $columns = [
+    'abilities',
+    'createdAt',
+    'expiresAt',
+    'hash',
+    'id',
+    'lastUsedAt',
+    'name',
+    'tokenableId',
+    'type',
+    'updatedAt',
+  ] as const
   $columns = AuthAccessTokenSchema.$columns
   @column()
   declare abilities: string
@@ -200,7 +228,16 @@ export class ProfileSchema extends BaseModel {
 }
 
 export class StateSchema extends BaseModel {
-  static $columns = ['countryId', 'createdAt', 'deletedAt', 'ibgeCode', 'id', 'name', 'uf', 'updatedAt'] as const
+  static $columns = [
+    'countryId',
+    'createdAt',
+    'deletedAt',
+    'ibgeCode',
+    'id',
+    'name',
+    'uf',
+    'updatedAt',
+  ] as const
   $columns = StateSchema.$columns
   @column()
   declare countryId: number
@@ -236,7 +273,17 @@ export class UserTypeSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['createdAt', 'deletedAt', 'email', 'fullName', 'id', 'password', 'profileId', 'updatedAt', 'userTypeId'] as const
+  static $columns = [
+    'createdAt',
+    'deletedAt',
+    'email',
+    'fullName',
+    'id',
+    'password',
+    'profileId',
+    'updatedAt',
+    'userTypeId',
+  ] as const
   $columns = UserSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

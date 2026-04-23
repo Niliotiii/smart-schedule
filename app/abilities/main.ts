@@ -4,7 +4,9 @@ import type User from '#models/user'
 
 const checkPermission = (user: User, permission: string): AuthorizerResponse => {
   if (!user.profile) return false
-  return user.profile.permissions.some((p: { module: string; action: string }) => `${p.module}:${p.action}` === permission)
+  return user.profile.permissions.some(
+    (p: { module: string; action: string }) => `${p.module}:${p.action}` === permission
+  )
 }
 
 export const usersRead = Bouncer.ability((user: User) => checkPermission(user, 'users:read'))
@@ -48,9 +50,15 @@ export const churchesDelete = Bouncer.ability((user: User) =>
 )
 
 export const priestsRead = Bouncer.ability((user: User) => checkPermission(user, 'priests:read'))
-export const priestsCreate = Bouncer.ability((user: User) => checkPermission(user, 'priests:create'))
-export const priestsUpdate = Bouncer.ability((user: User) => checkPermission(user, 'priests:update'))
-export const priestsDelete = Bouncer.ability((user: User) => checkPermission(user, 'priests:delete'))
+export const priestsCreate = Bouncer.ability((user: User) =>
+  checkPermission(user, 'priests:create')
+)
+export const priestsUpdate = Bouncer.ability((user: User) =>
+  checkPermission(user, 'priests:update')
+)
+export const priestsDelete = Bouncer.ability((user: User) =>
+  checkPermission(user, 'priests:delete')
+)
 
 export const ministryRolesRead = Bouncer.ability((user: User) =>
   checkPermission(user, 'ministry_roles:read')
@@ -64,4 +72,3 @@ export const ministryRolesUpdate = Bouncer.ability((user: User) =>
 export const ministryRolesDelete = Bouncer.ability((user: User) =>
   checkPermission(user, 'ministry_roles:delete')
 )
-
