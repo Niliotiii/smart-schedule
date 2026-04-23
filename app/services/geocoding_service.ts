@@ -6,16 +6,14 @@ export interface GeocodeResult {
 export default class GeocodingService {
   private lastRequestTime: number | null = null
 
-  async geocode(
-    address: {
-      street: string | null
-      number: string
-      neighborhood: string | null
-      city: string | null
-      state: string | null
-      country: string | null
-    }
-  ): Promise<GeocodeResult | null> {
+  async geocode(address: {
+    street: string | null
+    number: string
+    neighborhood: string | null
+    city: string | null
+    state: string | null
+    country: string | null
+  }): Promise<GeocodeResult | null> {
     await this.rateLimit()
 
     const parts = [
@@ -52,10 +50,10 @@ export default class GeocodingService {
 
       if (!data || data.length === 0) return null
 
-      const latitude = parseFloat(data[0].lat)
-      const longitude = parseFloat(data[0].lon)
+      const latitude = Number.parseFloat(data[0].lat)
+      const longitude = Number.parseFloat(data[0].lon)
 
-      if (isNaN(latitude) || isNaN(longitude)) return null
+      if (Number.isNaN(latitude) || Number.isNaN(longitude)) return null
 
       return { latitude, longitude }
     } catch {

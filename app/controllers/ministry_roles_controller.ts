@@ -20,8 +20,12 @@ export default class MinistryRolesController {
     }
     const ministryRoles = await query.paginate(page, 15)
 
-    const firstItem = ministryRoles.total > 0 ? (ministryRoles.currentPage - 1) * ministryRoles.perPage + 1 : 0
-    const lastItem = Math.min(ministryRoles.currentPage * ministryRoles.perPage, ministryRoles.total)
+    const firstItem =
+      ministryRoles.total > 0 ? (ministryRoles.currentPage - 1) * ministryRoles.perPage + 1 : 0
+    const lastItem = Math.min(
+      ministryRoles.currentPage * ministryRoles.perPage,
+      ministryRoles.total
+    )
 
     return inertia.render('MinistryRoles/Index', {
       ministryRoles: [
