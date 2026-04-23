@@ -2,7 +2,7 @@ import { BaseSeeder } from '@adonisjs/lucid/seeders'
 import Permission from '#models/permission'
 import Profile from '#models/profile'
 
-const MODULES = ['users', 'profiles', 'user_types', 'churches', 'priests'] as const
+const MODULES = ['users', 'profiles', 'user_types', 'churches', 'priests', 'ministry_roles'] as const
 const ACTIONS = ['create', 'read', 'update', 'delete'] as const
 
 export default class DatabaseSeeder extends BaseSeeder {
@@ -63,6 +63,7 @@ export default class DatabaseSeeder extends BaseSeeder {
       user_types: 'tipos de usuário',
       churches: 'igrejas',
       priests: 'padres',
+      ministry_roles: 'funções',
     }
     return map[mod] ?? mod
   }

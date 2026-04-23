@@ -50,9 +50,9 @@ export interface Registry {
       body: {}
       paramsTuple: []
       params: {}
-      query: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/liturgia_diaria').liturgiaDateValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/dashboard_controller').default['index']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/dashboard_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/dashboard_controller').default['index']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'profiles.index': {
@@ -485,6 +485,90 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/priests_controller').default['destroy']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/priests_controller').default['destroy']>>>
+    }
+  }
+  'ministry_roles.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/ministry-roles'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/ministry_roles_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ministry_roles_controller').default['index']>>>
+    }
+  }
+  'ministry_roles.create': {
+    methods: ["GET","HEAD"]
+    pattern: '/ministry-roles/create'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/ministry_roles_controller').default['create']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ministry_roles_controller').default['create']>>>
+    }
+  }
+  'ministry_roles.store': {
+    methods: ["POST"]
+    pattern: '/ministry-roles'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/ministry_role').createMinistryRoleValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/ministry_role').createMinistryRoleValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/ministry_roles_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ministry_roles_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'ministry_roles.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/ministry-roles/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/ministry_roles_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ministry_roles_controller').default['show']>>>
+    }
+  }
+  'ministry_roles.edit': {
+    methods: ["GET","HEAD"]
+    pattern: '/ministry-roles/:id/edit'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/ministry_roles_controller').default['edit']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ministry_roles_controller').default['edit']>>>
+    }
+  }
+  'ministry_roles.update': {
+    methods: ["PUT","PATCH"]
+    pattern: '/ministry-roles/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/ministry_role').updateMinistryRoleValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/ministry_role').updateMinistryRoleValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/ministry_roles_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ministry_roles_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'ministry_roles.destroy': {
+    methods: ["DELETE"]
+    pattern: '/ministry-roles/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/ministry_roles_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ministry_roles_controller').default['destroy']>>>
     }
   }
   'api.signup': {
