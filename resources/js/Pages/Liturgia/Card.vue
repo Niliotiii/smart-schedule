@@ -5,14 +5,14 @@ import Accordion from 'primevue/accordion'
 import AccordionPanel from 'primevue/accordionpanel'
 import AccordionHeader from 'primevue/accordionheader'
 import AccordionContent from 'primevue/accordioncontent'
-import type { LiturgiaData } from '@/lib/liturgia.js'
-import { liturgicalColorClassMap } from '@/lib/liturgia.js'
+import type { LiturgiaData } from '../../lib/liturgia'
+import { liturgicalColorClassMap } from '../../lib/liturgia'
 
 const props = defineProps<{
   liturgia: LiturgiaData | null
 }>()
 
-const selectedDate = ref<Date | null>(null)
+const selectedDate = ref<Date | null>(new Date())
 
 const colorClass = computed(() => {
   if (!props.liturgia) return 'bg-gray-300'
@@ -20,8 +20,12 @@ const colorClass = computed(() => {
 })
 
 const primeiraLeitura = computed(() => props.liturgia?.leituras?.primeiraLeitura ?? [])
+const segundaLeitura = computed(() => props.liturgia?.leituras?.segundaLeitura ?? [])
 const salmo = computed(() => props.liturgia?.leituras?.salmo ?? [])
 const evangelho = computed(() => props.liturgia?.leituras?.evangelho ?? [])
+const leiturasExtras = computed(() => props.liturgia?.leituras?.extras ?? [])
+const oracoes = computed(() => props.liturgia?.oracoes ?? null)
+const antifonas = computed(() => props.liturgia?.antifonas ?? null)
 
 function onDateSelect() {
   if (!selectedDate.value) return
@@ -63,24 +67,42 @@ onMounted(() => {
           dateFormat="dd/mm/yy"
           placeholder="Selecionar data"
           class="w-full md:w-auto"
+          :manual-input="false"
+          :show-icon="true"
+          :min-date="new Date(2000, 0, 1)"
+          :max-date="new Date(2100, 11, 31)"
           @date-select="onDateSelect"
         />
       </div>
 
+      <div v-if="liturgia.santo" class="px-4 pb-2 text-sm text-muted-color">
+        <span class="font-medium text-color">Santo do dia:</span> {{ liturgia.santo }}
+      </div>
+
       <div class="px-4 pb-4">
-        <div v-if="liturgia.santo" class="mb-2 text-sm text-muted-color">
-          <span class="font-medium text-color">Santo do dia:</span> {{ liturgia.santo }}
-        </div>
-
-        <div
-          v-if="evangelho.length && evangelho[0].texto"
-          class="mb-3 text-sm italic text-color bg-surface-50 dark:bg-surface-800 p-3 rounded-lg border border-surface"
-        >
-          "{{ evangelho[0].texto }}"
-        </div>
-
         <Accordion :multiple="true" class="mt-2">
-          <AccordionPanel v-if="primeiraLeitura.length" value="0">
+          <!-- 1. Antífona de Entrada -->
+          <AccordionPanel v-if="antifonas?.entrada" value="ant-entrada">
+            <AccordionHeader>Antífona Entrada</AccordionHeader>
+            <AccordionContent>
+              <div class="text-sm text-color leading-relaxed whitespace-pre-line">
+                {{ antifonas.entrada }}
+              </div>
+            </AccordionContent>
+          </AccordionPanel>
+
+          <!-- 2. Oração da Coleta -->
+          <AccordionPanel v-if="oracoes?.coleta" value="ora-coleta">
+            <AccordionHeader>Oração da Coleta</AccordionHeader>
+            <AccordionContent>
+              <div class="text-sm text-color leading-relaxed whitespace-pre-line">
+                {{ oracoes.coleta }}
+              </div>
+            </AccordionContent>
+          </AccordionPanel>
+
+          <!-- 3. Primeira Leitura -->
+          <AccordionPanel v-if="primeiraLeitura.length" value="lei-1">
             <AccordionHeader>Primeira Leitura</AccordionHeader>
             <AccordionContent>
               <div
@@ -103,13 +125,13 @@ onMounted(() => {
                 <div v-if="item.texto" class="text-sm text-color leading-relaxed whitespace-pre-line">
                   {{ item.texto }}
                 </div>
-
               </div>
             </AccordionContent>
           </AccordionPanel>
 
-          <AccordionPanel v-if="salmo.length" value="1">
-            <AccordionHeader>Salmo</AccordionHeader>
+          <!-- 4. Salmo Responsorial -->
+          <AccordionPanel v-if="salmo.length" value="salmo">
+            <AccordionHeader>Salmo Responsorial</AccordionHeader>
             <AccordionContent>
               <div
                 v-for="(item, idx) in salmo"
@@ -131,12 +153,40 @@ onMounted(() => {
                 <div v-if="item.texto" class="text-sm text-color leading-relaxed whitespace-pre-line">
                   {{ item.texto }}
                 </div>
-
               </div>
             </AccordionContent>
           </AccordionPanel>
 
-          <AccordionPanel v-if="evangelho.length" value="2">
+          <!-- 5. Segunda Leitura -->
+          <AccordionPanel v-if="segundaLeitura.length" value="lei-2">
+            <AccordionHeader>Segunda Leitura</AccordionHeader>
+            <AccordionContent>
+              <div
+                v-for="(item, idx) in segundaLeitura"
+                :key="`sl2-${idx}`"
+                class="mb-3 last:mb-0"
+              >
+                <div v-if="item.referencia" class="text-xs font-semibold text-muted-color mb-1">
+                  {{ item.referencia }}
+                </div>
+                <div v-if="item.titulo" class="text-sm font-medium text-color mb-1">
+                  {{ item.titulo }}
+                </div>
+                <div v-else-if="item.refrao" class="text-sm font-medium text-color mb-1">
+                  {{ item.refrao }}
+                </div>
+                <div v-else-if="item.tema" class="text-sm font-medium text-color mb-1">
+                  {{ item.tema }}
+                </div>
+                <div v-if="item.texto" class="text-sm text-color leading-relaxed whitespace-pre-line">
+                  {{ item.texto }}
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionPanel>
+
+          <!-- 6. Evangelho -->
+          <AccordionPanel v-if="evangelho.length" value="evangelho">
             <AccordionHeader>Evangelho</AccordionHeader>
             <AccordionContent>
               <div
@@ -159,7 +209,83 @@ onMounted(() => {
                 <div v-if="item.texto" class="text-sm text-color leading-relaxed whitespace-pre-line">
                   {{ item.texto }}
                 </div>
+              </div>
+            </AccordionContent>
+          </AccordionPanel>
 
+          <!-- 7. Leituras Extras -->
+          <AccordionPanel v-if="leiturasExtras.length" value="lei-extras">
+            <AccordionHeader>Leituras Extras</AccordionHeader>
+            <AccordionContent>
+              <div
+                v-for="(item, idx) in leiturasExtras"
+                :key="`lx-${idx}`"
+                class="mb-3 last:mb-0"
+              >
+                <div v-if="item.referencia" class="text-xs font-semibold text-muted-color mb-1">
+                  {{ item.referencia }}
+                </div>
+                <div v-if="item.titulo" class="text-sm font-medium text-color mb-1">
+                  {{ item.titulo }}
+                </div>
+                <div v-else-if="item.refrao" class="text-sm font-medium text-color mb-1">
+                  {{ item.refrao }}
+                </div>
+                <div v-else-if="item.tema" class="text-sm font-medium text-color mb-1">
+                  {{ item.tema }}
+                </div>
+                <div v-if="item.texto" class="text-sm text-color leading-relaxed whitespace-pre-line">
+                  {{ item.texto }}
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionPanel>
+
+          <!-- 8. Oração sobre as Oferendas -->
+          <AccordionPanel v-if="oracoes?.oferendas" value="ora-oferendas">
+            <AccordionHeader>Oração sobre as Oferendas</AccordionHeader>
+            <AccordionContent>
+              <div class="text-sm text-color leading-relaxed whitespace-pre-line">
+                {{ oracoes.oferendas }}
+              </div>
+            </AccordionContent>
+          </AccordionPanel>
+
+          <!-- 9. Oração Eucarística -->
+          <AccordionPanel v-if="oracoes?.comunhao" value="ora-comunhao">
+            <AccordionHeader>Oração Eucarística</AccordionHeader>
+            <AccordionContent>
+              <div class="text-sm text-color leading-relaxed whitespace-pre-line">
+                {{ oracoes.comunhao }}
+              </div>
+            </AccordionContent>
+          </AccordionPanel>
+
+          <!-- 10. Orações Extras -->
+          <AccordionPanel v-if="oracoes?.extras?.length" value="ora-extras">
+            <AccordionHeader>Orações Extras</AccordionHeader>
+            <AccordionContent>
+              <div
+                v-for="(extra, idx) in oracoes.extras"
+                :key="`oe-${idx}`"
+                class="mb-3 last:mb-0"
+              >
+                <span class="text-xs font-semibold text-muted-color"
+                  >Oração {{ idx + 1 }}</span
+                >
+                <p class="text-sm text-color leading-relaxed whitespace-pre-line mt-1">
+                  {{ extra }}
+                </p>
+              </div>
+            </AccordionContent>
+          </AccordionPanel>
+
+          <!-- 11. Antífona da Comunhão -->
+          <AccordionPanel v-if="antifonas?.comunhao" value="ant-comunhao">
+            <AccordionHeader>Antífona Comunhão</AccordionHeader>
+            <AccordionContent>
+              <div class="text-sm text-color leading-relaxed whitespace-pre-line">
+                {{ antifonas.comunhao }}
               </div>
             </AccordionContent>
           </AccordionPanel>

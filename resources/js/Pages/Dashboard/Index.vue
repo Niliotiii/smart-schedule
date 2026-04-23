@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Tag from 'primevue/tag'
 import LiturgiaCard from '../Liturgia/Card.vue'
-import type { LiturgiaData } from '@/lib/liturgia.js'
+import type { LiturgiaData } from '../../lib/liturgia'
 
 const props = defineProps<{
   can: {
