@@ -19,6 +19,10 @@ declare module '@adonisjs/inertia/types' {
       churchesCreate: boolean
       churchesUpdate: boolean
       churchesDelete: boolean
+      priestsRead: boolean
+      priestsCreate: boolean
+      priestsUpdate: boolean
+      priestsDelete: boolean
     }
   }
 
@@ -75,6 +79,17 @@ declare module '@adonisjs/inertia/types' {
       countries: Array<{ id: number; name: string }>
       states: Array<{ id: number; name: string; uf: string }>
       cities: Array<{ id: number; name: string; stateId: number }>
+    }
+    'Priests/Index': {
+      priests: Array<{ id: number; name: string; phone: string | null; createdAt: string }>
+      pagination: { total: number; currentPage: number; lastPage: number; perPage: number; firstItem: number; lastItem: number }
+      search: string
+    }
+    'Priests/Show': {
+      priest: { id: number; name: string; phone: string | null; createdAt: string }
+    }
+    'Priests/Form': {
+      priest: { id: number; name: string; phone: string | null } | null
     }
   }
 }

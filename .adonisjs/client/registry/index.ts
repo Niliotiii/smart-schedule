@@ -204,6 +204,48 @@ const routes = {
     tokens: [{"old":"/churches/:id","type":0,"val":"churches","end":""},{"old":"/churches/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['churches.destroy']['types'],
   },
+  'priests.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/priests',
+    tokens: [{"old":"/priests","type":0,"val":"priests","end":""}],
+    types: placeholder as Registry['priests.index']['types'],
+  },
+  'priests.create': {
+    methods: ["GET","HEAD"],
+    pattern: '/priests/create',
+    tokens: [{"old":"/priests/create","type":0,"val":"priests","end":""},{"old":"/priests/create","type":0,"val":"create","end":""}],
+    types: placeholder as Registry['priests.create']['types'],
+  },
+  'priests.store': {
+    methods: ["POST"],
+    pattern: '/priests',
+    tokens: [{"old":"/priests","type":0,"val":"priests","end":""}],
+    types: placeholder as Registry['priests.store']['types'],
+  },
+  'priests.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/priests/:id',
+    tokens: [{"old":"/priests/:id","type":0,"val":"priests","end":""},{"old":"/priests/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['priests.show']['types'],
+  },
+  'priests.edit': {
+    methods: ["GET","HEAD"],
+    pattern: '/priests/:id/edit',
+    tokens: [{"old":"/priests/:id/edit","type":0,"val":"priests","end":""},{"old":"/priests/:id/edit","type":1,"val":"id","end":""},{"old":"/priests/:id/edit","type":0,"val":"edit","end":""}],
+    types: placeholder as Registry['priests.edit']['types'],
+  },
+  'priests.update': {
+    methods: ["PUT","PATCH"],
+    pattern: '/priests/:id',
+    tokens: [{"old":"/priests/:id","type":0,"val":"priests","end":""},{"old":"/priests/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['priests.update']['types'],
+  },
+  'priests.destroy': {
+    methods: ["DELETE"],
+    pattern: '/priests/:id',
+    tokens: [{"old":"/priests/:id","type":0,"val":"priests","end":""},{"old":"/priests/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['priests.destroy']['types'],
+  },
   'api.signup': {
     methods: ["POST"],
     pattern: '/api/v1/auth/signup',

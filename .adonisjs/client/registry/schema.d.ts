@@ -403,6 +403,90 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/churches_controller').default['destroy']>>>
     }
   }
+  'priests.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/priests'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/priests_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/priests_controller').default['index']>>>
+    }
+  }
+  'priests.create': {
+    methods: ["GET","HEAD"]
+    pattern: '/priests/create'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/priests_controller').default['create']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/priests_controller').default['create']>>>
+    }
+  }
+  'priests.store': {
+    methods: ["POST"]
+    pattern: '/priests'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/priest').createPriestValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/priest').createPriestValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/priests_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/priests_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'priests.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/priests/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/priests_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/priests_controller').default['show']>>>
+    }
+  }
+  'priests.edit': {
+    methods: ["GET","HEAD"]
+    pattern: '/priests/:id/edit'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/priests_controller').default['edit']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/priests_controller').default['edit']>>>
+    }
+  }
+  'priests.update': {
+    methods: ["PUT","PATCH"]
+    pattern: '/priests/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/priest').updatePriestValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/priest').updatePriestValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/priests_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/priests_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'priests.destroy': {
+    methods: ["DELETE"]
+    pattern: '/priests/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/priests_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/priests_controller').default['destroy']>>>
+    }
+  }
   'api.signup': {
     methods: ["POST"]
     pattern: '/api/v1/auth/signup'
