@@ -128,6 +128,14 @@ const confirmDelete = (id: number) => {
         <Column header="Ações" :exportable="false" style="min-width: 8rem">
           <template #body="{ data }">
             <Button
+              v-tooltip="'Visualizar'"
+              icon="pi pi-eye"
+              text
+              rounded
+              severity="info"
+              @click="router.get(`/priests/${data.id}`)"
+            />
+            <Button
               v-if="can.priestsUpdate"
               v-tooltip="'Editar'"
               icon="pi pi-pencil"
