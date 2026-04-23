@@ -37,6 +37,13 @@ export type ScannedRoutes = {
     'churches.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'churches.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'churches.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'priests.index': { paramsTuple?: []; params?: {} }
+    'priests.create': { paramsTuple?: []; params?: {} }
+    'priests.store': { paramsTuple?: []; params?: {} }
+    'priests.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'priests.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'priests.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'priests.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api.signup': { paramsTuple?: []; params?: {} }
     'api.login': { paramsTuple?: []; params?: {} }
     'api.logout': { paramsTuple?: []; params?: {} }
@@ -62,6 +69,10 @@ export type ScannedRoutes = {
     'churches.create': { paramsTuple?: []; params?: {} }
     'churches.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'churches.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'priests.index': { paramsTuple?: []; params?: {} }
+    'priests.create': { paramsTuple?: []; params?: {} }
+    'priests.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'priests.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api.profile': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
@@ -84,6 +95,10 @@ export type ScannedRoutes = {
     'churches.create': { paramsTuple?: []; params?: {} }
     'churches.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'churches.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'priests.index': { paramsTuple?: []; params?: {} }
+    'priests.create': { paramsTuple?: []; params?: {} }
+    'priests.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'priests.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api.profile': { paramsTuple?: []; params?: {} }
   }
   POST: {
@@ -93,6 +108,7 @@ export type ScannedRoutes = {
     'users.store': { paramsTuple?: []; params?: {} }
     'user_types.store': { paramsTuple?: []; params?: {} }
     'churches.store': { paramsTuple?: []; params?: {} }
+    'priests.store': { paramsTuple?: []; params?: {} }
     'api.signup': { paramsTuple?: []; params?: {} }
     'api.login': { paramsTuple?: []; params?: {} }
     'api.logout': { paramsTuple?: []; params?: {} }
@@ -102,18 +118,21 @@ export type ScannedRoutes = {
     'users.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'user_types.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'churches.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'priests.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   PATCH: {
     'profiles.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'users.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'user_types.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'churches.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'priests.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   DELETE: {
     'profiles.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'users.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'user_types.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'churches.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'priests.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }
 declare module '@adonisjs/core/types/http' {

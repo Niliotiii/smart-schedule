@@ -47,3 +47,8 @@ export const churchesDelete = Bouncer.ability((user: User) =>
   checkPermission(user, 'churches:delete')
 )
 
+export const priestsRead = Bouncer.ability((user: User) => checkPermission(user, 'priests:read'))
+export const priestsCreate = Bouncer.ability((user: User) => checkPermission(user, 'priests:create'))
+export const priestsUpdate = Bouncer.ability((user: User) => checkPermission(user, 'priests:update'))
+export const priestsDelete = Bouncer.ability((user: User) => checkPermission(user, 'priests:delete'))
+

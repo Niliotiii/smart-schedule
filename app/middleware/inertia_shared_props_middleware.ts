@@ -21,6 +21,10 @@ export default class InertiaSharedPropsMiddleware {
         churchesCreate: false,
         churchesUpdate: false,
         churchesDelete: false,
+        priestsRead: false,
+        priestsCreate: false,
+        priestsUpdate: false,
+        priestsDelete: false,
       }
 
       if (ctx.bouncer) {
@@ -40,6 +44,10 @@ export default class InertiaSharedPropsMiddleware {
         can.churchesCreate = await ctx.bouncer.allows('churchesCreate')
         can.churchesUpdate = await ctx.bouncer.allows('churchesUpdate')
         can.churchesDelete = await ctx.bouncer.allows('churchesDelete')
+        can.priestsRead = await ctx.bouncer.allows('priestsRead')
+        can.priestsCreate = await ctx.bouncer.allows('priestsCreate')
+        can.priestsUpdate = await ctx.bouncer.allows('priestsUpdate')
+        can.priestsDelete = await ctx.bouncer.allows('priestsDelete')
       }
 
       ctx.inertia.share(() => ({
@@ -82,6 +90,10 @@ export default class InertiaSharedPropsMiddleware {
           churchesCreate: false,
           churchesUpdate: false,
           churchesDelete: false,
+          priestsRead: false,
+          priestsCreate: false,
+          priestsUpdate: false,
+          priestsDelete: false,
         },
       }))
     }
