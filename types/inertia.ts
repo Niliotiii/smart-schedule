@@ -23,6 +23,10 @@ declare module '@adonisjs/inertia/types' {
       priestsCreate: boolean
       priestsUpdate: boolean
       priestsDelete: boolean
+      ministryRolesRead: boolean
+      ministryRolesCreate: boolean
+      ministryRolesUpdate: boolean
+      ministryRolesDelete: boolean
     }
   }
 
@@ -90,6 +94,17 @@ declare module '@adonisjs/inertia/types' {
     }
     'Priests/Form': {
       priest: { id: number; name: string; phone: string | null } | null
+    }
+    'MinistryRoles/Index': {
+      ministryRoles: Array<{ id: number; name: string; description: string | null; createdAt: string }>
+      pagination: { total: number; currentPage: number; lastPage: number; perPage: number; firstItem: number; lastItem: number }
+      search: string
+    }
+    'MinistryRoles/Show': {
+      ministryRole: { id: number; name: string; description: string | null; createdAt: string }
+    }
+    'MinistryRoles/Form': {
+      ministryRole: { id: number; name: string; description: string | null } | null
     }
   }
 }

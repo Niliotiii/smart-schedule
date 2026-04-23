@@ -44,6 +44,13 @@ export type ScannedRoutes = {
     'priests.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'priests.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'priests.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'ministry_roles.index': { paramsTuple?: []; params?: {} }
+    'ministry_roles.create': { paramsTuple?: []; params?: {} }
+    'ministry_roles.store': { paramsTuple?: []; params?: {} }
+    'ministry_roles.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'ministry_roles.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'ministry_roles.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'ministry_roles.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api.signup': { paramsTuple?: []; params?: {} }
     'api.login': { paramsTuple?: []; params?: {} }
     'api.logout': { paramsTuple?: []; params?: {} }
@@ -73,6 +80,10 @@ export type ScannedRoutes = {
     'priests.create': { paramsTuple?: []; params?: {} }
     'priests.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'priests.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'ministry_roles.index': { paramsTuple?: []; params?: {} }
+    'ministry_roles.create': { paramsTuple?: []; params?: {} }
+    'ministry_roles.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'ministry_roles.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api.profile': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
@@ -99,6 +110,10 @@ export type ScannedRoutes = {
     'priests.create': { paramsTuple?: []; params?: {} }
     'priests.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'priests.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'ministry_roles.index': { paramsTuple?: []; params?: {} }
+    'ministry_roles.create': { paramsTuple?: []; params?: {} }
+    'ministry_roles.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'ministry_roles.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api.profile': { paramsTuple?: []; params?: {} }
   }
   POST: {
@@ -109,6 +124,7 @@ export type ScannedRoutes = {
     'user_types.store': { paramsTuple?: []; params?: {} }
     'churches.store': { paramsTuple?: []; params?: {} }
     'priests.store': { paramsTuple?: []; params?: {} }
+    'ministry_roles.store': { paramsTuple?: []; params?: {} }
     'api.signup': { paramsTuple?: []; params?: {} }
     'api.login': { paramsTuple?: []; params?: {} }
     'api.logout': { paramsTuple?: []; params?: {} }
@@ -119,6 +135,7 @@ export type ScannedRoutes = {
     'user_types.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'churches.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'priests.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'ministry_roles.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   PATCH: {
     'profiles.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -126,6 +143,7 @@ export type ScannedRoutes = {
     'user_types.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'churches.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'priests.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'ministry_roles.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   DELETE: {
     'profiles.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -133,6 +151,7 @@ export type ScannedRoutes = {
     'user_types.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'churches.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'priests.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'ministry_roles.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }
 declare module '@adonisjs/core/types/http' {

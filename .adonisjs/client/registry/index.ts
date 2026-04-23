@@ -246,6 +246,48 @@ const routes = {
     tokens: [{"old":"/priests/:id","type":0,"val":"priests","end":""},{"old":"/priests/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['priests.destroy']['types'],
   },
+  'ministry_roles.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/ministry-roles',
+    tokens: [{"old":"/ministry-roles","type":0,"val":"ministry-roles","end":""}],
+    types: placeholder as Registry['ministry_roles.index']['types'],
+  },
+  'ministry_roles.create': {
+    methods: ["GET","HEAD"],
+    pattern: '/ministry-roles/create',
+    tokens: [{"old":"/ministry-roles/create","type":0,"val":"ministry-roles","end":""},{"old":"/ministry-roles/create","type":0,"val":"create","end":""}],
+    types: placeholder as Registry['ministry_roles.create']['types'],
+  },
+  'ministry_roles.store': {
+    methods: ["POST"],
+    pattern: '/ministry-roles',
+    tokens: [{"old":"/ministry-roles","type":0,"val":"ministry-roles","end":""}],
+    types: placeholder as Registry['ministry_roles.store']['types'],
+  },
+  'ministry_roles.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/ministry-roles/:id',
+    tokens: [{"old":"/ministry-roles/:id","type":0,"val":"ministry-roles","end":""},{"old":"/ministry-roles/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['ministry_roles.show']['types'],
+  },
+  'ministry_roles.edit': {
+    methods: ["GET","HEAD"],
+    pattern: '/ministry-roles/:id/edit',
+    tokens: [{"old":"/ministry-roles/:id/edit","type":0,"val":"ministry-roles","end":""},{"old":"/ministry-roles/:id/edit","type":1,"val":"id","end":""},{"old":"/ministry-roles/:id/edit","type":0,"val":"edit","end":""}],
+    types: placeholder as Registry['ministry_roles.edit']['types'],
+  },
+  'ministry_roles.update': {
+    methods: ["PUT","PATCH"],
+    pattern: '/ministry-roles/:id',
+    tokens: [{"old":"/ministry-roles/:id","type":0,"val":"ministry-roles","end":""},{"old":"/ministry-roles/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['ministry_roles.update']['types'],
+  },
+  'ministry_roles.destroy': {
+    methods: ["DELETE"],
+    pattern: '/ministry-roles/:id',
+    tokens: [{"old":"/ministry-roles/:id","type":0,"val":"ministry-roles","end":""},{"old":"/ministry-roles/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['ministry_roles.destroy']['types'],
+  },
   'api.signup': {
     methods: ["POST"],
     pattern: '/api/v1/auth/signup',
