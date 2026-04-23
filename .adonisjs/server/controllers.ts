@@ -8,11 +8,11 @@ export const controllers = {
   Auth: () => import('#controllers/auth_controller'),
   Churches: () => import('#controllers/churches_controller'),
   Dashboard: () => import('#controllers/dashboard_controller'),
+  MinistryRoles: () => import('#controllers/ministry_roles_controller'),
   NewAccount: () => import('#controllers/new_account_controller'),
+  Priests: () => import('#controllers/priests_controller'),
   Profile: () => import('#controllers/profile_controller'),
   Profiles: () => import('#controllers/profiles_controller'),
   UserTypes: () => import('#controllers/user_types_controller'),
   Users: () => import('#controllers/users_controller'),
-  Priests: () => import('#controllers/priests_controller'),
-  MinistryRoles: () => import('#controllers/ministry_roles_controller'),
 }

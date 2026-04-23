@@ -55,6 +55,7 @@ export default defineConfig({
     () => import('@adonisjs/cors/cors_provider'),
     () => import('@adonisjs/auth/auth_provider'),
     () => import('#providers/api_provider'),
+    () => import('#providers/redis_provider'),
     () => import('@adonisjs/core/providers/edge_provider'),
     () => import('@adonisjs/vite/vite_provider'),
     () => import('@adonisjs/bouncer/bouncer_provider'),
