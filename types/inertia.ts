@@ -1,3 +1,27 @@
+export type LiturgiaData = {
+  data: string
+  liturgia: string
+  cor: string
+  santo?: string
+  oracoes: {
+    coleta?: string
+    oferendas?: string
+    comunhao?: string
+    extras?: string[]
+  }
+  leituras: {
+    primeiraLeitura?: Array<{ titulo?: string; refrao?: string; tema?: string; referencia?: string; texto?: string }>
+    salmo?: Array<{ titulo?: string; refrao?: string; tema?: string; referencia?: string; texto?: string }>
+    segundaLeitura?: Array<{ titulo?: string; refrao?: string; tema?: string; referencia?: string; texto?: string }>
+    evangelho?: Array<{ titulo?: string; refrao?: string; tema?: string; referencia?: string; texto?: string }>
+    extras?: Array<{ titulo?: string; refrao?: string; tema?: string; referencia?: string; texto?: string }>
+  }
+  antifonas: {
+    entrada?: string
+    comunhao?: string
+  }
+}
+
 declare module '@adonisjs/inertia/types' {
   interface SharedProps {
     flash: { success?: string | null; errors?: string | null }
@@ -23,12 +47,16 @@ declare module '@adonisjs/inertia/types' {
       priestsCreate: boolean
       priestsUpdate: boolean
       priestsDelete: boolean
+      ministryRolesRead: boolean
+      ministryRolesCreate: boolean
+      ministryRolesUpdate: boolean
+      ministryRolesDelete: boolean
     }
   }
 
   interface InertiaPages {
     'Auth/Login': {}
-    'Dashboard/Index': {}
+    'Dashboard/Index': { liturgia: LiturgiaData | null }
     'Profiles/Index': {
       profiles: Array<{ id: number; name: string; description: string | null; permissions: Array<{ id: number; module: string; action: string }> }>
       pagination: { total: number; currentPage: number; lastPage: number; perPage: number; firstItem: number; lastItem: number }
@@ -90,6 +118,17 @@ declare module '@adonisjs/inertia/types' {
     }
     'Priests/Form': {
       priest: { id: number; name: string; phone: string | null } | null
+    }
+    'MinistryRoles/Index': {
+      ministryRoles: Array<{ id: number; name: string; description: string | null; createdAt: string }>
+      pagination: { total: number; currentPage: number; lastPage: number; perPage: number; firstItem: number; lastItem: number }
+      search: string
+    }
+    'MinistryRoles/Show': {
+      ministryRole: { id: number; name: string; description: string | null; createdAt: string }
+    }
+    'MinistryRoles/Form': {
+      ministryRole: { id: number; name: string; description: string | null } | null
     }
   }
 }

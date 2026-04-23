@@ -54,6 +54,15 @@ export interface ApiDefinition {
     update: typeof routes['priests.update']
     destroy: typeof routes['priests.destroy']
   }
+  ministryRoles: {
+    index: typeof routes['ministry_roles.index']
+    create: typeof routes['ministry_roles.create']
+    store: typeof routes['ministry_roles.store']
+    show: typeof routes['ministry_roles.show']
+    edit: typeof routes['ministry_roles.edit']
+    update: typeof routes['ministry_roles.update']
+    destroy: typeof routes['ministry_roles.destroy']
+  }
   api: {
     signup: typeof routes['api.signup']
     login: typeof routes['api.login']
