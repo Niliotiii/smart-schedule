@@ -193,5 +193,5 @@ export default [
   { code: 'VE', name: 'Venezuela' },
   { code: 'VN', name: 'Vietnã' },
   { code: 'ZM', name: 'Zâmbia' },
-  { code: 'ZW', name: 'Zimbábue' }
+  { code: 'ZW', name: 'Zimbábue' },
 ]

@@ -24,4 +24,3 @@ export default class DashboardController {
     return inertia.render('Dashboard/Index', { liturgia })
   }
 }
-
