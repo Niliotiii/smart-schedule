@@ -118,6 +118,23 @@ export class CountrySchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class MinistryRoleSchema extends BaseModel {
+  static $columns = ['createdAt', 'deletedAt', 'description', 'id', 'name', 'updatedAt'] as const
+  $columns = MinistryRoleSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column()
+  declare description: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class PermissionSchema extends BaseModel {
   static $columns = ['action', 'createdAt', 'description', 'id', 'module', 'updatedAt'] as const
   $columns = PermissionSchema.$columns

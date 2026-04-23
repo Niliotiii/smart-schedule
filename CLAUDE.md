@@ -2,6 +2,6 @@
 
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan:
-specs/008-priest-registration/plan.md
+specs/009-ministry-roles/plan.md
 
 <!-- SPECKIT END -->
