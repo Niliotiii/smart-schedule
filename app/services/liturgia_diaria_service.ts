@@ -2,6 +2,8 @@ import { getRedis } from '#providers/redis_provider'
 import { DateTime } from 'luxon'
 
 interface Leitura {
+  titulo?: string
+  refrao?: string
   tema?: string
   referencia?: string
   texto?: string

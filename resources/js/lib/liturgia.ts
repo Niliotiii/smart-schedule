@@ -1,4 +1,6 @@
 export interface Leitura {
+  titulo?: string
+  refrao?: string
   tema?: string
   referencia?: string
   texto?: string

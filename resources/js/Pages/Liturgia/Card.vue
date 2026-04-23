@@ -88,15 +88,22 @@ onMounted(() => {
                 :key="`pl-${idx}`"
                 class="mb-3 last:mb-0"
               >
-                <p v-if="item.referencia" class="text-xs font-semibold text-muted-color mb-1">
+                <div v-if="item.referencia" class="text-xs font-semibold text-muted-color mb-1">
                   {{ item.referencia }}
-                </p>
-                <p v-if="item.tema" class="text-sm font-medium text-color mb-1">
+                </div>
+                <div v-if="item.titulo" class="text-sm font-medium text-color mb-1">
+                  {{ item.titulo }}
+                </div>
+                <div v-else-if="item.refrao" class="text-sm font-medium text-color mb-1">
+                  {{ item.refrao }}
+                </div>
+                <div v-else-if="item.tema" class="text-sm font-medium text-color mb-1">
                   {{ item.tema }}
-                </p>
-                <p v-if="item.texto" class="text-sm text-color leading-relaxed">
+                </div>
+                <div v-if="item.texto" class="text-sm text-color leading-relaxed whitespace-pre-line">
                   {{ item.texto }}
-                </p>
+                </div>
+
               </div>
             </AccordionContent>
           </AccordionPanel>
@@ -109,15 +116,22 @@ onMounted(() => {
                 :key="`sl-${idx}`"
                 class="mb-3 last:mb-0"
               >
-                <p v-if="item.referencia" class="text-xs font-semibold text-muted-color mb-1">
+                <div v-if="item.referencia" class="text-xs font-semibold text-muted-color mb-1">
                   {{ item.referencia }}
-                </p>
-                <p v-if="item.tema" class="text-sm font-medium text-color mb-1">
+                </div>
+                <div v-if="item.titulo" class="text-sm font-medium text-color mb-1">
+                  {{ item.titulo }}
+                </div>
+                <div v-else-if="item.refrao" class="text-sm font-medium text-color mb-1">
+                  {{ item.refrao }}
+                </div>
+                <div v-else-if="item.tema" class="text-sm font-medium text-color mb-1">
                   {{ item.tema }}
-                </p>
-                <p v-if="item.texto" class="text-sm text-color leading-relaxed">
+                </div>
+                <div v-if="item.texto" class="text-sm text-color leading-relaxed whitespace-pre-line">
                   {{ item.texto }}
-                </p>
+                </div>
+
               </div>
             </AccordionContent>
           </AccordionPanel>
@@ -130,15 +144,22 @@ onMounted(() => {
                 :key="`ev-${idx}`"
                 class="mb-3 last:mb-0"
               >
-                <p v-if="item.referencia" class="text-xs font-semibold text-muted-color mb-1">
+                <div v-if="item.referencia" class="text-xs font-semibold text-muted-color mb-1">
                   {{ item.referencia }}
-                </p>
-                <p v-if="item.tema" class="text-sm font-medium text-color mb-1">
+                </div>
+                <div v-if="item.titulo" class="text-sm font-medium text-color mb-1">
+                  {{ item.titulo }}
+                </div>
+                <div v-else-if="item.refrao" class="text-sm font-medium text-color mb-1">
+                  {{ item.refrao }}
+                </div>
+                <div v-else-if="item.tema" class="text-sm font-medium text-color mb-1">
                   {{ item.tema }}
-                </p>
-                <p v-if="item.texto" class="text-sm text-color leading-relaxed">
+                </div>
+                <div v-if="item.texto" class="text-sm text-color leading-relaxed whitespace-pre-line">
                   {{ item.texto }}
-                </p>
+                </div>
+
               </div>
             </AccordionContent>
           </AccordionPanel>
