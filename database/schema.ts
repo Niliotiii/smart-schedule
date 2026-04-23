@@ -135,6 +135,23 @@ export class PermissionSchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class PriestSchema extends BaseModel {
+  static $columns = ['createdAt', 'deletedAt', 'id', 'name', 'phone', 'updatedAt'] as const
+  $columns = PriestSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column()
+  declare phone: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class ProfilePermissionSchema extends BaseModel {
   static $columns = ['createdAt', 'permissionId', 'profileId', 'updatedAt'] as const
   $columns = ProfilePermissionSchema.$columns
