@@ -7,19 +7,28 @@ import Breadcrumb from 'primevue/breadcrumb'
 const home = ref({ icon: 'pi pi-home', command: () => router.get('/dashboard') })
 const model = ref([
   { label: 'Padres', command: () => router.get('/priests') },
-  { label: 'Detalhes' },
+  { label: 'Detalhes do Padre' },
 ])
 
-interface Props {
+const props = defineProps<{
   priest: {
     id: number
     name: string
     phone: string | null
     createdAt: string
   }
-}
+}>()
 
-defineProps<Props>()
+const formatDate = (iso: string) => {
+  const d = new Date(iso)
+  return d.toLocaleDateString('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+}
 </script>
 
 <template>
@@ -29,34 +38,40 @@ defineProps<Props>()
       <Breadcrumb :home="home" :model="model" />
     </div>
 
-    <div class="bg-surface-ground border border-surface rounded-lg p-6">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div>
-          <span class="text-muted-color text-sm block mb-1">Nome</span>
-          <span class="text-color font-medium">{{ priest.name }}</span>
-        </div>
-        <div>
-          <span class="text-muted-color text-sm block mb-1">Telefone</span>
-          <span class="text-color font-medium">{{ priest.phone || '—' }}</span>
-        </div>
-        <div>
-          <span class="text-muted-color text-sm block mb-1">Criado em</span>
-          <span class="text-color font-medium">{{ new Date(priest.createdAt).toLocaleDateString('pt-BR') }}</span>
+    <div class="bg-surface-ground border border-surface rounded-lg flex-1 flex flex-col min-h-0">
+      <div class="p-4 flex-1">
+        <h3
+          class="text-lg font-semibold text-color mb-4 flex items-center w-full gap-4 after:content-[''] after:flex-1 after:border-b after:border-surface"
+        >
+          Dados Gerais
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-4">
+          <div>
+            <label class="block text-sm font-medium text-muted-color">Nome</label>
+            <p class="mt-1 text-sm text-color">{{ priest.name }}</p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-muted-color">Telefone</label>
+            <p class="mt-1 text-sm text-color">{{ priest.phone || '—' }}</p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-muted-color">Criado em</label>
+            <p class="mt-1 text-sm text-color">{{ formatDate(priest.createdAt) }}</p>
+          </div>
         </div>
       </div>
 
-      <div class="flex justify-end gap-2 border-t border-surface pt-4">
+      <div class="flex justify-end gap-2 p-4 border-t border-surface">
         <Button
+          v-tooltip="'Editar padre'"
           label="Editar"
-          icon="pi pi-pencil"
-          severity="info"
-          outlined
+          severity="warn"
           @click="router.get(`/priests/${priest.id}/edit`)"
         />
         <Button
+          v-tooltip="'Voltar para listagem'"
           label="Voltar"
           severity="secondary"
-          outlined
           @click="router.get('/priests')"
         />
       </div>
