@@ -10,11 +10,11 @@ export type LiturgiaData = {
     extras?: string[]
   }
   leituras: {
-    primeiraLeitura?: Array<{ tema?: string; referencia?: string; texto?: string }>
-    salmo?: Array<{ tema?: string; referencia?: string; texto?: string }>
-    segundaLeitura?: Array<{ tema?: string; referencia?: string; texto?: string }>
-    evangelho?: Array<{ tema?: string; referencia?: string; texto?: string }>
-    extras?: Array<{ tema?: string; referencia?: string; texto?: string }>
+    primeiraLeitura?: Array<{ titulo?: string; refrao?: string; tema?: string; referencia?: string; texto?: string }>
+    salmo?: Array<{ titulo?: string; refrao?: string; tema?: string; referencia?: string; texto?: string }>
+    segundaLeitura?: Array<{ titulo?: string; refrao?: string; tema?: string; referencia?: string; texto?: string }>
+    evangelho?: Array<{ titulo?: string; refrao?: string; tema?: string; referencia?: string; texto?: string }>
+    extras?: Array<{ titulo?: string; refrao?: string; tema?: string; referencia?: string; texto?: string }>
   }
   antifonas: {
     entrada?: string
