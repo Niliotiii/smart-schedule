@@ -2,7 +2,14 @@ import { BaseSeeder } from '@adonisjs/lucid/seeders'
 import Permission from '#models/permission'
 import Profile from '#models/profile'
 
-const MODULES = ['users', 'profiles', 'user_types', 'churches', 'priests', 'ministry_roles'] as const
+const MODULES = [
+  'users',
+  'profiles',
+  'user_types',
+  'churches',
+  'priests',
+  'ministry_roles',
+] as const
 const ACTIONS = ['create', 'read', 'update', 'delete'] as const
 
 export default class DatabaseSeeder extends BaseSeeder {
@@ -35,13 +42,14 @@ export default class DatabaseSeeder extends BaseSeeder {
   }
 
   private async seedAdminUser() {
+    const adminProfile = await Profile.findByOrFail('name', 'Administrador')
     const { default: User } = await import('#models/user')
     await User.firstOrCreate(
       { email: 'admin@paroquia.com' },
       {
         fullName: 'Administrador',
         password: 'secret',
-        profileId: (await Profile.findByOrFail('name', 'Administrador')).id,
+        profileId: adminProfile.id,
       }
     )
   }

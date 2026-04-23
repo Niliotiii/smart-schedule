@@ -19,12 +19,14 @@ export default class PriestsController {
     const lastItem = Math.min(priests.currentPage * priests.perPage, priests.total)
 
     return inertia.render('Priests/Index', {
-      priests: [...priests.map((p: Priest) => ({
-        id: p.id,
-        name: p.name,
-        phone: p.phone,
-        createdAt: p.createdAt.toISO()!,
-      }))],
+      priests: [
+        ...priests.map((p: Priest) => ({
+          id: p.id,
+          name: p.name,
+          phone: p.phone,
+          createdAt: p.createdAt.toISO()!,
+        })),
+      ],
       pagination: {
         total: priests.total,
         currentPage: priests.currentPage,

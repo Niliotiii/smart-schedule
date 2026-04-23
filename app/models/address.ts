@@ -54,7 +54,6 @@ export default class Address extends BaseModel {
   @column.dateTime()
   declare deletedAt: DateTime | null
 
-
   @belongsTo(() => Country)
   declare country: BelongsTo<typeof Country>
 

@@ -27,11 +27,13 @@ export default class ProfilesController {
           id: p.id,
           name: p.name,
           description: p.description,
-          permissions: p.permissions.map((perm: { id: number; module: string; action: string }) => ({
-            id: perm.id,
-            module: perm.module,
-            action: perm.action,
-          })),
+          permissions: p.permissions.map(
+            (perm: { id: number; module: string; action: string }) => ({
+              id: perm.id,
+              module: perm.module,
+              action: perm.action,
+            })
+          ),
         })),
       ],
       pagination: {
@@ -85,11 +87,13 @@ export default class ProfilesController {
         id: profile.id,
         name: profile.name,
         description: profile.description,
-        permissions: profile.permissions.map((p: { id: number; module: string; action: string }) => ({
-          id: p.id,
-          module: p.module,
-          action: p.action,
-        })),
+        permissions: profile.permissions.map(
+          (p: { id: number; module: string; action: string }) => ({
+            id: p.id,
+            module: p.module,
+            action: p.action,
+          })
+        ),
         createdAt: profile.createdAt.toISO()!,
       },
     })
@@ -116,11 +120,13 @@ export default class ProfilesController {
         id: profile.id,
         name: profile.name,
         description: profile.description,
-        permissions: profile.permissions.map((p: { id: number; module: string; action: string }) => ({
-          id: p.id,
-          module: p.module,
-          action: p.action,
-        })),
+        permissions: profile.permissions.map(
+          (p: { id: number; module: string; action: string }) => ({
+            id: p.id,
+            module: p.module,
+            action: p.action,
+          })
+        ),
       },
       groupedPermissions,
       selectedPermissionIds,
