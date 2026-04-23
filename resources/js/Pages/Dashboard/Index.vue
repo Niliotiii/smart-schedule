@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import Tag from 'primevue/tag'
+import LiturgiaCard from './Liturgia/Card.vue'
+import type { LiturgiaData } from '@/lib/liturgia.js'
 
-defineProps<{
+const props = defineProps<{
   can: {
     usersRead: boolean
     profilesRead: boolean
   }
+  liturgia: LiturgiaData | null
 }>()
 </script>
 
@@ -71,5 +74,7 @@ defineProps<{
         </div>
       </div>
     </div>
+
+    <LiturgiaCard :liturgia="liturgia" />
   </div>
 </template>

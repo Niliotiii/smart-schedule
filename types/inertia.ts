@@ -1,3 +1,27 @@
+export type LiturgiaData = {
+  data: string
+  liturgia: string
+  cor: string
+  santo?: string
+  oracoes: {
+    coleta?: string
+    oferendas?: string
+    comunhao?: string
+    extras?: string[]
+  }
+  leituras: {
+    primeiraLeitura?: Array<{ tema?: string; referencia?: string; texto?: string }>
+    salmo?: Array<{ tema?: string; referencia?: string; texto?: string }>
+    segundaLeitura?: Array<{ tema?: string; referencia?: string; texto?: string }>
+    evangelho?: Array<{ tema?: string; referencia?: string; texto?: string }>
+    extras?: Array<{ tema?: string; referencia?: string; texto?: string }>
+  }
+  antifonas: {
+    entrada?: string
+    comunhao?: string
+  }
+}
+
 declare module '@adonisjs/inertia/types' {
   interface SharedProps {
     flash: { success?: string | null; errors?: string | null }
@@ -32,7 +56,7 @@ declare module '@adonisjs/inertia/types' {
 
   interface InertiaPages {
     'Auth/Login': {}
-    'Dashboard/Index': {}
+    'Dashboard/Index': { liturgia: LiturgiaData | null }
     'Profiles/Index': {
       profiles: Array<{ id: number; name: string; description: string | null; permissions: Array<{ id: number; module: string; action: string }> }>
       pagination: { total: number; currentPage: number; lastPage: number; perPage: number; firstItem: number; lastItem: number }
