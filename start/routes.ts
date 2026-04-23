@@ -18,6 +18,7 @@ const UserTypesController = () => import('#controllers/user_types_controller')
 const NewAccountController = () => import('#controllers/new_account_controller')
 const AccessTokenController = () => import('#controllers/access_token_controller')
 const ProfileController = () => import('#controllers/profile_controller')
+const PriestsController = () => import('#controllers/priests_controller')
 
 // Public web routes
 router.get('/login', [AuthController, 'showLogin']).as('login.show')
@@ -34,6 +35,7 @@ router
     router.resource('user-types', UserTypesController).as('userTypes')
     router.get('churches/lookup-cep', [ChurchesController, 'lookupCep']).as('churches.lookupCep')
     router.resource('churches', ChurchesController).as('churches')
+    router.resource('priests', PriestsController).as('priests')
   })
   .use(middleware.auth({ guards: ['web'] }))
 
