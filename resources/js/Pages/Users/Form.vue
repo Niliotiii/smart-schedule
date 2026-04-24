@@ -15,6 +15,7 @@ import FloatLabel from 'primevue/floatlabel'
 import ToggleSwitch from 'primevue/toggleswitch'
 import FormField from '../../Components/FormField.vue'
 import TabPanelError from '../../Components/TabPanelError.vue'
+import DateField from '../../Components/DateField.vue'
 import { useFormValidation } from '../../Composables/useFormValidation'
 
 const props = defineProps<{
@@ -381,7 +382,7 @@ const submit = () => {
               <FormField field="birthDate">
                 <template #default="{ invalid }">
                   <FloatLabel>
-                    <InputText id="birthDate" v-model="form.birthDate" type="date" fluid :invalid="invalid" />
+                    <DateField id="birthDate" v-model="form.birthDate" :fluid="true" :invalid="invalid" />
                     <label for="birthDate">Data de nascimento *</label>
                   </FloatLabel>
                 </template>
@@ -772,11 +773,10 @@ const submit = () => {
                   <FormField :field="`sacraments.${index}.receivedDate`">
                     <template #default="{ invalid }">
                       <FloatLabel>
-                        <InputText
+                        <DateField
                           :id="`receivedDate-${index}`"
                           v-model="s.receivedDate"
-                          type="date"
-                          fluid
+                          :fluid="true"
                           :invalid="invalid"
                         />
                         <label :for="`receivedDate-${index}`">Data de recebimento *</label>
