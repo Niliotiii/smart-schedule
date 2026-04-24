@@ -3,9 +3,10 @@ import { useForm, router } from '@inertiajs/vue3'
 import { ref, computed } from 'vue'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
-import Message from 'primevue/message'
 import Breadcrumb from 'primevue/breadcrumb'
 import FloatLabel from 'primevue/floatlabel'
+import FormField from '../../Components/FormField.vue'
+import { useFormValidation } from '../../Composables/useFormValidation'
 
 const props = defineProps<{
   ministryRole: {
@@ -27,6 +28,8 @@ const form = useForm({
   name: props.ministryRole?.name || '',
   description: props.ministryRole?.description || '',
 })
+
+useFormValidation(form)
 
 const submit = () => {
   if (props.ministryRole) {
@@ -52,24 +55,22 @@ const submit = () => {
     >
       <div class="p-4 flex-1">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="pt-4">
-            <FloatLabel>
-              <InputText id="name" v-model="form.name" fluid />
-              <label for="name">Nome *</label>
-            </FloatLabel>
-            <Message v-if="form.errors.name" severity="error" size="small">{{
-              form.errors.name
-            }}</Message>
-          </div>
-          <div class="pt-4">
-            <FloatLabel>
-              <InputText id="description" v-model="form.description" fluid />
-              <label for="description">Descrição</label>
-            </FloatLabel>
-            <Message v-if="form.errors.description" severity="error" size="small">{{
-              form.errors.description
-            }}</Message>
-          </div>
+          <FormField field="name">
+            <template #default="{ invalid }">
+              <FloatLabel>
+                <InputText id="name" v-model="form.name" fluid :invalid="invalid" />
+                <label for="name">Nome *</label>
+              </FloatLabel>
+            </template>
+          </FormField>
+          <FormField field="description">
+            <template #default="{ invalid }">
+              <FloatLabel>
+                <InputText id="description" v-model="form.description" fluid :invalid="invalid" />
+                <label for="description">Descrição</label>
+              </FloatLabel>
+            </template>
+          </FormField>
         </div>
       </div>
 
