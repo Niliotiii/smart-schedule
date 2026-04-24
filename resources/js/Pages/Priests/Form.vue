@@ -2,6 +2,7 @@
 import { useForm, router } from '@inertiajs/vue3'
 import { ref, computed } from 'vue'
 import InputText from 'primevue/inputtext'
+import InputMask from 'primevue/inputmask'
 import Button from 'primevue/button'
 import Breadcrumb from 'primevue/breadcrumb'
 import FloatLabel from 'primevue/floatlabel'
@@ -72,7 +73,13 @@ const submit = () => {
           <FormField field="phone">
             <template #default="{ invalid }">
               <FloatLabel>
-                <InputText id="phone" v-model="form.phone" fluid maxlength="20" :invalid="invalid" />
+                <InputMask
+                  id="phone"
+                  v-model="form.phone"
+                  mask="(99) 9 9999-9999"
+                  fluid
+                  :invalid="invalid"
+                />
                 <label for="phone">Telefone</label>
               </FloatLabel>
             </template>
