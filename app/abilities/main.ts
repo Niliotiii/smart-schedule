@@ -13,6 +13,9 @@ export const usersRead = Bouncer.ability((user: User) => checkPermission(user, '
 export const usersCreate = Bouncer.ability((user: User) => checkPermission(user, 'users:create'))
 export const usersUpdate = Bouncer.ability((user: User) => checkPermission(user, 'users:update'))
 export const usersDelete = Bouncer.ability((user: User) => checkPermission(user, 'users:delete'))
+export const usersEditProfile = Bouncer.ability((user: User) =>
+  checkPermission(user, 'profiles:update')
+)
 
 export const profilesRead = Bouncer.ability((user: User) => checkPermission(user, 'profiles:read'))
 export const profilesCreate = Bouncer.ability((user: User) =>
