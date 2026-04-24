@@ -17,6 +17,7 @@ const props = defineProps<{
     id: number
     fullName: string | null
     email: string
+    phone: string
     profileId: number | null
     profile: { id: number; name: string } | null
     userType: { id: number; name: string } | null
@@ -122,6 +123,7 @@ const confirmDelete = (id: number) => {
           </template>
         </Column>
         <Column field="email" header="Email" />
+        <Column field="phone" header="Telefone" />
         <Column field="profile" header="Perfil">
           <template #body="{ data }">
             {{ data.profile ? data.profile.name : '-' }}

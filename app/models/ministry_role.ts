@@ -1,5 +1,7 @@
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, manyToMany } from '@adonisjs/lucid/orm'
+import type { ManyToMany } from '@adonisjs/lucid/types/relations'
 import { DateTime } from 'luxon'
+import User from './user.js'
 
 export default class MinistryRole extends BaseModel {
   @column({ isPrimary: true })
@@ -19,6 +21,9 @@ export default class MinistryRole extends BaseModel {
 
   @column.dateTime()
   declare deletedAt: DateTime | null
+
+  @manyToMany(() => User, { pivotTable: 'ministry_role_user', pivotTimestamps: true })
+  declare users: ManyToMany<typeof User>
 
   async delete() {
     this.deletedAt = DateTime.now()

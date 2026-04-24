@@ -39,12 +39,13 @@ const model = computed(() => [
 ])
 
 const brasil = props.countries.find((c) => c.name === 'Brasil')
+const rondonia = props.states.find((s) => s.name === 'Rondônia')
 
 const form = useForm({
   name: props.church?.name || '',
   postalCode: props.church?.postalCode || '',
   countryId: props.church?.countryId ?? (brasil ? brasil.id : ('' as number | string)),
-  stateId: props.church?.stateId ?? ('' as number | string | null),
+  stateId: props.church?.stateId ?? (rondonia ? rondonia.id : ('' as number | string | null)),
   cityId: props.church?.cityId ?? ('' as number | string | null),
   neighborhood: props.church?.neighborhood || '',
   street: props.church?.street || '',

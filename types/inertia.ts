@@ -159,6 +159,7 @@ declare module '@adonisjs/inertia/types' {
         id: number
         fullName: string | null
         email: string
+        phone: string
         profileId: number | null
         profile: { id: number; name: string } | null
         userType: { id: number; name: string } | null
@@ -174,14 +175,50 @@ declare module '@adonisjs/inertia/types' {
       search: string
     }
     'Users/Show': {
-      userToShow: {
+      user: {
         id: number
         fullName: string | null
         email: string
+        birthDate: string
+        phone: string
+        responsible1Name: string | null
+        responsible1Phone: string | null
+        responsible2Name: string | null
+        responsible2Phone: string | null
+        includeInScale: boolean
         profileId: number | null
         profile: { id: number; name: string } | null
+        userTypeId: number | null
         userType: { id: number; name: string } | null
+        birthCountry: { id: number; name: string } | null
+        birthState: { id: number; name: string; uf: string } | null
+        birthCity: { id: number; name: string } | null
+        community: { id: number; name: string } | null
+        address: {
+          postalCode: string
+          street: string
+          number: string
+          complement: string | null
+          neighborhood: string
+          city: string | null
+          state: string | null
+          country: string | null
+        } | null
+        sacraments: Array<{
+          id: number
+          sacramentTypeId: number
+          sacramentType: { id: number; name: string } | null
+          receivedDate: string
+          receivedChurch: string
+          receivedCountry: { id: number; name: string } | null
+          receivedState: { id: number; name: string; uf: string } | null
+          receivedCity: { id: number; name: string } | null
+        }>
+        ministryRoles: Array<{ id: number; name: string }>
         createdAt: string
+      }
+      can: {
+        usersUpdate: boolean
       }
     }
     'Users/Form': {
@@ -189,11 +226,50 @@ declare module '@adonisjs/inertia/types' {
         id: number
         fullName: string | null
         email: string
+        birthDate: string
+        phone: string
+        birthCountryId: number | string
+        birthStateId: number | string
+        birthCityId: number | string
+        responsible1Name: string | null
+        responsible1Phone: string | null
+        responsible2Name: string | null
+        responsible2Phone: string | null
         profileId: number | null
         userTypeId: number | null
+        includeInScale: boolean
+        communityId: number | string | null
+        address: {
+          id?: number
+          postalCode: string
+          countryId: number | string
+          stateId: number | string | null
+          cityId: number | string | null
+          neighborhood: string
+          street: string
+          number: string
+          complement: string | null
+        } | null
+        sacraments: Array<{
+          id?: number
+          sacramentTypeId: number | string
+          receivedDate: string
+          receivedChurch: string
+          receivedCountryId: number | string
+          receivedStateId: number | string
+          receivedCityId: number | string
+        }>
+        ministryRoleIds: number[]
       } | null
       profiles: Array<{ id: number; name: string }>
       userTypes: Array<{ id: number; name: string }>
+      countries: Array<{ id: number; name: string }>
+      states: Array<{ id: number; name: string; uf: string }>
+      cities: Array<{ id: number; name: string; stateId: number }>
+      sacramentTypes: Array<{ id: number; name: string }>
+      ministryRoles: Array<{ id: number; name: string; description: string | null }>
+      churches: Array<{ id: number; name: string }>
+      canEditProfile: boolean
     }
     'Churches/Index': {
       churches: Array<{
