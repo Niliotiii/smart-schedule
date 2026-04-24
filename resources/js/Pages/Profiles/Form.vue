@@ -5,11 +5,13 @@ import InputText from 'primevue/inputtext'
 import Textarea from 'primevue/textarea'
 import Checkbox from 'primevue/checkbox'
 import Button from 'primevue/button'
-import Message from 'primevue/message'
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
 import Breadcrumb from 'primevue/breadcrumb'
 import FloatLabel from 'primevue/floatlabel'
+import FormField from '../../Components/FormField.vue'
+import TabPanelError from '../../Components/TabPanelError.vue'
+import { useFormValidation } from '../../Composables/useFormValidation'
 
 const props = defineProps<{
   profile: {
@@ -38,6 +40,13 @@ const form = useForm({
 
 const activeTab = ref(0)
 
+const tabMap = {
+  name: 0,
+  description: 0,
+}
+
+useFormValidation(form, tabMap)
+
 const submit = () => {
   if (props.profile) {
     form.put(`/profiles/${props.profile.id}`)
@@ -60,31 +69,35 @@ const submit = () => {
     >
       <div class="p-4 flex-1">
         <TabView v-model:activeIndex="activeTab">
-          <TabPanel header="Informações Gerais">
+          <TabPanel>
+            <template #header>
+              <TabPanelError :tabIndex="0" header="Informações Gerais" />
+            </template>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="pt-4">
-                <FloatLabel>
-                  <InputText id="name" v-model="form.name" fluid />
-                  <label for="name">Nome</label>
-                </FloatLabel>
-                <Message v-if="form.errors.name" severity="error" size="small">{{
-                  form.errors.name
-                }}</Message>
-              </div>
+              <FormField field="name">
+                <template #default="{ invalid }">
+                  <FloatLabel>
+                    <InputText id="name" v-model="form.name" fluid :invalid="invalid" />
+                    <label for="name">Nome *</label>
+                  </FloatLabel>
+                </template>
+              </FormField>
 
-              <div class="md:col-span-2 pt-4">
-                <FloatLabel>
-                  <Textarea id="description" v-model="form.description" rows="4" fluid />
-                  <label for="description">Descrição</label>
-                </FloatLabel>
-                <Message v-if="form.errors.description" severity="error" size="small">{{
-                  form.errors.description
-                }}</Message>
-              </div>
+              <FormField field="description">
+                <template #default="{ invalid }">
+                  <FloatLabel>
+                    <Textarea id="description" v-model="form.description" rows="4" fluid :invalid="invalid" />
+                    <label for="description">Descrição</label>
+                  </FloatLabel>
+                </template>
+              </FormField>
             </div>
           </TabPanel>
 
-          <TabPanel header="Permissões">
+          <TabPanel>
+            <template #header>
+              <TabPanelError :tabIndex="1" header="Permissões" />
+            </template>
             <div v-for="(perms, module) in groupedPermissions" :key="module" class="mb-6">
               <div class="font-semibold text-sm capitalize text-color mb-3">{{ module }}</div>
               <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
