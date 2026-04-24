@@ -34,7 +34,7 @@ defineProps<{
       <FormField field="email">
         <template #default="{ invalid }">
           <div class="flex flex-col gap-2">
-            <label for="email" class="font-medium text-color">Email</label>
+            <label for="email" class="font-medium text-color">Email *</label>
             <InputText id="email" v-model="form.email" type="email" :invalid="invalid" />
           </div>
         </template>
@@ -43,7 +43,7 @@ defineProps<{
       <FormField field="password">
         <template #default="{ invalid }">
           <div class="flex flex-col gap-2">
-            <label for="password" class="font-medium text-color">Senha</label>
+            <label for="password" class="font-medium text-color">Senha *</label>
             <Password id="password" v-model="form.password" :feedback="false" toggleMask :invalid="invalid" />
           </div>
         </template>

@@ -209,7 +209,7 @@ const submit = () => {
                 <template #default="{ invalid }">
                   <FloatLabel>
                     <InputText id="name" v-model="form.name" fluid required :invalid="invalid" />
-                    <label for="name">Nome</label>
+                    <label for="name">Nome *</label>
                   </FloatLabel>
                 </template>
               </FormField>
@@ -232,7 +232,7 @@ const submit = () => {
                       :disabled="cepLoading"
                       :invalid="invalid"
                     />
-                    <label for="postalCode">CEP</label>
+                    <label for="postalCode">CEP *</label>
                   </FloatLabel>
                 </template>
               </FormField>
@@ -250,7 +250,7 @@ const submit = () => {
                       fluid
                       :invalid="invalid"
                     />
-                    <label for="countryId">País</label>
+                    <label for="countryId">País *</label>
                   </FloatLabel>
                 </template>
               </FormField>
@@ -268,7 +268,7 @@ const submit = () => {
                       fluid
                       :invalid="invalid"
                     />
-                    <label for="stateId">Estado</label>
+                    <label for="stateId">Estado *</label>
                   </FloatLabel>
                 </template>
               </FormField>
@@ -286,7 +286,7 @@ const submit = () => {
                       fluid
                       :invalid="invalid"
                     />
-                    <label for="cityId">Cidade</label>
+                    <label for="cityId">Cidade *</label>
                   </FloatLabel>
                 </template>
               </FormField>
@@ -295,7 +295,7 @@ const submit = () => {
                 <template #default="{ invalid }">
                   <FloatLabel>
                     <InputText id="neighborhood" v-model="form.neighborhood" fluid :invalid="invalid" />
-                    <label for="neighborhood">Bairro</label>
+                    <label for="neighborhood">Bairro *</label>
                   </FloatLabel>
                 </template>
               </FormField>
@@ -304,7 +304,7 @@ const submit = () => {
                 <template #default="{ invalid }">
                   <FloatLabel>
                     <InputText id="street" v-model="form.street" fluid :invalid="invalid" />
-                    <label for="street">Rua</label>
+                    <label for="street">Rua *</label>
                   </FloatLabel>
                 </template>
               </FormField>
@@ -313,7 +313,7 @@ const submit = () => {
                 <template #default="{ invalid }">
                   <FloatLabel>
                     <InputText id="number" v-model="form.number" fluid :invalid="invalid" />
-                    <label for="number">Número</label>
+                    <label for="number">Número *</label>
                   </FloatLabel>
                 </template>
               </FormField>

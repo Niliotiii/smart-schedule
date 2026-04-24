@@ -57,7 +57,7 @@ const submit = () => {
             <template #default="{ invalid }">
               <FloatLabel>
                 <InputText id="name" v-model="form.name" fluid :invalid="invalid" />
-                <label for="name">Nome</label>
+                <label for="name">Nome *</label>
               </FloatLabel>
             </template>
           </FormField>
