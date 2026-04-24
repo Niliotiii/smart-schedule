@@ -146,6 +146,21 @@ export class CountrySchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class MinistryRoleUserSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'ministryRoleId', 'updatedAt', 'userId'] as const
+  $columns = MinistryRoleUserSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare ministryRoleId: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userId: number
+}
+
 export class MinistryRoleSchema extends BaseModel {
   static $columns = ['createdAt', 'deletedAt', 'description', 'id', 'name', 'updatedAt'] as const
   $columns = MinistryRoleSchema.$columns
@@ -227,6 +242,60 @@ export class ProfileSchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class SacramentTypeSchema extends BaseModel {
+  static $columns = ['createdAt', 'description', 'id', 'name', 'updatedAt'] as const
+  $columns = SacramentTypeSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column()
+  declare description: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class SacramentSchema extends BaseModel {
+  static $columns = [
+    'createdAt',
+    'deletedAt',
+    'id',
+    'receivedChurch',
+    'receivedCityId',
+    'receivedCountryId',
+    'receivedDate',
+    'receivedStateId',
+    'sacramentTypeId',
+    'updatedAt',
+    'userId',
+  ] as const
+  $columns = SacramentSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare receivedChurch: string
+  @column()
+  declare receivedCityId: number
+  @column()
+  declare receivedCountryId: number
+  @column.date()
+  declare receivedDate: DateTime
+  @column()
+  declare receivedStateId: number
+  @column()
+  declare sacramentTypeId: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userId: number
+}
+
 export class StateSchema extends BaseModel {
   static $columns = [
     'countryId',
@@ -274,17 +343,38 @@ export class UserTypeSchema extends BaseModel {
 
 export class UserSchema extends BaseModel {
   static $columns = [
+    'birthCityId',
+    'birthCountryId',
+    'birthDate',
+    'birthStateId',
+    'communityId',
     'createdAt',
     'deletedAt',
     'email',
     'fullName',
     'id',
+    'includeInScale',
     'password',
+    'phone',
     'profileId',
+    'responsible1Name',
+    'responsible1Phone',
+    'responsible2Name',
+    'responsible2Phone',
     'updatedAt',
     'userTypeId',
   ] as const
   $columns = UserSchema.$columns
+  @column()
+  declare birthCityId: number | null
+  @column()
+  declare birthCountryId: number | null
+  @column.date()
+  declare birthDate: DateTime | null
+  @column()
+  declare birthStateId: number | null
+  @column()
+  declare communityId: number | null
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column.dateTime()
@@ -295,10 +385,22 @@ export class UserSchema extends BaseModel {
   declare fullName: string | null
   @column({ isPrimary: true })
   declare id: number
+  @column()
+  declare includeInScale: boolean
   @column({ serializeAs: null })
   declare password: string
   @column()
+  declare phone: string | null
+  @column()
   declare profileId: number | null
+  @column()
+  declare responsible1Name: string | null
+  @column()
+  declare responsible1Phone: string | null
+  @column()
+  declare responsible2Name: string | null
+  @column()
+  declare responsible2Phone: string | null
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
   @column()
