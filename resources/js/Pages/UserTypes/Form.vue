@@ -3,9 +3,10 @@ import { useForm, router } from '@inertiajs/vue3'
 import { ref, computed } from 'vue'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
-import Message from 'primevue/message'
 import Breadcrumb from 'primevue/breadcrumb'
 import FloatLabel from 'primevue/floatlabel'
+import FormField from '../../Components/FormField.vue'
+import { useFormValidation } from '../../Composables/useFormValidation'
 
 const props = defineProps<{
   userType: {
@@ -25,6 +26,8 @@ const model = computed(() => [
 const form = useForm({
   name: props.userType?.name || '',
 })
+
+useFormValidation(form)
 
 const submit = () => {
   if (props.userType) {
@@ -50,15 +53,14 @@ const submit = () => {
     >
       <div class="p-4 flex-1">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="pt-4">
-            <FloatLabel>
-              <InputText id="name" v-model="form.name" fluid />
-              <label for="name">Nome</label>
-            </FloatLabel>
-            <Message v-if="form.errors.name" severity="error" size="small">{{
-              form.errors.name
-            }}</Message>
-          </div>
+          <FormField field="name">
+            <template #default="{ invalid }">
+              <FloatLabel>
+                <InputText id="name" v-model="form.name" fluid :invalid="invalid" />
+                <label for="name">Nome *</label>
+              </FloatLabel>
+            </template>
+          </FormField>
         </div>
       </div>
 

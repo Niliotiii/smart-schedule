@@ -9,6 +9,9 @@ import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
 import Breadcrumb from 'primevue/breadcrumb'
 import FloatLabel from 'primevue/floatlabel'
+import FormField from '../../Components/FormField.vue'
+import TabPanelError from '../../Components/TabPanelError.vue'
+import { useFormValidation } from '../../Composables/useFormValidation'
 
 const props = defineProps<{
   church: {
@@ -57,6 +60,20 @@ const form = useForm({
 
 const activeTab = ref(0)
 const isFillingFromCep = ref(false)
+
+const tabMap = {
+  name: 0,
+  postalCode: 1,
+  countryId: 1,
+  stateId: 1,
+  cityId: 1,
+  neighborhood: 1,
+  street: 1,
+  number: 1,
+  complement: 1,
+}
+
+useFormValidation(form, tabMap)
 
 const filteredCities = computed(() => {
   if (!form.stateId) return []
@@ -118,7 +135,8 @@ async function lookupCep() {
       form.stateId = matchedState.id
       await nextTick()
       const matchedCity = props.cities.find(
-        (c) => c.stateId === matchedState.id && c.name.toLowerCase() === (data.city || '').toLowerCase()
+        (c) =>
+          c.stateId === matchedState.id && c.name.toLowerCase() === (data.city || '').toLowerCase()
       )
       if (matchedCity) {
         form.cityId = matchedCity.id
@@ -182,133 +200,132 @@ const submit = () => {
     >
       <div class="p-4 flex-1">
         <TabView v-model:activeIndex="activeTab">
-          <TabPanel header="Informações Gerais">
+          <TabPanel>
+            <template #header>
+              <TabPanelError :tabIndex="0" header="Informações Gerais" />
+            </template>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="pt-4">
-                <FloatLabel>
-                  <InputText id="name" v-model="form.name" fluid required />
-                  <label for="name">Nome</label>
-                </FloatLabel>
-                <Message v-if="form.errors.name" severity="error" size="small">{{
-                  form.errors.name
-                }}</Message>
-              </div>
+              <FormField field="name">
+                <template #default="{ invalid }">
+                  <FloatLabel>
+                    <InputText id="name" v-model="form.name" fluid required :invalid="invalid" />
+                    <label for="name">Nome *</label>
+                  </FloatLabel>
+                </template>
+              </FormField>
             </div>
           </TabPanel>
 
-          <TabPanel header="Endereço">
+          <TabPanel>
+            <template #header>
+              <TabPanelError :tabIndex="1" header="Endereço" />
+            </template>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="pt-4">
-                <FloatLabel>
-                  <InputText
-                    id="postalCode"
-                    v-model="form.postalCode"
-                    fluid
-                    maxlength="9"
-                    :disabled="cepLoading"
-                  />
-                  <label for="postalCode">CEP</label>
-                </FloatLabel>
-                <Message v-if="form.errors.postalCode" severity="error" size="small">{{
-                  form.errors.postalCode
-                }}</Message>
-                <Message v-if="cepError" severity="error" size="small">{{ cepError }}</Message>
-                <small v-if="cepLoading" class="text-muted-color">Buscando CEP...</small>
-              </div>
+              <FormField field="postalCode">
+                <template #default="{ invalid }">
+                  <FloatLabel>
+                    <InputText
+                      id="postalCode"
+                      v-model="form.postalCode"
+                      fluid
+                      maxlength="9"
+                      :disabled="cepLoading"
+                      :invalid="invalid"
+                    />
+                    <label for="postalCode">CEP *</label>
+                  </FloatLabel>
+                </template>
+              </FormField>
 
-              <div class="pt-4">
-                <FloatLabel>
-                  <Select
-                    id="countryId"
-                    v-model="form.countryId"
-                    :options="countries"
-                    optionLabel="name"
-                    optionValue="id"
-                    showClear
-                    fluid
-                  />
-                  <label for="countryId">País</label>
-                </FloatLabel>
-                <Message v-if="form.errors.countryId" severity="error" size="small">{{
-                  form.errors.countryId
-                }}</Message>
-              </div>
+              <FormField field="countryId">
+                <template #default="{ invalid }">
+                  <FloatLabel>
+                    <Select
+                      id="countryId"
+                      v-model="form.countryId"
+                      :options="countries"
+                      optionLabel="name"
+                      optionValue="id"
+                      showClear
+                      fluid
+                      :invalid="invalid"
+                    />
+                    <label for="countryId">País *</label>
+                  </FloatLabel>
+                </template>
+              </FormField>
 
-              <div class="pt-4">
-                <FloatLabel>
-                  <Select
-                    id="stateId"
-                    v-model="form.stateId"
-                    :options="states"
-                    optionLabel="name"
-                    optionValue="id"
-                    showClear
-                    fluid
-                  />
-                  <label for="stateId">Estado</label>
-                </FloatLabel>
-                <Message v-if="form.errors.stateId" severity="error" size="small">{{
-                  form.errors.stateId
-                }}</Message>
-              </div>
+              <FormField field="stateId">
+                <template #default="{ invalid }">
+                  <FloatLabel>
+                    <Select
+                      id="stateId"
+                      v-model="form.stateId"
+                      :options="states"
+                      optionLabel="name"
+                      optionValue="id"
+                      showClear
+                      fluid
+                      :invalid="invalid"
+                    />
+                    <label for="stateId">Estado *</label>
+                  </FloatLabel>
+                </template>
+              </FormField>
 
-              <div class="pt-4">
-                <FloatLabel>
-                  <Select
-                    id="cityId"
-                    v-model="form.cityId"
-                    :options="filteredCities"
-                    optionLabel="name"
-                    optionValue="id"
-                    showClear
-                    fluid
-                  />
-                  <label for="cityId">Cidade</label>
-                </FloatLabel>
-                <Message v-if="form.errors.cityId" severity="error" size="small">{{
-                  form.errors.cityId
-                }}</Message>
-              </div>
+              <FormField field="cityId">
+                <template #default="{ invalid }">
+                  <FloatLabel>
+                    <Select
+                      id="cityId"
+                      v-model="form.cityId"
+                      :options="filteredCities"
+                      optionLabel="name"
+                      optionValue="id"
+                      showClear
+                      fluid
+                      :invalid="invalid"
+                    />
+                    <label for="cityId">Cidade *</label>
+                  </FloatLabel>
+                </template>
+              </FormField>
 
-              <div class="pt-4">
-                <FloatLabel>
-                  <InputText id="neighborhood" v-model="form.neighborhood" fluid />
-                  <label for="neighborhood">Bairro</label>
-                </FloatLabel>
-                <Message v-if="form.errors.neighborhood" severity="error" size="small">{{
-                  form.errors.neighborhood
-                }}</Message>
-              </div>
+              <FormField field="neighborhood">
+                <template #default="{ invalid }">
+                  <FloatLabel>
+                    <InputText id="neighborhood" v-model="form.neighborhood" fluid :invalid="invalid" />
+                    <label for="neighborhood">Bairro *</label>
+                  </FloatLabel>
+                </template>
+              </FormField>
 
-              <div class="pt-4">
-                <FloatLabel>
-                  <InputText id="street" v-model="form.street" fluid />
-                  <label for="street">Rua</label>
-                </FloatLabel>
-                <Message v-if="form.errors.street" severity="error" size="small">{{
-                  form.errors.street
-                }}</Message>
-              </div>
+              <FormField field="street">
+                <template #default="{ invalid }">
+                  <FloatLabel>
+                    <InputText id="street" v-model="form.street" fluid :invalid="invalid" />
+                    <label for="street">Rua *</label>
+                  </FloatLabel>
+                </template>
+              </FormField>
 
-              <div class="pt-4">
-                <FloatLabel>
-                  <InputText id="number" v-model="form.number" fluid />
-                  <label for="number">Número</label>
-                </FloatLabel>
-                <Message v-if="form.errors.number" severity="error" size="small">{{
-                  form.errors.number
-                }}</Message>
-              </div>
+              <FormField field="number">
+                <template #default="{ invalid }">
+                  <FloatLabel>
+                    <InputText id="number" v-model="form.number" fluid :invalid="invalid" />
+                    <label for="number">Número *</label>
+                  </FloatLabel>
+                </template>
+              </FormField>
 
-              <div class="pt-4">
-                <FloatLabel>
-                  <InputText id="complement" v-model="form.complement" fluid />
-                  <label for="complement">Complemento</label>
-                </FloatLabel>
-                <Message v-if="form.errors.complement" severity="error" size="small">{{
-                  form.errors.complement
-                }}</Message>
-              </div>
+              <FormField field="complement">
+                <template #default="{ invalid }">
+                  <FloatLabel>
+                    <InputText id="complement" v-model="form.complement" fluid :invalid="invalid" />
+                    <label for="complement">Complemento</label>
+                  </FloatLabel>
+                </template>
+              </FormField>
 
               <div class="pt-4" v-if="church?.latitude || church?.longitude">
                 <p class="text-sm text-muted-color">
@@ -316,6 +333,9 @@ const submit = () => {
                 </p>
               </div>
             </div>
+
+            <Message v-if="cepError" severity="error" size="small">{{ cepError }}</Message>
+            <small v-if="cepLoading" class="text-muted-color">Buscando CEP...</small>
           </TabPanel>
         </TabView>
       </div>
