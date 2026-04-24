@@ -2,6 +2,7 @@
 import { useForm, router } from '@inertiajs/vue3'
 import { ref, computed, watch, nextTick } from 'vue'
 import InputText from 'primevue/inputtext'
+import InputMask from 'primevue/inputmask'
 import Password from 'primevue/password'
 import Select from 'primevue/select'
 import MultiSelect from 'primevue/multiselect'
@@ -181,23 +182,6 @@ watch(
     form.address.cityId = ''
   },
   { flush: 'sync' }
-)
-
-function formatPhone(value: string): string {
-  const digits = value.replace(/\D/g, '').slice(0, 11)
-  if (digits.length <= 10) {
-    if (digits.length <= 6) return digits
-    return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}${digits.length > 6 ? '-' + digits.slice(6) : ''}`
-  }
-  return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`
-}
-
-watch(
-  () => form.phone,
-  (val) => {
-    const formatted = formatPhone(val)
-    if (formatted !== val) form.phone = formatted
-  }
 )
 
 function formatPostalCode(value: string): string {
@@ -381,7 +365,14 @@ const submit = () => {
               <FormField field="phone">
                 <template #default="{ invalid }">
                   <FloatLabel>
-                    <InputText id="phone" v-model="form.phone" fluid maxlength="20" :invalid="invalid" />
+                    <InputMask
+                  id="phone"
+                  v-model="form.phone"
+                  mask="(99) 9 9999-9999"
+                  unmask
+                  fluid
+                  :invalid="invalid"
+                />
                     <label for="phone">Telefone *</label>
                   </FloatLabel>
                 </template>
@@ -462,7 +453,13 @@ const submit = () => {
               <FormField field="responsible1Phone">
                 <template #default="{ invalid }">
                   <FloatLabel>
-                    <InputText id="responsible1Phone" v-model="form.responsible1Phone" fluid maxlength="20" :invalid="invalid" />
+                    <InputMask
+                      id="responsible1Phone"
+                      v-model="form.responsible1Phone"
+                      mask="(99) 9 9999-9999"
+                      fluid
+                      :invalid="invalid"
+                    />
                     <label for="responsible1Phone">Responsavel 1 - Telefone</label>
                   </FloatLabel>
                 </template>
@@ -480,7 +477,13 @@ const submit = () => {
               <FormField field="responsible2Phone">
                 <template #default="{ invalid }">
                   <FloatLabel>
-                    <InputText id="responsible2Phone" v-model="form.responsible2Phone" fluid maxlength="20" :invalid="invalid" />
+                    <InputMask
+                      id="responsible2Phone"
+                      v-model="form.responsible2Phone"
+                      mask="(99) 9 9999-9999"
+                      fluid
+                      :invalid="invalid"
+                    />
                     <label for="responsible2Phone">Responsavel 2 - Telefone</label>
                   </FloatLabel>
                 </template>
