@@ -29,7 +29,7 @@ const toggleSidebar = () => {
     <div class="md:ml-64 min-h-screen flex flex-col flex-1 min-w-0">
       <AppTopbar :auth="$page.props.auth as any" @toggle-sidebar="toggleSidebar" />
 
-      <main class="p-4 md:p-6 flex-1">
+      <main class="p-4 md:p-6 flex-1 flex flex-col">
         <slot />
       </main>
     </div>
