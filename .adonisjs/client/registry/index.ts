@@ -288,6 +288,18 @@ const routes = {
     tokens: [{"old":"/ministry-roles/:id","type":0,"val":"ministry-roles","end":""},{"old":"/ministry-roles/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['ministry_roles.destroy']['types'],
   },
+  'account.profile': {
+    methods: ["GET","HEAD"],
+    pattern: '/account/profile',
+    tokens: [{"old":"/account/profile","type":0,"val":"account","end":""},{"old":"/account/profile","type":0,"val":"profile","end":""}],
+    types: placeholder as Registry['account.profile']['types'],
+  },
+  'account.password': {
+    methods: ["PUT"],
+    pattern: '/account/password',
+    tokens: [{"old":"/account/password","type":0,"val":"account","end":""},{"old":"/account/password","type":0,"val":"password","end":""}],
+    types: placeholder as Registry['account.password']['types'],
+  },
   'api.signup': {
     methods: ["POST"],
     pattern: '/api/v1/auth/signup',

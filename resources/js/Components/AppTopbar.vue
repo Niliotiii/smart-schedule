@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import { router } from '@inertiajs/vue3'
 import { useTheme } from '../Composables/useTheme'
+import Menu from 'primevue/menu'
 
 defineProps<{
   auth: { user: { initials: string; fullName: string | null; email: string } | null }
@@ -10,6 +13,20 @@ defineEmits<{
 }>()
 
 const { isDark, toggleTheme } = useTheme()
+
+const menu = ref<InstanceType<typeof Menu>>()
+
+const userMenuItems = ref([
+  {
+    label: 'Perfil',
+    icon: 'pi pi-user',
+    command: () => router.get('/account/profile'),
+  },
+])
+
+function toggleMenu(event: Event) {
+  menu.value?.toggle(event)
+}
 </script>
 
 <template>
@@ -40,14 +57,22 @@ const { isDark, toggleTheme } = useTheme()
       </button>
 
       <template v-if="auth.user">
-        <div
-          class="w-8 h-8 bg-primary/10 text-primary rounded-full flex items-center justify-center text-sm font-bold"
+        <button
+          type="button"
+          class="flex items-center gap-2 p-1.5 rounded-lg hover:bg-emphasis transition-colors"
+          @click="toggleMenu"
         >
-          {{ auth.user.initials }}
-        </div>
-        <span class="text-sm font-medium text-color hidden sm:block">{{
-          auth.user.fullName || auth.user.email
-        }}</span>
+          <div
+            class="w-8 h-8 bg-primary/10 text-primary rounded-full flex items-center justify-center text-sm font-bold"
+          >
+            {{ auth.user.initials }}
+          </div>
+          <span class="text-sm font-medium text-color hidden sm:block">{{
+            auth.user.fullName || auth.user.email
+          }}</span>
+          <i class="pi pi-chevron-down text-xs text-muted-color hidden sm:block" />
+        </button>
+        <Menu ref="menu" :model="userMenuItems" :popup="true" />
       </template>
     </div>
   </header>

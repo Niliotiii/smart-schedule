@@ -93,6 +93,9 @@ declare module '@adonisjs/inertia/types' {
   }
 
   interface InertiaPages {
+    'Account/Profile': {
+      flash?: { success?: string | null; errors?: string | null }
+    }
     'Auth/Login': {}
     'Dashboard/Index': { liturgia: LiturgiaData | null }
     'Profiles/Index': {
