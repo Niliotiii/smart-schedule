@@ -3,7 +3,6 @@ import { useForm, router } from '@inertiajs/vue3'
 import { ref, computed, watch, nextTick } from 'vue'
 import InputText from 'primevue/inputtext'
 import InputMask from 'primevue/inputmask'
-import Password from 'primevue/password'
 import Select from 'primevue/select'
 import MultiSelect from 'primevue/multiselect'
 import Button from 'primevue/button'
@@ -94,8 +93,6 @@ const defaultAddress = () => ({
 const form = useForm({
   fullName: props.user?.fullName || '',
   email: props.user?.email || '',
-  password: '',
-  passwordConfirmation: '',
   profileId: props.user?.profileId ?? ('' as number | string),
   userTypeId: props.user?.userTypeId ?? ('' as number | string),
   birthDate: props.user?.birthDate || '',
@@ -142,8 +139,6 @@ const tabMap = {
   userTypeId: 0,
   includeInScale: 0,
   communityId: 0,
-  password: 0,
-  passwordConfirmation: 0,
   'address.postalCode': 1,
   'address.countryId': 1,
   'address.stateId': 1,
@@ -281,8 +276,6 @@ const submit = () => {
   const data = {
     fullName: form.fullName,
     email: form.email,
-    password: form.password || undefined,
-    passwordConfirmation: form.passwordConfirmation || undefined,
     profileId: form.profileId,
     userTypeId: form.userTypeId || null,
     birthDate: form.birthDate,
@@ -527,15 +520,6 @@ const submit = () => {
                 </template>
               </FormField>
 
-              <FormField field="includeInScale">
-                <template #default="{ invalid }">
-                  <div class="flex items-center gap-2">
-                    <ToggleSwitch id="includeInScale" v-model="form.includeInScale" :invalid="invalid" />
-                    <label for="includeInScale" class="text-sm font-medium">Incluir na escala</label>
-                  </div>
-                </template>
-              </FormField>
-
               <FormField field="communityId">
                 <template #default="{ invalid }">
                   <FloatLabel>
@@ -554,53 +538,15 @@ const submit = () => {
                 </template>
               </FormField>
 
-              <FormField v-if="!isEditing" field="password">
+              <FormField field="includeInScale">
                 <template #default="{ invalid }">
-                  <FloatLabel>
-                    <Password
-                      id="password"
-                      v-model="form.password"
-                      :feedback="!isEditing"
-                      toggleMask
-                      fluid
-                      :invalid="invalid"
-                    />
-                    <label for="password">Senha *</label>
-                  </FloatLabel>
+                  <div class="flex items-center gap-2">
+                    <ToggleSwitch id="includeInScale" v-model="form.includeInScale" :invalid="invalid" />
+                    <label for="includeInScale" class="text-sm font-medium">Incluir na escala</label>
+                  </div>
                 </template>
               </FormField>
 
-              <FormField v-if="!isEditing" field="passwordConfirmation">
-                <template #default="{ invalid }">
-                  <FloatLabel>
-                    <Password
-                      id="passwordConfirmation"
-                      v-model="form.passwordConfirmation"
-                      :feedback="false"
-                      toggleMask
-                      fluid
-                      :invalid="invalid"
-                    />
-                    <label for="passwordConfirmation">Confirmar senha *</label>
-                  </FloatLabel>
-                </template>
-              </FormField>
-
-              <FormField v-if="isEditing" field="password">
-                <template #default="{ invalid }">
-                  <FloatLabel>
-                    <Password
-                      id="password"
-                      v-model="form.password"
-                      :feedback="false"
-                      toggleMask
-                      fluid
-                      :invalid="invalid"
-                    />
-                    <label for="password">Senha (manter atual)</label>
-                  </FloatLabel>
-                </template>
-              </FormField>
             </div>
           </TabPanel>
 
@@ -862,7 +808,7 @@ const submit = () => {
 
           <TabPanel>
             <template #header>
-              <TabPanelError :tabIndex="3" header="Funcoes" />
+              <TabPanelError :tabIndex="3" header="Funções" />
             </template>
             <FormField field="ministryRoleIds">
               <template #default="{ invalid }">
@@ -872,7 +818,7 @@ const submit = () => {
                   optionLabel="name"
                   optionValue="id"
                   display="chip"
-                  placeholder="Selecione as funcoes ministeriais"
+                  placeholder="Selecione as funções ministeriais"
                   class="w-full"
                   :invalid="invalid"
                 />

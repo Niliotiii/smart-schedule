@@ -135,6 +135,10 @@ const formatDateTime = (iso: string) => {
               </p>
             </div>
             <div>
+              <label class="block text-sm font-medium text-muted-color">Comunidade</label>
+              <p class="mt-1 text-sm text-color">{{ user.community?.name || '-' }}</p>
+            </div>
+            <div>
               <label class="block text-sm font-medium text-muted-color">Incluir na escala</label>
               <p class="mt-1">
                 <Tag
@@ -142,10 +146,6 @@ const formatDateTime = (iso: string) => {
                   :severity="user.includeInScale ? 'success' : 'secondary'"
                 />
               </p>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-muted-color">Comunidade</label>
-              <p class="mt-1 text-sm text-color">{{ user.community?.name || '-' }}</p>
             </div>
           </div>
 
@@ -213,7 +213,7 @@ const formatDateTime = (iso: string) => {
           <h3
             class="text-lg font-semibold text-color mb-4 flex items-center w-full gap-4 after:content-[''] after:flex-1 after:border-b after:border-surface"
           >
-            Funcoes
+            Funções
           </h3>
           <div class="flex flex-wrap gap-2">
             <Tag v-for="mr in user.ministryRoles" :key="mr.id" :value="mr.name" severity="info" />

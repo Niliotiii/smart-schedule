@@ -17,7 +17,7 @@ useFormValidation(form)
 const submit = () => form.post('/login')
 
 defineProps<{
-  flash?: { errors?: string | null }
+  flash?: { errors?: string | null; success?: string | null }
 }>()
 </script>
 
@@ -29,6 +29,7 @@ defineProps<{
     </div>
 
     <Message v-if="flash?.errors" severity="error" class="mb-4">{{ flash.errors }}</Message>
+    <Message v-if="flash?.success" severity="success" class="mb-4">{{ flash.success }}</Message>
 
     <form @submit.prevent="submit" class="flex flex-col gap-4">
       <FormField field="email">

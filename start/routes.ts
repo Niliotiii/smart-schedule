@@ -20,6 +20,7 @@ const AccessTokenController = () => import('#controllers/access_token_controller
 const ProfileController = () => import('#controllers/profile_controller')
 const PriestsController = () => import('#controllers/priests_controller')
 const MinistryRolesController = () => import('#controllers/ministry_roles_controller')
+const AccountController = () => import('#controllers/account_controller')
 
 // Public web routes
 router.get('/login', [AuthController, 'showLogin']).as('login.show')
@@ -38,6 +39,9 @@ router
     router.resource('churches', ChurchesController).as('churches')
     router.resource('priests', PriestsController).as('priests')
     router.resource('ministry-roles', MinistryRolesController).as('ministryRoles')
+
+    router.get('/account/profile', [AccountController, 'show']).as('account.profile')
+    router.put('/account/password', [AccountController, 'changePassword']).as('account.password')
   })
   .use(middleware.auth({ guards: ['web'] }))
 

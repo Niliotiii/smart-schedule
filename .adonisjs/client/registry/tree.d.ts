@@ -63,6 +63,10 @@ export interface ApiDefinition {
     update: typeof routes['ministry_roles.update']
     destroy: typeof routes['ministry_roles.destroy']
   }
+  account: {
+    profile: typeof routes['account.profile']
+    password: typeof routes['account.password']
+  }
   api: {
     signup: typeof routes['api.signup']
     login: typeof routes['api.login']
