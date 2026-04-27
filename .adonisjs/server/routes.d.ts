@@ -51,6 +51,8 @@ export type ScannedRoutes = {
     'ministry_roles.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'ministry_roles.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'ministry_roles.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'account.profile': { paramsTuple?: []; params?: {} }
+    'account.password': { paramsTuple?: []; params?: {} }
     'api.signup': { paramsTuple?: []; params?: {} }
     'api.login': { paramsTuple?: []; params?: {} }
     'api.logout': { paramsTuple?: []; params?: {} }
@@ -84,6 +86,7 @@ export type ScannedRoutes = {
     'ministry_roles.create': { paramsTuple?: []; params?: {} }
     'ministry_roles.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'ministry_roles.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'account.profile': { paramsTuple?: []; params?: {} }
     'api.profile': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
@@ -114,6 +117,7 @@ export type ScannedRoutes = {
     'ministry_roles.create': { paramsTuple?: []; params?: {} }
     'ministry_roles.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'ministry_roles.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'account.profile': { paramsTuple?: []; params?: {} }
     'api.profile': { paramsTuple?: []; params?: {} }
   }
   POST: {
@@ -136,6 +140,7 @@ export type ScannedRoutes = {
     'churches.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'priests.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'ministry_roles.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'account.password': { paramsTuple?: []; params?: {} }
   }
   PATCH: {
     'profiles.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
