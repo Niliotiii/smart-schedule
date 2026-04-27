@@ -43,8 +43,6 @@ export const createUserValidator = vine.compile(
   vine.object({
     fullName: vine.string().trim().maxLength(255),
     email: email().unique({ table: 'users', column: 'email' }),
-    password: password(),
-    passwordConfirmation: password().sameAs('password'),
     profileId: vine.number().positive(),
     userTypeId: vine.number().positive(),
     birthDate: vine
@@ -71,8 +69,6 @@ export const updateUserValidator = vine.compile(
   vine.object({
     fullName: vine.string().trim().maxLength(255),
     email: email(),
-    password: password().optional(),
-    passwordConfirmation: vine.string().sameAs('password').optional(),
     profileId: vine.number().positive(),
     userTypeId: vine.number().positive(),
     birthDate: vine

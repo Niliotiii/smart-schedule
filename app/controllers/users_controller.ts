@@ -1,5 +1,6 @@
 import { type HttpContext } from '@adonisjs/core/http'
 import { DateTime } from 'luxon'
+import { randomBytes } from 'node:crypto'
 import User from '#models/user'
 import Address from '#models/address'
 import Sacrament from '#models/sacrament'
@@ -106,10 +107,11 @@ export default class UsersController {
   async store({ request, response, session, bouncer }: HttpContext) {
     await bouncer.authorize(usersCreate)
     const payload = await request.validateUsing(createUserValidator)
+    const generatedPassword = randomBytes(18).toString('base64').substring(0, 24)
     const user = await User.create({
       fullName: payload.fullName,
       email: payload.email,
-      password: payload.password,
+      password: generatedPassword,
       profileId: payload.profileId,
       userTypeId: payload.userTypeId,
       birthDate: DateTime.fromISO(payload.birthDate),
@@ -150,7 +152,7 @@ export default class UsersController {
       await user.related('ministryRoles').attach(payload.ministryRoleIds)
     }
 
-    session.flash({ success: 'Usuario criado com sucesso' })
+    session.flash({ success: 'Usuario criado com sucesso. Senha gerada automaticamente.' })
     return response.redirect('/users')
   }
 
@@ -359,7 +361,6 @@ export default class UsersController {
       includeInScale: payload.includeInScale,
       communityId: payload.communityId,
     })
-    if (payload.password) user.password = payload.password
     await user.save()
 
     if (payload.address) {
