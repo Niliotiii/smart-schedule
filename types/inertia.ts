@@ -89,6 +89,8 @@ declare module '@adonisjs/inertia/types' {
       ministryRolesCreate: boolean
       ministryRolesUpdate: boolean
       ministryRolesDelete: boolean
+      scheduleMonthsRead: boolean
+      scheduleMonthsManage: boolean
     }
   }
 
@@ -369,6 +371,95 @@ declare module '@adonisjs/inertia/types' {
     }
     'MinistryRoles/Form': {
       ministryRole: { id: number; name: string; description: string | null } | null
+    }
+    'ScheduleMonths/Index': {
+      months: Array<{
+        id: number
+        year: number
+        month: number
+        openedAt: string
+        signalingDeadline: string
+        isSignalingActive: boolean
+        createdBy: { id: number; name: string } | null
+        scheduleCount: number
+      }>
+      flash?: { success?: string | null }
+    }
+    'ScheduleMonths/Create': {
+      churches: Array<{ id: number; name: string }>
+      priests: Array<{ id: number; name: string }>
+      ministryRoles: Array<{ id: number; name: string }>
+    }
+    'ScheduleMonths/Show': {
+      month: {
+        id: number
+        year: number
+        month: number
+        openedAt: string
+        signalingDeadline: string
+        isSignalingActive: boolean
+        createdBy: { id: number; name: string } | null
+        schedules: Array<{
+          id: number
+          day: number
+          name: string
+          description: string | null
+          time: string
+          community: { id: number; name: string } | null
+          priest: { id: number; name: string } | null
+          roles: Array<{ id: number; name: string; quantity: number }>
+          signals: Array<{ user: { id: number; name: string } | null; response: string; signaledAt: string }>
+        }>
+      }
+      flash?: { success?: string | null }
+    }
+    'ScheduleMonths/Edit': {
+      month: {
+        id: number
+        year: number
+        month: number
+        openedAt: string
+        signalingDeadline: string
+        isSignalingActive: boolean
+        createdBy: { id: number; name: string } | null
+        schedules: Array<{
+          id: number
+          day: number
+          name: string
+          description: string | null
+          time: string
+          community: { id: number; name: string } | null
+          priest: { id: number; name: string } | null
+          roles: Array<{ id: number; name: string; quantity: number }>
+        }>
+      }
+      churches: Array<{ id: number; name: string }>
+      priests: Array<{ id: number; name: string }>
+      ministryRoles: Array<{ id: number; name: string }>
+      flash?: { success?: string | null; error?: string | null }
+    }
+    'ScheduleMonths/Signal': {
+      month: {
+        id: number
+        year: number
+        month: number
+        openedAt: string
+        signalingDeadline: string
+        isSignalingActive: boolean
+        createdBy: { id: number; name: string } | null
+        schedules: Array<{
+          id: number
+          day: number
+          name: string
+          description: string | null
+          time: string
+          community: { id: number; name: string } | null
+          priest: { id: number; name: string } | null
+          roles: Array<{ id: number; name: string; quantity: number }>
+          userSignal: string | null
+        }>
+      }
+      flash?: { success?: string | null; error?: string | null }
     }
   }
 }

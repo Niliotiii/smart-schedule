@@ -63,6 +63,22 @@ export interface ApiDefinition {
     update: typeof routes['ministry_roles.update']
     destroy: typeof routes['ministry_roles.destroy']
   }
+  scheduleMonths: {
+    index: typeof routes['scheduleMonths.index']
+    create: typeof routes['scheduleMonths.create']
+    store: typeof routes['scheduleMonths.store']
+    show: typeof routes['scheduleMonths.show']
+    destroy: typeof routes['scheduleMonths.destroy']
+    edit: typeof routes['scheduleMonths.edit']
+    storeSchedule: typeof routes['scheduleMonths.storeSchedule']
+    updateSchedule: typeof routes['scheduleMonths.updateSchedule']
+    destroySchedule: typeof routes['scheduleMonths.destroySchedule']
+    signal: typeof routes['scheduleMonths.signal']
+  }
+  availabilitySignals: {
+    store: typeof routes['availabilitySignals.store']
+    update: typeof routes['availabilitySignals.update']
+  }
   account: {
     profile: typeof routes['account.profile']
     password: typeof routes['account.password']

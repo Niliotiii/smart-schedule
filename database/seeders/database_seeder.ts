@@ -9,6 +9,7 @@ const MODULES = [
   'churches',
   'priests',
   'ministry_roles',
+  'schedule_months',
 ] as const
 const ACTIONS = ['create', 'read', 'update', 'delete'] as const
 
@@ -21,7 +22,10 @@ export default class DatabaseSeeder extends BaseSeeder {
 
   private async seedPermissions() {
     for (const mod of MODULES) {
-      for (const action of ACTIONS) {
+      const actions = mod === 'schedule_months'
+        ? [...ACTIONS, 'manage']
+        : ACTIONS
+      for (const action of actions) {
         await Permission.firstOrCreate(
           { module: mod, action },
           { description: `Permite ${this.actionLabel(action)} ${this.moduleLabel(mod)}` }
@@ -60,6 +64,7 @@ export default class DatabaseSeeder extends BaseSeeder {
       read: 'listar',
       update: 'editar',
       delete: 'excluir',
+      manage: 'gerenciar',
     }
     return map[action] ?? action
   }
@@ -72,6 +77,7 @@ export default class DatabaseSeeder extends BaseSeeder {
       churches: 'igrejas',
       priests: 'padres',
       ministry_roles: 'funções',
+      schedule_months: 'meses de escala',
     }
     return map[mod] ?? mod
   }

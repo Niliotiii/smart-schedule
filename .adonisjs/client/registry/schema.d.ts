@@ -571,6 +571,150 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ministry_roles_controller').default['destroy']>>>
     }
   }
+  'scheduleMonths.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/schedules/months'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['index']>>>
+    }
+  }
+  'scheduleMonths.create': {
+    methods: ["GET","HEAD"]
+    pattern: '/schedules/months/create'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['create']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['create']>>>
+    }
+  }
+  'scheduleMonths.store': {
+    methods: ["POST"]
+    pattern: '/schedules/months'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/schedule_month').createScheduleMonthValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/schedule_month').createScheduleMonthValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'scheduleMonths.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/schedules/months/:openedMonthId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { openedMonthId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['show']>>>
+    }
+  }
+  'scheduleMonths.destroy': {
+    methods: ["DELETE"]
+    pattern: '/schedules/months/:openedMonthId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { openedMonthId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['destroy']>>>
+    }
+  }
+  'scheduleMonths.edit': {
+    methods: ["GET","HEAD"]
+    pattern: '/schedules/months/:openedMonthId/edit'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { openedMonthId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['edit']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['edit']>>>
+    }
+  }
+  'scheduleMonths.storeSchedule': {
+    methods: ["POST"]
+    pattern: '/schedules/months/:openedMonthId/schedules'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/schedule').scheduleValidator)>>
+      paramsTuple: [ParamValue]
+      params: { openedMonthId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/schedule').scheduleValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['storeSchedule']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['storeSchedule']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'scheduleMonths.updateSchedule': {
+    methods: ["PUT"]
+    pattern: '/schedules/months/:openedMonthId/schedules/:scheduleId'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/schedule').scheduleValidator)>>
+      paramsTuple: [ParamValue, ParamValue]
+      params: { openedMonthId: ParamValue; scheduleId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/schedule').scheduleValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['updateSchedule']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['updateSchedule']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'scheduleMonths.destroySchedule': {
+    methods: ["DELETE"]
+    pattern: '/schedules/months/:openedMonthId/schedules/:scheduleId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue, ParamValue]
+      params: { openedMonthId: ParamValue; scheduleId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['destroySchedule']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['destroySchedule']>>>
+    }
+  }
+  'scheduleMonths.signal': {
+    methods: ["GET","HEAD"]
+    pattern: '/schedules/months/:openedMonthId/signal'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { openedMonthId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['signal']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['signal']>>>
+    }
+  }
+  'availabilitySignals.store': {
+    methods: ["POST"]
+    pattern: '/schedules/:scheduleId/signal'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/schedule').signalValidator)>>
+      paramsTuple: [ParamValue]
+      params: { scheduleId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/schedule').signalValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/availability_signals_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/availability_signals_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'availabilitySignals.update': {
+    methods: ["PUT"]
+    pattern: '/schedules/:scheduleId/signal'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/schedule').signalValidator)>>
+      paramsTuple: [ParamValue]
+      params: { scheduleId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/schedule').signalValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/availability_signals_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/availability_signals_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'account.profile': {
     methods: ["GET","HEAD"]
     pattern: '/account/profile'
