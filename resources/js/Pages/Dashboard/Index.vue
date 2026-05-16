@@ -7,6 +7,7 @@ const props = defineProps<{
   can: {
     usersRead: boolean
     profilesRead: boolean
+    scheduleMonthsRead: boolean
   }
   liturgia: LiturgiaData | null
 }>()
@@ -70,6 +71,22 @@ const props = defineProps<{
           <div>
             <h3 class="text-lg font-semibold text-muted-color">Perfis</h3>
             <Tag value="Sem permissão" severity="secondary" class="mt-1" />
+          </div>
+        </div>
+      </div>
+
+      <div
+        v-if="can.scheduleMonthsRead"
+        class="cursor-pointer rounded-lg border border-surface shadow-sm bg-surface-ground hover:shadow-md transition-shadow"
+        @click="$inertia.get('/schedules/months')"
+      >
+        <div class="flex items-center gap-4 p-4">
+          <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-primary/10">
+            <i class="pi pi-calendar-clock text-xl text-primary" />
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-color">Escalas</h3>
+            <p class="text-sm text-muted-color">Gerenciar escalas e sinalizações</p>
           </div>
         </div>
       </div>
