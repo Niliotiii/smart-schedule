@@ -8,24 +8,7 @@ import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
 export class AddressSchema extends BaseModel {
-  static $columns = [
-    'addressableId',
-    'addressableType',
-    'cityId',
-    'complement',
-    'countryId',
-    'createdAt',
-    'deletedAt',
-    'id',
-    'latitude',
-    'longitude',
-    'neighborhood',
-    'number',
-    'postalCode',
-    'stateId',
-    'street',
-    'updatedAt',
-  ] as const
+  static $columns = ['addressableId', 'addressableType', 'cityId', 'complement', 'countryId', 'createdAt', 'deletedAt', 'id', 'latitude', 'longitude', 'neighborhood', 'number', 'postalCode', 'stateId', 'street', 'updatedAt'] as const
   $columns = AddressSchema.$columns
   @column()
   declare addressableId: number
@@ -62,18 +45,7 @@ export class AddressSchema extends BaseModel {
 }
 
 export class AuthAccessTokenSchema extends BaseModel {
-  static $columns = [
-    'abilities',
-    'createdAt',
-    'expiresAt',
-    'hash',
-    'id',
-    'lastUsedAt',
-    'name',
-    'tokenableId',
-    'type',
-    'updatedAt',
-  ] as const
+  static $columns = ['abilities', 'createdAt', 'expiresAt', 'hash', 'id', 'lastUsedAt', 'name', 'tokenableId', 'type', 'updatedAt'] as const
   $columns = AuthAccessTokenSchema.$columns
   @column()
   declare abilities: string
@@ -95,6 +67,25 @@ export class AuthAccessTokenSchema extends BaseModel {
   declare type: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
+}
+
+export class AvailabilitySignalSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'response', 'scheduleId', 'signaledAt', 'updatedAt', 'userId'] as const
+  $columns = AvailabilitySignalSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare response: string
+  @column()
+  declare scheduleId: number
+  @column.dateTime()
+  declare signaledAt: DateTime
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userId: number
 }
 
 export class ChurchSchema extends BaseModel {
@@ -178,6 +169,31 @@ export class MinistryRoleSchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class OpenedMonthSchema extends BaseModel {
+  static $columns = ['createdAt', 'createdByUserId', 'deletedAt', 'id', 'month', 'openedAt', 'signalingDeadline', 'signalingPeriodDays', 'updatedAt', 'year'] as const
+  $columns = OpenedMonthSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare createdByUserId: number
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare month: number
+  @column.dateTime()
+  declare openedAt: DateTime
+  @column.dateTime()
+  declare signalingDeadline: DateTime
+  @column()
+  declare signalingPeriodDays: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare year: number
+}
+
 export class PermissionSchema extends BaseModel {
   static $columns = ['action', 'createdAt', 'description', 'id', 'module', 'updatedAt'] as const
   $columns = PermissionSchema.$columns
@@ -258,19 +274,7 @@ export class SacramentTypeSchema extends BaseModel {
 }
 
 export class SacramentSchema extends BaseModel {
-  static $columns = [
-    'createdAt',
-    'deletedAt',
-    'id',
-    'receivedChurch',
-    'receivedCityId',
-    'receivedCountryId',
-    'receivedDate',
-    'receivedStateId',
-    'sacramentTypeId',
-    'updatedAt',
-    'userId',
-  ] as const
+  static $columns = ['createdAt', 'deletedAt', 'id', 'receivedChurch', 'receivedCityId', 'receivedCountryId', 'receivedDate', 'receivedStateId', 'sacramentTypeId', 'updatedAt', 'userId'] as const
   $columns = SacramentSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime | null
@@ -296,17 +300,52 @@ export class SacramentSchema extends BaseModel {
   declare userId: number
 }
 
+export class ScheduleRoleSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'ministryRoleId', 'quantity', 'scheduleId', 'updatedAt'] as const
+  $columns = ScheduleRoleSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare ministryRoleId: number
+  @column()
+  declare quantity: number
+  @column()
+  declare scheduleId: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class ScheduleSchema extends BaseModel {
+  static $columns = ['communityId', 'createdAt', 'day', 'deletedAt', 'description', 'id', 'name', 'openedMonthId', 'priestId', 'time', 'updatedAt'] as const
+  $columns = ScheduleSchema.$columns
+  @column()
+  declare communityId: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare day: number
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column()
+  declare description: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column()
+  declare openedMonthId: number
+  @column()
+  declare priestId: number
+  @column()
+  declare time: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class StateSchema extends BaseModel {
-  static $columns = [
-    'countryId',
-    'createdAt',
-    'deletedAt',
-    'ibgeCode',
-    'id',
-    'name',
-    'uf',
-    'updatedAt',
-  ] as const
+  static $columns = ['countryId', 'createdAt', 'deletedAt', 'ibgeCode', 'id', 'name', 'uf', 'updatedAt'] as const
   $columns = StateSchema.$columns
   @column()
   declare countryId: number
@@ -342,28 +381,7 @@ export class UserTypeSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = [
-    'birthCityId',
-    'birthCountryId',
-    'birthDate',
-    'birthStateId',
-    'communityId',
-    'createdAt',
-    'deletedAt',
-    'email',
-    'fullName',
-    'id',
-    'includeInScale',
-    'password',
-    'phone',
-    'profileId',
-    'responsible1Name',
-    'responsible1Phone',
-    'responsible2Name',
-    'responsible2Phone',
-    'updatedAt',
-    'userTypeId',
-  ] as const
+  static $columns = ['birthCityId', 'birthCountryId', 'birthDate', 'birthStateId', 'communityId', 'createdAt', 'deletedAt', 'email', 'fullName', 'id', 'includeInScale', 'password', 'phone', 'profileId', 'responsible1Name', 'responsible1Phone', 'responsible2Name', 'responsible2Phone', 'updatedAt', 'userTypeId'] as const
   $columns = UserSchema.$columns
   @column()
   declare birthCityId: number | null

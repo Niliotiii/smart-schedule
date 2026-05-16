@@ -75,3 +75,11 @@ export const ministryRolesUpdate = Bouncer.ability((user: User) =>
 export const ministryRolesDelete = Bouncer.ability((user: User) =>
   checkPermission(user, 'ministry_roles:delete')
 )
+
+export const scheduleMonthsRead = Bouncer.ability((user: User) =>
+  checkPermission(user, 'schedule_months:read')
+)
+export const scheduleMonthsManage = Bouncer.ability((user: User) =>
+  checkPermission(user, 'schedule_months:manage')
+)
+export const scheduleMonthsSignal = Bouncer.ability((user: User) => !!user.id)

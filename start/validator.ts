@@ -107,6 +107,14 @@ const fields: Record<string, string> = {
   receivedCountryId: 'país de recebimento',
   receivedStateId: 'estado de recebimento',
   receivedCityId: 'cidade de recebimento',
+  year: 'ano',
+  month: 'mês',
+  signalingPeriodDays: 'dias para sinalização',
+  day: 'dia',
+  time: 'horário',
+  priestId: 'padre',
+  ministryRoles: 'funções',
+  schedules: 'escalas',
 }
 
 RequestValidator.messagesProvider = () => new SimpleMessagesProvider(messages, fields)
