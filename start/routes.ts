@@ -21,6 +21,8 @@ const ProfileController = () => import('#controllers/profile_controller')
 const PriestsController = () => import('#controllers/priests_controller')
 const MinistryRolesController = () => import('#controllers/ministry_roles_controller')
 const AccountController = () => import('#controllers/account_controller')
+const ScheduleMonthsController = () => import('#controllers/schedule_months_controller')
+const AvailabilitySignalsController = () => import('#controllers/availability_signals_controller')
 
 // Public web routes
 router.get('/login', [AuthController, 'showLogin']).as('login.show')
@@ -39,6 +41,19 @@ router
     router.resource('churches', ChurchesController).as('churches')
     router.resource('priests', PriestsController).as('priests')
     router.resource('ministry-roles', MinistryRolesController).as('ministryRoles')
+
+    router.get('/schedules/months', [ScheduleMonthsController, 'index']).as('scheduleMonths.index')
+    router.get('/schedules/months/create', [ScheduleMonthsController, 'create']).as('scheduleMonths.create')
+    router.post('/schedules/months', [ScheduleMonthsController, 'store']).as('scheduleMonths.store')
+    router.get('/schedules/months/:openedMonthId', [ScheduleMonthsController, 'show']).as('scheduleMonths.show')
+    router.delete('/schedules/months/:openedMonthId', [ScheduleMonthsController, 'destroy']).as('scheduleMonths.destroy')
+    router.get('/schedules/months/:openedMonthId/edit', [ScheduleMonthsController, 'edit']).as('scheduleMonths.edit')
+    router.post('/schedules/months/:openedMonthId/schedules', [ScheduleMonthsController, 'storeSchedule']).as('scheduleMonths.storeSchedule')
+    router.put('/schedules/months/:openedMonthId/schedules/:scheduleId', [ScheduleMonthsController, 'updateSchedule']).as('scheduleMonths.updateSchedule')
+    router.delete('/schedules/months/:openedMonthId/schedules/:scheduleId', [ScheduleMonthsController, 'destroySchedule']).as('scheduleMonths.destroySchedule')
+    router.get('/schedules/months/:openedMonthId/signal', [ScheduleMonthsController, 'signal']).as('scheduleMonths.signal')
+    router.post('/schedules/:scheduleId/signal', [AvailabilitySignalsController, 'store']).as('availabilitySignals.store')
+    router.put('/schedules/:scheduleId/signal', [AvailabilitySignalsController, 'update']).as('availabilitySignals.update')
 
     router.get('/account/profile', [AccountController, 'show']).as('account.profile')
     router.put('/account/password', [AccountController, 'changePassword']).as('account.password')

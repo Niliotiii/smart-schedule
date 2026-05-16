@@ -7,6 +7,7 @@ export const controllers = {
   AccessToken: () => import('#controllers/access_token_controller'),
   Account: () => import('#controllers/account_controller'),
   Auth: () => import('#controllers/auth_controller'),
+  AvailabilitySignals: () => import('#controllers/availability_signals_controller'),
   Churches: () => import('#controllers/churches_controller'),
   Dashboard: () => import('#controllers/dashboard_controller'),
   MinistryRoles: () => import('#controllers/ministry_roles_controller'),
@@ -14,6 +15,7 @@ export const controllers = {
   Priests: () => import('#controllers/priests_controller'),
   Profile: () => import('#controllers/profile_controller'),
   Profiles: () => import('#controllers/profiles_controller'),
+  ScheduleMonths: () => import('#controllers/schedule_months_controller'),
   UserTypes: () => import('#controllers/user_types_controller'),
   Users: () => import('#controllers/users_controller'),
 }

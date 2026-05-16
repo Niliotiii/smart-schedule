@@ -51,6 +51,18 @@ export type ScannedRoutes = {
     'ministry_roles.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'ministry_roles.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'ministry_roles.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'scheduleMonths.index': { paramsTuple?: []; params?: {} }
+    'scheduleMonths.create': { paramsTuple?: []; params?: {} }
+    'scheduleMonths.store': { paramsTuple?: []; params?: {} }
+    'scheduleMonths.show': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
+    'scheduleMonths.destroy': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
+    'scheduleMonths.edit': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
+    'scheduleMonths.storeSchedule': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
+    'scheduleMonths.updateSchedule': { paramsTuple: [ParamValue,ParamValue]; params: {'openedMonthId': ParamValue,'scheduleId': ParamValue} }
+    'scheduleMonths.destroySchedule': { paramsTuple: [ParamValue,ParamValue]; params: {'openedMonthId': ParamValue,'scheduleId': ParamValue} }
+    'scheduleMonths.signal': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
+    'availabilitySignals.store': { paramsTuple: [ParamValue]; params: {'scheduleId': ParamValue} }
+    'availabilitySignals.update': { paramsTuple: [ParamValue]; params: {'scheduleId': ParamValue} }
     'account.profile': { paramsTuple?: []; params?: {} }
     'account.password': { paramsTuple?: []; params?: {} }
     'api.signup': { paramsTuple?: []; params?: {} }
@@ -86,6 +98,11 @@ export type ScannedRoutes = {
     'ministry_roles.create': { paramsTuple?: []; params?: {} }
     'ministry_roles.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'ministry_roles.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'scheduleMonths.index': { paramsTuple?: []; params?: {} }
+    'scheduleMonths.create': { paramsTuple?: []; params?: {} }
+    'scheduleMonths.show': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
+    'scheduleMonths.edit': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
+    'scheduleMonths.signal': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
     'account.profile': { paramsTuple?: []; params?: {} }
     'api.profile': { paramsTuple?: []; params?: {} }
   }
@@ -117,6 +134,11 @@ export type ScannedRoutes = {
     'ministry_roles.create': { paramsTuple?: []; params?: {} }
     'ministry_roles.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'ministry_roles.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'scheduleMonths.index': { paramsTuple?: []; params?: {} }
+    'scheduleMonths.create': { paramsTuple?: []; params?: {} }
+    'scheduleMonths.show': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
+    'scheduleMonths.edit': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
+    'scheduleMonths.signal': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
     'account.profile': { paramsTuple?: []; params?: {} }
     'api.profile': { paramsTuple?: []; params?: {} }
   }
@@ -129,6 +151,9 @@ export type ScannedRoutes = {
     'churches.store': { paramsTuple?: []; params?: {} }
     'priests.store': { paramsTuple?: []; params?: {} }
     'ministry_roles.store': { paramsTuple?: []; params?: {} }
+    'scheduleMonths.store': { paramsTuple?: []; params?: {} }
+    'scheduleMonths.storeSchedule': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
+    'availabilitySignals.store': { paramsTuple: [ParamValue]; params: {'scheduleId': ParamValue} }
     'api.signup': { paramsTuple?: []; params?: {} }
     'api.login': { paramsTuple?: []; params?: {} }
     'api.logout': { paramsTuple?: []; params?: {} }
@@ -140,6 +165,8 @@ export type ScannedRoutes = {
     'churches.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'priests.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'ministry_roles.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'scheduleMonths.updateSchedule': { paramsTuple: [ParamValue,ParamValue]; params: {'openedMonthId': ParamValue,'scheduleId': ParamValue} }
+    'availabilitySignals.update': { paramsTuple: [ParamValue]; params: {'scheduleId': ParamValue} }
     'account.password': { paramsTuple?: []; params?: {} }
   }
   PATCH: {
@@ -157,6 +184,8 @@ export type ScannedRoutes = {
     'churches.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'priests.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'ministry_roles.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'scheduleMonths.destroy': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
+    'scheduleMonths.destroySchedule': { paramsTuple: [ParamValue,ParamValue]; params: {'openedMonthId': ParamValue,'scheduleId': ParamValue} }
   }
 }
 declare module '@adonisjs/core/types/http' {

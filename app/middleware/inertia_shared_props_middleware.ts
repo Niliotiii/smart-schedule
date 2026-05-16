@@ -29,6 +29,8 @@ export default class InertiaSharedPropsMiddleware {
         ministryRolesCreate: false,
         ministryRolesUpdate: false,
         ministryRolesDelete: false,
+        scheduleMonthsRead: false,
+        scheduleMonthsManage: false,
       }
 
       if (ctx.bouncer) {
@@ -56,6 +58,8 @@ export default class InertiaSharedPropsMiddleware {
         can.ministryRolesCreate = await ctx.bouncer.allows('ministryRolesCreate')
         can.ministryRolesUpdate = await ctx.bouncer.allows('ministryRolesUpdate')
         can.ministryRolesDelete = await ctx.bouncer.allows('ministryRolesDelete')
+        can.scheduleMonthsRead = await ctx.bouncer.allows('scheduleMonthsRead')
+        can.scheduleMonthsManage = await ctx.bouncer.allows('scheduleMonthsManage')
       }
 
       ctx.inertia.share(() => ({
@@ -106,6 +110,8 @@ export default class InertiaSharedPropsMiddleware {
           ministryRolesCreate: false,
           ministryRolesUpdate: false,
           ministryRolesDelete: false,
+          scheduleMonthsRead: false,
+          scheduleMonthsManage: false,
         },
       }))
     }
