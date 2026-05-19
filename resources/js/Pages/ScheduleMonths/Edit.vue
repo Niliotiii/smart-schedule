@@ -85,7 +85,7 @@ const editForm = useForm({
   time: '',
   communityId: null as number | null,
   priestId: null as number | null,
-  ministryRoles: [] as Array<{ roleId: number; quantity: number }>,
+  ministryRoles: [] as Array<{ roleId: number; quantity: number; userTypeId: number }>,
 })
 
 const statusLabel = (status: string) => {
@@ -127,7 +127,7 @@ function getRoleName(roleId: number) {
 }
 
 function addRoleToForm() {
-  if (!roleSelectorRoleId.value) return
+  if (!roleSelectorRoleId.value || !roleSelectorUserTypeId.value) return
   const roleId = roleSelectorRoleId.value
   const qty = roleSelectorQty.value
   const userTypeId = roleSelectorUserTypeId.value
@@ -135,7 +135,7 @@ function addRoleToForm() {
   if (existing) {
     existing.quantity += qty
   } else {
-    editForm.ministryRoles.push({ roleId, quantity: qty })
+    editForm.ministryRoles.push({ roleId, quantity: qty, userTypeId })
   }
   initSlotsForRole(roleId, qty, userTypeId)
   roleSelectorRoleId.value = null
@@ -164,20 +164,6 @@ function updateSlotUserId(roleId: number, slotIndex: number, userId: number | nu
   }
 }
 
-function updateSlotUserTypeId(roleId: number, slotIndex: number, userTypeId: number | null) {
-  const slots = slotAssignments.value[roleId]
-  if (slots && slots[slotIndex]) {
-    slots[slotIndex].userTypeId = userTypeId
-    // Clear user if no longer matches the new user type
-    if (userTypeId !== null && slots[slotIndex].userId !== null) {
-      const user = props.eligibleUsers.find(u => u.id === slots[slotIndex].userId)
-      if (user && user.userTypeId !== userTypeId) {
-        slots[slotIndex].userId = null
-      }
-    }
-    slotAssignments.value = { ...slotAssignments.value, [roleId]: [...slots] }
-  }
-}
 
 function removeSlot(roleId: number, slotIndex: number) {
   const slots = slotAssignments.value[roleId]
@@ -195,7 +181,7 @@ function removeSlot(roleId: number, slotIndex: number) {
 }
 
 const slotRows = computed(() => {
-  const rows: Array<{ roleId: number; roleName: string; slotIndex: number; userId: number | null; userTypeId: number | null; eligible: Array<{ id: number; name: string }> }> = []
+  const rows: Array<{ roleId: number; roleName: string; userTypeName: string; slotIndex: number; userId: number | null; userTypeId: number | null; eligible: Array<{ id: number; name: string }> }> = []
   for (const mr of editForm.ministryRoles) {
     const name = getRoleName(mr.roleId)
     const slots = slotAssignments.value[mr.roleId] || []
@@ -215,6 +201,7 @@ const slotRows = computed(() => {
       rows.push({
         roleId: mr.roleId,
         roleName: name,
+        userTypeName: props.userTypes.find(ut => ut.id === slots[i].userTypeId)?.name ?? '',
         slotIndex: i,
         userId: slots[i].userId,
         userTypeId: slots[i].userTypeId,
@@ -258,7 +245,7 @@ function openEdit(schedule: any) {
     time: schedule.time || '',
     communityId: schedule.community?.id || null,
     priestId: schedule.priest?.id || null,
-    ministryRoles: schedule.roles.map((r: any) => ({ roleId: r.id, quantity: r.quantity })),
+    ministryRoles: schedule.roles.map((r: any) => ({ roleId: r.id, quantity: r.quantity, userTypeId: r.userTypeId })),
   })
   editForm.reset()
   roleSelectorRoleId.value = null
@@ -281,6 +268,16 @@ function openEdit(schedule: any) {
 }
 
 function submitEdit() {
+  // Validate all slots have user type
+  for (const roleIdStr of Object.keys(slotAssignments.value)) {
+    const slots = slotAssignments.value[Number(roleIdStr)]
+    for (const slot of slots) {
+      if (!slot.userTypeId) {
+        toast.add({ severity: 'error', summary: 'Erro', detail: 'Todas as vagas devem ter um tipo de usuário definido.', life: 4000 })
+        return
+      }
+    }
+  }
   editForm
     .transform((data) => {
       const assignments: Array<{ roleId: number; userId: number }> = []
@@ -660,10 +657,11 @@ function submitAssign() {
       modal
       :style="{ width: '750px' }"
       :closable="false"
+      class="max-w-full mx-2 sm:mx-0"
       @after-hide="editForm.clearErrors()"
     >
       <form @submit.prevent="submitEdit">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <FloatLabel>
               <DatePicker
@@ -746,8 +744,8 @@ function submitAssign() {
         <div class="mt-4 pt-4 border-t border-surface">
           <label class="block text-sm font-medium text-muted-color mb-2">Adicionar Função</label>
 
-          <div class="flex items-end gap-2 mb-3">
-            <div class="flex-1">
+          <div class="flex flex-wrap items-end gap-2 mb-3">
+            <div class="flex-1 min-w-[10rem]">
               <Select
                 id="edit-role-select"
                 v-model="roleSelectorRoleId"
@@ -758,7 +756,7 @@ function submitAssign() {
                 fluid
               />
             </div>
-            <div style="width: 5rem">
+            <div class="w-20 sm:w-24">
               <InputNumber
                 v-model="roleSelectorQty"
                 :min="1"
@@ -766,13 +764,12 @@ function submitAssign() {
                 fluid
               />
             </div>
-            <div style="width: 8rem">
+            <div class="flex-1 min-w-[8rem]">
               <Select
                 v-model="roleSelectorUserTypeId"
                 :options="userTypes"
                 optionLabel="name"
                 optionValue="id"
-                showClear
                 fluid
                 placeholder="Tipo"
               />
@@ -780,11 +777,12 @@ function submitAssign() {
             <Button
               icon="pi pi-plus"
               severity="info"
-              :disabled="!roleSelectorRoleId"
+              :disabled="!roleSelectorRoleId || !roleSelectorUserTypeId"
               @click="addRoleToForm"
             />
           </div>
 
+          <div class="overflow-x-auto">
           <DataTable
             v-if="slotRows.length"
             :value="slotRows"
@@ -792,30 +790,17 @@ function submitAssign() {
             stripedRows
           >
             <Column field="roleName" header="Função" style="width: 8rem" />
-            <Column header="Vaga">
+            <Column header="Vaga" style="width: 4rem">
               <template #body="{ data }">
                 #{{ data.slotIndex + 1 }}
               </template>
             </Column>
-            <Column header="Tipo">
-              <template #body="{ data }">
-                <Select
-                  :modelValue="data.userTypeId"
-                  @update:modelValue="(val: number | null) => updateSlotUserTypeId(data.roleId, data.slotIndex, val)"
-                  :options="userTypes"
-                  optionLabel="name"
-                  optionValue="id"
-                  showClear
-                  fluid
-                  placeholder="Tipo"
-                />
-              </template>
-            </Column>
+            <Column field="userTypeName" header="Tipo" style="width: 8rem" />
             <Column header="Usuário">
               <template #body="{ data }">
                 <Select
                   :modelValue="data.userId"
-                  @update:modelValue="(val: number | null) => updateSlotUserId(data.roleId, data.slotIndex, val)"
+                  @update:modelValue="(val) => updateSlotUserId(data.roleId, data.slotIndex, val)"
                   :options="data.eligible"
                   optionLabel="name"
                   optionValue="id"
@@ -839,6 +824,7 @@ function submitAssign() {
               </template>
             </Column>
           </DataTable>
+          </div>
         </div>
 
         <div class="flex justify-end gap-2 mt-6">
@@ -864,6 +850,7 @@ function submitAssign() {
       header="Adicionar Alocação Manual"
       modal
       :style="{ width: '400px' }"
+      class="max-w-full mx-2 sm:mx-0"
       :closable="false"
     >
       <div class="flex flex-col gap-4">
