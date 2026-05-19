@@ -58,6 +58,9 @@ export type ScannedRoutes = {
     'scheduleMonths.destroy': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
     'scheduleMonths.edit': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
     'scheduleMonths.storeSchedule': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
+    'scheduleMonths.generate': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
+    'scheduleMonths.destroyAssignment': { paramsTuple: [ParamValue,ParamValue]; params: {'openedMonthId': ParamValue,'assignmentId': ParamValue} }
+    'scheduleMonths.storeAssignment': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
     'scheduleMonths.updateSchedule': { paramsTuple: [ParamValue,ParamValue]; params: {'openedMonthId': ParamValue,'scheduleId': ParamValue} }
     'scheduleMonths.destroySchedule': { paramsTuple: [ParamValue,ParamValue]; params: {'openedMonthId': ParamValue,'scheduleId': ParamValue} }
     'scheduleMonths.signal': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
@@ -153,6 +156,8 @@ export type ScannedRoutes = {
     'ministry_roles.store': { paramsTuple?: []; params?: {} }
     'scheduleMonths.store': { paramsTuple?: []; params?: {} }
     'scheduleMonths.storeSchedule': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
+    'scheduleMonths.generate': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
+    'scheduleMonths.storeAssignment': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
     'availabilitySignals.store': { paramsTuple: [ParamValue]; params: {'scheduleId': ParamValue} }
     'api.signup': { paramsTuple?: []; params?: {} }
     'api.login': { paramsTuple?: []; params?: {} }
@@ -185,6 +190,7 @@ export type ScannedRoutes = {
     'priests.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'ministry_roles.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'scheduleMonths.destroy': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
+    'scheduleMonths.destroyAssignment': { paramsTuple: [ParamValue,ParamValue]; params: {'openedMonthId': ParamValue,'assignmentId': ParamValue} }
     'scheduleMonths.destroySchedule': { paramsTuple: [ParamValue,ParamValue]; params: {'openedMonthId': ParamValue,'scheduleId': ParamValue} }
   }
 }

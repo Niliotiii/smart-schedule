@@ -2,10 +2,10 @@ import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import { DateTime } from 'luxon'
 import Schedule from './schedule.js'
+import User from './user.js'
 import MinistryRole from './ministry_role.js'
-import UserType from './user_type.js'
 
-export default class ScheduleRole extends BaseModel {
+export default class ScheduleAssignment extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
@@ -13,26 +13,20 @@ export default class ScheduleRole extends BaseModel {
   declare scheduleId: number
 
   @column()
+  declare userId: number
+
+  @column()
   declare ministryRoleId: number
-
-  @belongsTo(() => Schedule)
-  declare schedule: BelongsTo<typeof Schedule>
-
-  @column()
-  declare quantity: number
-
-  @column()
-  declare userTypeId: number | null
-
-  @belongsTo(() => MinistryRole)
-  declare ministryRole: BelongsTo<typeof MinistryRole>
-
-  @belongsTo(() => UserType)
-  declare userType: BelongsTo<typeof UserType>
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime | null
+  @belongsTo(() => Schedule)
+  declare schedule: BelongsTo<typeof Schedule>
+
+  @belongsTo(() => User)
+  declare user: BelongsTo<typeof User>
+
+  @belongsTo(() => MinistryRole)
+  declare ministryRole: BelongsTo<typeof MinistryRole>
 }

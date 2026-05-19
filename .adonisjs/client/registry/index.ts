@@ -330,6 +330,24 @@ const routes = {
     tokens: [{"old":"/schedules/months/:openedMonthId/schedules","type":0,"val":"schedules","end":""},{"old":"/schedules/months/:openedMonthId/schedules","type":0,"val":"months","end":""},{"old":"/schedules/months/:openedMonthId/schedules","type":1,"val":"openedMonthId","end":""},{"old":"/schedules/months/:openedMonthId/schedules","type":0,"val":"schedules","end":""}],
     types: placeholder as Registry['scheduleMonths.storeSchedule']['types'],
   },
+  'scheduleMonths.generate': {
+    methods: ["POST"],
+    pattern: '/schedules/months/:openedMonthId/generate',
+    tokens: [{"old":"/schedules/months/:openedMonthId/generate","type":0,"val":"schedules","end":""},{"old":"/schedules/months/:openedMonthId/generate","type":0,"val":"months","end":""},{"old":"/schedules/months/:openedMonthId/generate","type":1,"val":"openedMonthId","end":""},{"old":"/schedules/months/:openedMonthId/generate","type":0,"val":"generate","end":""}],
+    types: placeholder as Registry['scheduleMonths.generate']['types'],
+  },
+  'scheduleMonths.destroyAssignment': {
+    methods: ["DELETE"],
+    pattern: '/schedules/months/:openedMonthId/assignments/:assignmentId',
+    tokens: [{"old":"/schedules/months/:openedMonthId/assignments/:assignmentId","type":0,"val":"schedules","end":""},{"old":"/schedules/months/:openedMonthId/assignments/:assignmentId","type":0,"val":"months","end":""},{"old":"/schedules/months/:openedMonthId/assignments/:assignmentId","type":1,"val":"openedMonthId","end":""},{"old":"/schedules/months/:openedMonthId/assignments/:assignmentId","type":0,"val":"assignments","end":""},{"old":"/schedules/months/:openedMonthId/assignments/:assignmentId","type":1,"val":"assignmentId","end":""}],
+    types: placeholder as Registry['scheduleMonths.destroyAssignment']['types'],
+  },
+  'scheduleMonths.storeAssignment': {
+    methods: ["POST"],
+    pattern: '/schedules/months/:openedMonthId/assignments',
+    tokens: [{"old":"/schedules/months/:openedMonthId/assignments","type":0,"val":"schedules","end":""},{"old":"/schedules/months/:openedMonthId/assignments","type":0,"val":"months","end":""},{"old":"/schedules/months/:openedMonthId/assignments","type":1,"val":"openedMonthId","end":""},{"old":"/schedules/months/:openedMonthId/assignments","type":0,"val":"assignments","end":""}],
+    types: placeholder as Registry['scheduleMonths.storeAssignment']['types'],
+  },
   'scheduleMonths.updateSchedule': {
     methods: ["PUT"],
     pattern: '/schedules/months/:openedMonthId/schedules/:scheduleId',
