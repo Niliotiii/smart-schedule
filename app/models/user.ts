@@ -15,6 +15,7 @@ import Church from './church.js'
 import Address from './address.js'
 import Sacrament from './sacrament.js'
 import MinistryRole from './ministry_role.js'
+import ScheduleAssignment from './schedule_assignment.js'
 
 const AuthFinder = withAuthFinder(hash, {
   uids: ['email'],
@@ -114,6 +115,9 @@ export default class User extends compose(BaseModel, AuthFinder) {
     pivotTimestamps: true,
   })
   declare ministryRoles: ManyToMany<typeof MinistryRole>
+
+  @hasMany(() => ScheduleAssignment)
+  declare scheduleAssignments: HasMany<typeof ScheduleAssignment>
 
   static accessTokens = DbAccessTokensProvider.forModel(User)
   declare currentAccessToken?: AccessToken

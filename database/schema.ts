@@ -300,8 +300,23 @@ export class SacramentSchema extends BaseModel {
   declare userId: number
 }
 
+export class ScheduleAssignmentSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'ministryRoleId', 'scheduleId', 'userId'] as const
+  $columns = ScheduleAssignmentSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare ministryRoleId: number
+  @column()
+  declare scheduleId: number
+  @column()
+  declare userId: number
+}
+
 export class ScheduleRoleSchema extends BaseModel {
-  static $columns = ['createdAt', 'id', 'ministryRoleId', 'quantity', 'scheduleId', 'updatedAt'] as const
+  static $columns = ['createdAt', 'id', 'ministryRoleId', 'quantity', 'scheduleId', 'updatedAt', 'userTypeId'] as const
   $columns = ScheduleRoleSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -315,6 +330,8 @@ export class ScheduleRoleSchema extends BaseModel {
   declare scheduleId: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
+  @column()
+  declare userTypeId: number | null
 }
 
 export class ScheduleSchema extends BaseModel {
