@@ -50,6 +50,7 @@ router
     router.get('/schedules/months/:openedMonthId/edit', [ScheduleMonthsController, 'edit']).as('scheduleMonths.edit')
     router.post('/schedules/months/:openedMonthId/schedules', [ScheduleMonthsController, 'storeSchedule']).as('scheduleMonths.storeSchedule')
     router.post('/schedules/months/:openedMonthId/generate', [ScheduleMonthsController, 'generate']).as('scheduleMonths.generate')
+    router.post('/schedules/months/:openedMonthId/transition', [ScheduleMonthsController, 'changeStatus']).as('scheduleMonths.transition')
     router.delete('/schedules/months/:openedMonthId/assignments/:assignmentId', [ScheduleMonthsController, 'destroyAssignment']).as('scheduleMonths.destroyAssignment')
     router.post('/schedules/months/:openedMonthId/assignments', [ScheduleMonthsController, 'storeAssignment']).as('scheduleMonths.storeAssignment')
     router.put('/schedules/months/:openedMonthId/schedules/:scheduleId', [ScheduleMonthsController, 'updateSchedule']).as('scheduleMonths.updateSchedule')

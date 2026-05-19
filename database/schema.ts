@@ -170,7 +170,7 @@ export class MinistryRoleSchema extends BaseModel {
 }
 
 export class OpenedMonthSchema extends BaseModel {
-  static $columns = ['createdAt', 'createdByUserId', 'deletedAt', 'id', 'month', 'openedAt', 'signalingDeadline', 'signalingPeriodDays', 'updatedAt', 'year'] as const
+  static $columns = ['createdAt', 'createdByUserId', 'deletedAt', 'id', 'month', 'openedAt', 'signalingDeadline', 'signalingPeriodDays', 'status', 'updatedAt', 'year'] as const
   $columns = OpenedMonthSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -188,6 +188,8 @@ export class OpenedMonthSchema extends BaseModel {
   declare signalingDeadline: DateTime
   @column()
   declare signalingPeriodDays: number
+  @column()
+  declare status: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
   @column()
@@ -380,6 +382,23 @@ export class StateSchema extends BaseModel {
   declare uf: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
+}
+
+export class StatusTransitionSchema extends BaseModel {
+  static $columns = ['changedAt', 'changedByUserId', 'fromStatus', 'id', 'openedMonthId', 'toStatus'] as const
+  $columns = StatusTransitionSchema.$columns
+  @column.dateTime()
+  declare changedAt: DateTime
+  @column()
+  declare changedByUserId: number | null
+  @column()
+  declare fromStatus: string
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare openedMonthId: number
+  @column()
+  declare toStatus: string
 }
 
 export class UserTypeSchema extends BaseModel {
