@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { Link, useForm } from '@inertiajs/vue3'
+import HelpModal from './HelpModal.vue'
 
 const props = defineProps<{
   can: Record<string, boolean>
@@ -17,6 +18,7 @@ interface MenuItem {
 }
 
 const logoutForm = useForm({})
+const helpModalVisible = ref(false)
 
 const navItems = computed<MenuItem[]>(() => {
   const items: MenuItem[] = [
@@ -70,12 +72,22 @@ function isActive(url: string): boolean {
     <div class="mt-auto border-t border-surface px-3 py-4">
       <button
         type="button"
-        class="flex items-center gap-3 w-full px-3 py-2 rounded-md text-sm font-medium text-red-500 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950 transition-colors"
+        class="flex items-center gap-3 w-full px-3 py-2 rounded-md text-sm font-medium text-muted-color hover:bg-emphasis hover:text-color transition-colors"
+        @click="helpModalVisible = true"
+      >
+        <i class="pi pi-question-circle text-base" />
+        Ajuda
+      </button>
+      <button
+        type="button"
+        class="flex items-center gap-3 w-full px-3 py-2 rounded-md text-sm font-medium text-red-500 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950 transition-colors mt-1"
         @click="logoutItem.action"
       >
         <i :class="logoutItem.icon" class="text-base" />
         {{ logoutItem.label }}
       </button>
     </div>
+
+    <HelpModal v-model:visible="helpModalVisible" />
   </div>
 </template>
