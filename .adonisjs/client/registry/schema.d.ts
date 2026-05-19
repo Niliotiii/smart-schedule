@@ -655,6 +655,42 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['storeSchedule']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'scheduleMonths.generate': {
+    methods: ["POST"]
+    pattern: '/schedules/months/:openedMonthId/generate'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { openedMonthId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['generate']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['generate']>>>
+    }
+  }
+  'scheduleMonths.destroyAssignment': {
+    methods: ["DELETE"]
+    pattern: '/schedules/months/:openedMonthId/assignments/:assignmentId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue, ParamValue]
+      params: { openedMonthId: ParamValue; assignmentId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['destroyAssignment']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['destroyAssignment']>>>
+    }
+  }
+  'scheduleMonths.storeAssignment': {
+    methods: ["POST"]
+    pattern: '/schedules/months/:openedMonthId/assignments'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/schedule_assignment').createAssignmentValidator)>>
+      paramsTuple: [ParamValue]
+      params: { openedMonthId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/schedule_assignment').createAssignmentValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['storeAssignment']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['storeAssignment']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'scheduleMonths.updateSchedule': {
     methods: ["PUT"]
     pattern: '/schedules/months/:openedMonthId/schedules/:scheduleId'

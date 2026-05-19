@@ -3,6 +3,7 @@ import { DateTime } from 'luxon'
 import OpenedMonth from '#models/opened_month'
 import Schedule from '#models/schedule'
 import ScheduleRole from '#models/schedule_role'
+import ScheduleAssignment from '#models/schedule_assignment'
 import AvailabilitySignal from '#models/availability_signal'
 
 interface ScheduleItem {
@@ -12,7 +13,8 @@ interface ScheduleItem {
   communityId: number
   priestId: number
   time: string
-  ministryRoles?: Array<{ roleId: number; quantity: number }>
+  ministryRoles?: Array<{ roleId: number; quantity: number; userTypeId?: number }>
+  assignments?: Array<{ roleId: number; userId: number }>
 }
 
 export default class ScheduleService {
@@ -54,6 +56,7 @@ export default class ScheduleService {
             scheduleId: schedule.id,
             ministryRoleId: r.roleId,
             quantity: r.quantity,
+            userTypeId: r.userTypeId ?? null,
           }))
           await ScheduleRole.createMany(roles, { client: trx })
         }
@@ -84,8 +87,18 @@ export default class ScheduleService {
           scheduleId: schedule.id,
           ministryRoleId: r.roleId,
           quantity: r.quantity,
+          userTypeId: r.userTypeId ?? null,
         }))
         await ScheduleRole.createMany(roles, { client: trx })
+      }
+
+      if (data.assignments && data.assignments.length > 0) {
+        const assignments = data.assignments.map((a) => ({
+          scheduleId: schedule.id,
+          ministryRoleId: a.roleId,
+          userId: a.userId,
+        }))
+        await ScheduleAssignment.createMany(assignments, { client: trx })
       }
 
       return schedule
@@ -115,8 +128,22 @@ export default class ScheduleService {
           scheduleId: schedule.id,
           ministryRoleId: r.roleId,
           quantity: r.quantity,
+          userTypeId: r.userTypeId ?? null,
         }))
         await ScheduleRole.createMany(roles, { client: trx })
+      }
+
+      await ScheduleAssignment.query({ client: trx })
+        .where('schedule_id', schedule.id)
+        .delete()
+
+      if (data.assignments && data.assignments.length > 0) {
+        const assignments = data.assignments.map((a) => ({
+          scheduleId: schedule.id,
+          ministryRoleId: a.roleId,
+          userId: a.userId,
+        }))
+        await ScheduleAssignment.createMany(assignments, { client: trx })
       }
 
       return schedule
