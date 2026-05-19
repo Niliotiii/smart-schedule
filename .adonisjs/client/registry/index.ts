@@ -288,6 +288,12 @@ const routes = {
     tokens: [{"old":"/ministry-roles/:id","type":0,"val":"ministry-roles","end":""},{"old":"/ministry-roles/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['ministry_roles.destroy']['types'],
   },
+  'scheduleMonths.signals': {
+    methods: ["GET","HEAD"],
+    pattern: '/schedules/signals',
+    tokens: [{"old":"/schedules/signals","type":0,"val":"schedules","end":""},{"old":"/schedules/signals","type":0,"val":"signals","end":""}],
+    types: placeholder as Registry['scheduleMonths.signals']['types'],
+  },
   'scheduleMonths.index': {
     methods: ["GET","HEAD"],
     pattern: '/schedules/months',

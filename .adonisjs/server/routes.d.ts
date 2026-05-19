@@ -51,6 +51,7 @@ export type ScannedRoutes = {
     'ministry_roles.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'ministry_roles.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'ministry_roles.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'scheduleMonths.signals': { paramsTuple?: []; params?: {} }
     'scheduleMonths.index': { paramsTuple?: []; params?: {} }
     'scheduleMonths.create': { paramsTuple?: []; params?: {} }
     'scheduleMonths.store': { paramsTuple?: []; params?: {} }
@@ -102,6 +103,7 @@ export type ScannedRoutes = {
     'ministry_roles.create': { paramsTuple?: []; params?: {} }
     'ministry_roles.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'ministry_roles.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'scheduleMonths.signals': { paramsTuple?: []; params?: {} }
     'scheduleMonths.index': { paramsTuple?: []; params?: {} }
     'scheduleMonths.create': { paramsTuple?: []; params?: {} }
     'scheduleMonths.show': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
@@ -138,6 +140,7 @@ export type ScannedRoutes = {
     'ministry_roles.create': { paramsTuple?: []; params?: {} }
     'ministry_roles.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'ministry_roles.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'scheduleMonths.signals': { paramsTuple?: []; params?: {} }
     'scheduleMonths.index': { paramsTuple?: []; params?: {} }
     'scheduleMonths.create': { paramsTuple?: []; params?: {} }
     'scheduleMonths.show': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }

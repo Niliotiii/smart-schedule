@@ -64,6 +64,7 @@ export interface ApiDefinition {
     destroy: typeof routes['ministry_roles.destroy']
   }
   scheduleMonths: {
+    signals: typeof routes['scheduleMonths.signals']
     index: typeof routes['scheduleMonths.index']
     create: typeof routes['scheduleMonths.create']
     store: typeof routes['scheduleMonths.store']
