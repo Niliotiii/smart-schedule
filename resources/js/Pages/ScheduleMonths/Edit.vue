@@ -12,6 +12,7 @@ import Textarea from 'primevue/textarea'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Tag from 'primevue/tag'
+import Message from 'primevue/message'
 import Dialog from 'primevue/dialog'
 import { useConfirm } from 'primevue/useconfirm'
 import { useToast } from 'primevue/usetoast'
@@ -23,7 +24,7 @@ const props = defineProps<{
     month: number
     openedAt: string
     signalingDeadline: string
-    isSignalingActive: boolean
+    status: string
     createdBy: { id: number; name: string } | null
     schedules: Array<{
       id: number
@@ -86,6 +87,35 @@ const editForm = useForm({
   priestId: null as number | null,
   ministryRoles: [] as Array<{ roleId: number; quantity: number }>,
 })
+
+const statusLabel = (status: string) => {
+  const labels: Record<string, string> = {
+    aberta: 'Aberta',
+    disponivel: 'Disponível',
+    rascunho: 'Rascunho',
+    publicada: 'Publicada',
+    encerrada: 'Encerrada',
+  }
+  return labels[status] || status
+}
+
+const statusSeverity = (status: string) => {
+  const severities: Record<string, string> = {
+    aberta: 'info',
+    disponivel: 'success',
+    rascunho: 'warn',
+    publicada: 'contrast',
+    encerrada: 'secondary',
+  }
+  return severities[status] || 'info'
+}
+
+function transitionTo(targetStatus: string) {
+  router.post(`/schedules/months/${props.month.id}/transition`, { status: targetStatus }, {
+    preserveState: true,
+    preserveScroll: true,
+  })
+}
 
 const roleOptions = computed(() => {
   const selectedIds = new Set(editForm.ministryRoles.map(r => r.roleId))
@@ -433,37 +463,103 @@ function submitAssign() {
           <label class="block text-sm font-medium text-muted-color">Status</label>
           <p class="mt-1">
             <Tag
-              :value="month.isSignalingActive ? 'Aberto' : 'Encerrado'"
-              :severity="month.isSignalingActive ? 'info' : 'secondary'"
+              :value="statusLabel(month.status)"
+              :severity="statusSeverity(month.status)"
             />
           </p>
         </div>
       </div>
     </div>
 
+    <!-- Status transition buttons + Schedule actions -->
+    <div
+      v-if="$page.props.can.scheduleMonthsManage"
+      class="flex items-center justify-between gap-2 mb-4 flex-wrap"
+    >
+      <div class="flex items-center gap-2" v-if="month.status !== 'encerrada'">
+        <template v-if="month.status === 'aberta' || month.status === 'disponivel'">
+          <Button
+            v-if="month.status === 'aberta'"
+            label="Abrir Sinalização"
+            icon="pi pi-flag"
+            size="small"
+            severity="success"
+            @click="transitionTo('disponivel')"
+          />
+          <Button
+            v-if="month.status === 'disponivel'"
+            label="Encerrar Sinalização"
+            icon="pi pi-flag"
+            size="small"
+            severity="warn"
+            @click="transitionTo('rascunho')"
+          />
+        </template>
+        <template v-if="month.status === 'rascunho'">
+          <Button
+            label="Publicar Escalas"
+            icon="pi pi-send"
+            size="small"
+            severity="contrast"
+            @click="transitionTo('publicada')"
+          />
+          <Button
+            label="Reabrir Sinalização"
+            icon="pi pi-replay"
+            size="small"
+            severity="help"
+            @click="transitionTo('disponivel')"
+          />
+        </template>
+        <template v-if="month.status === 'publicada'">
+          <Button
+            label="Reverter para Rascunho"
+            icon="pi pi-pencil"
+            size="small"
+            severity="warn"
+            @click="transitionTo('rascunho')"
+          />
+        </template>
+        <Button
+          v-if="month.status === 'rascunho' || month.status === 'publicada'"
+          label="Encerrar Mês"
+          icon="pi pi-check-circle"
+          size="small"
+          severity="danger"
+          @click="transitionTo('encerrada')"
+        />
+      </div>
+      <div class="flex items-center gap-2" v-if="month.status === 'rascunho'">
+        <Button
+          label="Alocar Automaticamente"
+          icon="pi pi-cog"
+          severity="info"
+          size="small"
+          :loading="generating"
+          :disabled="generating"
+          @click="confirmGenerate"
+        />
+        <Button
+          label="Adicionar Escala"
+          icon="pi pi-plus"
+          severity="info"
+          size="small"
+          @click="openAdd"
+        />
+      </div>
+    </div>
+
+    <Message
+      v-if="month.status !== 'rascunho'"
+      severity="warn"
+      class="mb-4"
+    >
+      A edição de escalas só está disponível no status "Rascunho".
+    </Message>
+
     <div class="bg-surface-ground border border-surface rounded-lg flex flex-1 flex-col min-h-0">
       <div class="p-4 flex-1 flex flex-col min-h-0">
-        <div class="flex items-center justify-between mb-4">
-          <h3 class="text-lg font-semibold text-color">Escalas</h3>
-          <div class="flex items-center gap-2">
-            <Button
-              label="Alocar Automaticamente"
-              icon="pi pi-cog"
-              severity="info"
-              size="small"
-              :loading="generating"
-              :disabled="generating"
-              @click="confirmGenerate"
-            />
-            <Button
-              label="Adicionar Escala"
-              icon="pi pi-plus"
-              severity="info"
-              size="small"
-              @click="openAdd"
-            />
-          </div>
-        </div>
+        <h3 class="text-lg font-semibold text-color mb-4">Escalas</h3>
         <DataTable
           :value="month.schedules"
           stripedRows
@@ -522,6 +618,7 @@ function submitAssign() {
             <template #body="{ data }">
               <div class="flex items-center gap-1">
                 <Button
+                  v-if="month.status === 'rascunho'"
                   v-tooltip="'Editar'"
                   icon="pi pi-pencil"
                   text
@@ -530,6 +627,7 @@ function submitAssign() {
                   @click="openEdit(data)"
                 />
                 <Button
+                  v-if="month.status === 'rascunho'"
                   v-tooltip="'Excluir'"
                   icon="pi pi-trash"
                   text

@@ -379,7 +379,7 @@ declare module '@adonisjs/inertia/types' {
         month: number
         openedAt: string
         signalingDeadline: string
-        isSignalingActive: boolean
+        status: string
         createdBy: { id: number; name: string } | null
         scheduleCount: number
       }>
@@ -397,7 +397,7 @@ declare module '@adonisjs/inertia/types' {
         month: number
         openedAt: string
         signalingDeadline: string
-        isSignalingActive: boolean
+        status: string
         createdBy: { id: number; name: string } | null
         schedules: Array<{
           id: number
@@ -420,7 +420,7 @@ declare module '@adonisjs/inertia/types' {
         month: number
         openedAt: string
         signalingDeadline: string
-        isSignalingActive: boolean
+        status: string
         createdBy: { id: number; name: string } | null
         schedules: Array<{
           id: number
@@ -448,7 +448,7 @@ declare module '@adonisjs/inertia/types' {
         month: number
         openedAt: string
         signalingDeadline: string
-        isSignalingActive: boolean
+        status: string
         createdBy: { id: number; name: string } | null
         schedules: Array<{
           id: number

@@ -14,8 +14,8 @@ export default class AvailabilitySignalsController {
       .firstOrFail()
     const month = await schedule.related('openedMonth').query().firstOrFail()
 
-    if (!month.isSignalingActive) {
-      session.flash({ error: 'O período de sinalização já foi encerrado' })
+    if (month.status !== 'disponivel') {
+      session.flash({ error: 'O período de sinalização não está ativo' })
       return response.redirect().back()
     }
 
@@ -51,8 +51,8 @@ export default class AvailabilitySignalsController {
       .firstOrFail()
     const month = await schedule.related('openedMonth').query().firstOrFail()
 
-    if (!month.isSignalingActive) {
-      session.flash({ error: 'O período de sinalização já foi encerrado' })
+    if (month.status !== 'disponivel') {
+      session.flash({ error: 'O período de sinalização não está ativo' })
       return response.redirect().back()
     }
 

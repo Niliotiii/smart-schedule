@@ -59,6 +59,7 @@ export type ScannedRoutes = {
     'scheduleMonths.edit': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
     'scheduleMonths.storeSchedule': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
     'scheduleMonths.generate': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
+    'scheduleMonths.transition': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
     'scheduleMonths.destroyAssignment': { paramsTuple: [ParamValue,ParamValue]; params: {'openedMonthId': ParamValue,'assignmentId': ParamValue} }
     'scheduleMonths.storeAssignment': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
     'scheduleMonths.updateSchedule': { paramsTuple: [ParamValue,ParamValue]; params: {'openedMonthId': ParamValue,'scheduleId': ParamValue} }
@@ -157,6 +158,7 @@ export type ScannedRoutes = {
     'scheduleMonths.store': { paramsTuple?: []; params?: {} }
     'scheduleMonths.storeSchedule': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
     'scheduleMonths.generate': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
+    'scheduleMonths.transition': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
     'scheduleMonths.storeAssignment': { paramsTuple: [ParamValue]; params: {'openedMonthId': ParamValue} }
     'availabilitySignals.store': { paramsTuple: [ParamValue]; params: {'scheduleId': ParamValue} }
     'api.signup': { paramsTuple?: []; params?: {} }

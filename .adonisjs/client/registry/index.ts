@@ -336,6 +336,12 @@ const routes = {
     tokens: [{"old":"/schedules/months/:openedMonthId/generate","type":0,"val":"schedules","end":""},{"old":"/schedules/months/:openedMonthId/generate","type":0,"val":"months","end":""},{"old":"/schedules/months/:openedMonthId/generate","type":1,"val":"openedMonthId","end":""},{"old":"/schedules/months/:openedMonthId/generate","type":0,"val":"generate","end":""}],
     types: placeholder as Registry['scheduleMonths.generate']['types'],
   },
+  'scheduleMonths.transition': {
+    methods: ["POST"],
+    pattern: '/schedules/months/:openedMonthId/transition',
+    tokens: [{"old":"/schedules/months/:openedMonthId/transition","type":0,"val":"schedules","end":""},{"old":"/schedules/months/:openedMonthId/transition","type":0,"val":"months","end":""},{"old":"/schedules/months/:openedMonthId/transition","type":1,"val":"openedMonthId","end":""},{"old":"/schedules/months/:openedMonthId/transition","type":0,"val":"transition","end":""}],
+    types: placeholder as Registry['scheduleMonths.transition']['types'],
+  },
   'scheduleMonths.destroyAssignment': {
     methods: ["DELETE"],
     pattern: '/schedules/months/:openedMonthId/assignments/:assignmentId',

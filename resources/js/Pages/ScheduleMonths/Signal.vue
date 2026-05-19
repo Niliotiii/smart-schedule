@@ -15,7 +15,7 @@ const props = defineProps<{
     month: number
     openedAt: string
     signalingDeadline: string
-    isSignalingActive: boolean
+    status: string
     createdBy: { id: number; name: string } | null
     schedules: Array<{
       id: number
@@ -106,11 +106,21 @@ if (props.flash?.error) {
     </div>
 
     <Message
-      v-if="!month.isSignalingActive"
+      v-if="month.status !== 'disponivel'"
       severity="warn"
       class="mb-4"
     >
-      O período de sinalização deste mês já foi encerrado. Não é possível alterar suas respostas.
+      {{
+        month.status === 'aberta'
+          ? 'O período de sinalização ainda não foi iniciado.'
+          : month.status === 'rascunho'
+            ? 'O período de sinalização foi encerrado. As escalas estão em fase de rascunho.'
+            : month.status === 'publicada'
+              ? 'O período de sinalização foi encerrado. As escalas já foram publicadas.'
+              : month.status === 'encerrada'
+                ? 'O período de sinalização foi encerrado. As escalas estão concluídas.'
+                : 'O período de sinalização deste mês já foi encerrado. Não é possível alterar suas respostas.'
+      }}
     </Message>
 
     <div
@@ -185,7 +195,7 @@ if (props.flash?.error) {
             />
           </div>
 
-          <div v-if="month.isSignalingActive" class="flex gap-3 mt-2">
+          <div v-if="month.status === 'disponivel'" class="flex gap-3 mt-2">
             <Button
               label="Sim"
               icon="pi pi-check"
