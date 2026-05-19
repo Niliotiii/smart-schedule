@@ -99,7 +99,7 @@ declare module '@adonisjs/inertia/types' {
       flash?: { success?: string | null; errors?: string | null }
     }
     'Auth/Login': {}
-    'Dashboard/Index': { liturgia: LiturgiaData | null }
+    'Dashboard/Index': { liturgia: LiturgiaData | null; userSchedules: Array<{ id: number; day: number; year: number; month: number; name: string; description: string | null; time: string; community: { id: number; name: string } | null; priest: { id: number; name: string } | null; isAssigned: boolean; assignments: Array<{ userId: number; userName: string; ministryRoleName: string }> }> }
     'Profiles/Index': {
       profiles: Array<{
         id: number
