@@ -667,6 +667,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['generate']>>>
     }
   }
+  'scheduleMonths.transition': {
+    methods: ["POST"]
+    pattern: '/schedules/months/:openedMonthId/transition'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { openedMonthId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['changeStatus']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['changeStatus']>>>
+    }
+  }
   'scheduleMonths.destroyAssignment': {
     methods: ["DELETE"]
     pattern: '/schedules/months/:openedMonthId/assignments/:assignmentId'
