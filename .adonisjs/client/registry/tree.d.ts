@@ -72,6 +72,7 @@ export interface ApiDefinition {
     edit: typeof routes['scheduleMonths.edit']
     storeSchedule: typeof routes['scheduleMonths.storeSchedule']
     generate: typeof routes['scheduleMonths.generate']
+    transition: typeof routes['scheduleMonths.transition']
     destroyAssignment: typeof routes['scheduleMonths.destroyAssignment']
     storeAssignment: typeof routes['scheduleMonths.storeAssignment']
     updateSchedule: typeof routes['scheduleMonths.updateSchedule']

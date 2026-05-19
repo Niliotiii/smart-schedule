@@ -20,7 +20,7 @@ const props = defineProps<{
     month: number
     openedAt: string
     signalingDeadline: string
-    isSignalingActive: boolean
+    status: string
     createdBy: { id: number; name: string } | null
     scheduleCount: number
   }>
@@ -43,6 +43,28 @@ const formatMonth = (m: number, y: number) => `${monthNames[m - 1]} / ${y}`
 const formatDate = (iso: string) => {
   const d = new Date(iso)
   return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+}
+
+const statusLabel = (status: string) => {
+  const labels: Record<string, string> = {
+    aberta: 'Aberta',
+    disponivel: 'Disponível',
+    rascunho: 'Rascunho',
+    publicada: 'Publicada',
+    encerrada: 'Encerrada',
+  }
+  return labels[status] || status
+}
+
+const statusSeverity = (status: string) => {
+  const severities: Record<string, string> = {
+    aberta: 'info',
+    disponivel: 'success',
+    rascunho: 'warn',
+    publicada: 'contrast',
+    encerrada: 'secondary',
+  }
+  return severities[status] || 'info'
 }
 
 if (props.flash?.success) {
@@ -106,8 +128,8 @@ const confirmDelete = (id: number) => {
         <Column header="Status">
           <template #body="{ data }">
             <Tag
-              :value="data.isSignalingActive ? 'Aberto' : 'Encerrado'"
-              :severity="data.isSignalingActive ? 'info' : 'secondary'"
+              :value="statusLabel(data.status)"
+              :severity="statusSeverity(data.status)"
             />
           </template>
         </Column>
