@@ -368,6 +368,55 @@ export default class ScheduleMonthsController {
     return response.redirect(`/schedules/months/${params.openedMonthId}/edit`)
   }
 
+  async signals({ inertia, bouncer, auth }: HttpContext) {
+    await bouncer.authorize(scheduleMonthsRead)
+    const months = await OpenedMonth.query()
+      .where('status', 'disponivel')
+      .whereNull('deleted_at')
+      .preload('schedules', (q) => {
+        q.whereNull('deleted_at')
+          .preload('community', (cq) => cq.select('id', 'name'))
+          .preload('priest', (pq) => pq.select('id', 'name'))
+          .preload('scheduleRoles', (rq) => rq.preload('ministryRole', (mrq) => mrq.select('id', 'name')))
+          .orderBy('day', 'asc')
+      })
+      .orderBy('year', 'asc')
+      .orderBy('month', 'asc')
+
+    const scheduleIds = months.flatMap((m) => m.schedules.map((s) => s.id))
+    const userSignals = scheduleIds.length
+      ? await AvailabilitySignal.query()
+          .whereIn('schedule_id', scheduleIds)
+          .where('user_id', auth.user!.id)
+      : []
+
+    const signalMap = new Map(userSignals.map((s) => [s.scheduleId, s.response as 'sim' | 'nao']))
+
+    const monthsData = months.map((m) => ({
+      id: m.id,
+      year: m.year,
+      month: m.month,
+      status: m.status,
+      schedules: m.schedules.map((s) => ({
+        id: s.id,
+        day: s.day,
+        name: s.name,
+        description: s.description,
+        time: s.time,
+        community: s.community ? { id: s.community.id, name: s.community.name } : null,
+        priest: s.priest ? { id: s.priest.id, name: s.priest.name } : null,
+        roles: s.scheduleRoles.map((r) => ({
+          id: r.ministryRole?.id,
+          name: r.ministryRole?.name,
+          quantity: r.quantity,
+        })),
+        userSignal: signalMap.get(s.id) ?? null,
+      })),
+    }))
+
+    return inertia.render('ScheduleMonths/Signals', { months: monthsData })
+  }
+
   async changeStatus({ params, request, response, session, bouncer, auth }: HttpContext) {
     await bouncer.authorize(scheduleMonthsManage)
     const month = await OpenedMonth.query()

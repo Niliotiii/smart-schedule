@@ -571,6 +571,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ministry_roles_controller').default['destroy']>>>
     }
   }
+  'scheduleMonths.signals': {
+    methods: ["GET","HEAD"]
+    pattern: '/schedules/signals'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['signals']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/schedule_months_controller').default['signals']>>>
+    }
+  }
   'scheduleMonths.index': {
     methods: ["GET","HEAD"]
     pattern: '/schedules/months'

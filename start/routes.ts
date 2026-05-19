@@ -42,6 +42,7 @@ router
     router.resource('priests', PriestsController).as('priests')
     router.resource('ministry-roles', MinistryRolesController).as('ministryRoles')
 
+    router.get('/schedules/signals', [ScheduleMonthsController, 'signals']).as('scheduleMonths.signals')
     router.get('/schedules/months', [ScheduleMonthsController, 'index']).as('scheduleMonths.index')
     router.get('/schedules/months/create', [ScheduleMonthsController, 'create']).as('scheduleMonths.create')
     router.post('/schedules/months', [ScheduleMonthsController, 'store']).as('scheduleMonths.store')
