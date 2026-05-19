@@ -1,6 +1,13 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import Tag from 'primevue/tag'
+import Tabs from 'primevue/tabs'
+import TabList from 'primevue/tablist'
+import Tab from 'primevue/tab'
+import TabPanels from 'primevue/tabpanels'
+import TabPanel from 'primevue/tabpanel'
 import LiturgiaCard from '../Liturgia/Card.vue'
+import ScheduleCalendarCard from '../ScheduleCalendar/Card.vue'
 import type { LiturgiaData } from '../../lib/liturgia'
 
 const props = defineProps<{
@@ -8,7 +15,25 @@ const props = defineProps<{
     scheduleMonthsRead: boolean
   }
   liturgia: LiturgiaData | null
+  userSchedules: Array<{
+    id: number
+    day: number
+    year: number
+    month: number
+    name: string
+    description: string | null
+    time: string
+    community: { id: number; name: string } | null
+    priest: { id: number; name: string } | null
+    assignments: Array<{
+      userId: number
+      userName: string
+      ministryRoleName: string
+    }>
+  }>
 }>()
+
+const activeTab = ref('0')
 </script>
 
 <template>
@@ -47,6 +72,22 @@ const props = defineProps<{
       </div>
     </div>
 
-    <LiturgiaCard :liturgia="liturgia" />
+    <div class="mt-6 rounded-xl border border-surface shadow-sm bg-surface-ground overflow-hidden">
+      <Tabs v-model:value="activeTab">
+        <TabList>
+          <Tab value="0">Calendário de Escalas</Tab>
+          <Tab value="1">Liturgia Diária</Tab>
+        </TabList>
+
+        <TabPanels>
+          <TabPanel value="0">
+            <ScheduleCalendarCard :user-schedules="userSchedules" />
+          </TabPanel>
+          <TabPanel value="1">
+            <LiturgiaCard :liturgia="liturgia" />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    </div>
   </div>
 </template>
