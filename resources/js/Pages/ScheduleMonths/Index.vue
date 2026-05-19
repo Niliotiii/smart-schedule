@@ -158,14 +158,6 @@ const confirmDelete = (id: number) => {
                 severity="warn"
                 @click="$inertia.get(`/schedules/months/${data.id}/edit`)"
               />
-              <Button
-                v-tooltip="'Sinalizar disponibilidade'"
-                icon="pi pi-flag"
-                text
-                rounded
-                severity="success"
-                @click="$inertia.get(`/schedules/months/${data.id}/signal`)"
-              />
             </div>
           </template>
         </Column>
