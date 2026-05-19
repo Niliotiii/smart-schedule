@@ -5,6 +5,7 @@ import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Button from 'primevue/button'
 import Tag from 'primevue/tag'
+import Dialog from 'primevue/dialog'
 import Breadcrumb from 'primevue/breadcrumb'
 import { useToast } from 'primevue/usetoast'
 
@@ -22,9 +23,11 @@ const props = defineProps<{
       day: number
       name: string
       description: string | null
+      time: string
       community: { id: number; name: string } | null
       priest: { id: number; name: string } | null
-      roles: Array<{ id: number; name: string }>
+      roles: Array<{ id: number; name: string; quantity: number }>
+      assignments: Array<{ id: number; userId: number; userName: string; ministryRoleId: number; ministryRoleName: string }>
       signals: Array<{ user: { id: number; name: string } | null; response: string; signaledAt: string }>
     }>
   }
@@ -32,6 +35,14 @@ const props = defineProps<{
 }>()
 
 const toast = useToast()
+
+const dialogVisible = ref(false)
+const selectedSchedule = ref<any>(null)
+
+function viewAssignments(schedule: any) {
+  selectedSchedule.value = schedule
+  dialogVisible.value = true
+}
 
 const monthNames = [
   'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
@@ -108,10 +119,6 @@ const model = ref([
             />
           </p>
         </div>
-        <div>
-          <label class="block text-sm font-medium text-muted-color">Aberto por</label>
-          <p class="mt-1 text-sm text-color">{{ month.createdBy?.name || '—' }}</p>
-        </div>
       </div>
     </div>
 
@@ -157,6 +164,25 @@ const model = ref([
               </div>
             </template>
           </Column>
+          <Column header="Alocações" style="width: 8rem">
+            <template #body="{ data }">
+              <div class="flex items-center gap-2">
+                <Tag
+                  :value="`${data.assignments?.length || 0}/${data.roles.reduce((s: number, r: any) => s + (r.quantity || 1), 0)}`"
+                  :severity="(data.assignments?.length || 0) >= data.roles.reduce((s: number, r: any) => s + (r.quantity || 1), 0) ? 'success' : 'warn'"
+                />
+                <Button
+                  v-if="data.assignments?.length"
+                  icon="pi pi-users"
+                  text
+                  rounded
+                  size="small"
+                  v-tooltip="'Ver voluntários'"
+                  @click="viewAssignments(data)"
+                />
+              </div>
+            </template>
+          </Column>
           <Column header="Sinalizações" style="width: 8rem">
             <template #body="{ data }">
               {{ signalCount(data) }}
@@ -189,5 +215,30 @@ const model = ref([
         />
       </div>
     </div>
+
+    <Dialog
+      v-model:visible="dialogVisible"
+      modal
+      :header="selectedSchedule ? `${selectedSchedule.name} — Dia ${selectedSchedule.day}` : ''"
+      :style="{ width: '500px' }"
+      class="max-w-full"
+    >
+      <template v-if="selectedSchedule?.assignments?.length">
+        <div
+          v-for="assignment in selectedSchedule.assignments"
+          :key="assignment.id"
+          class="flex items-center gap-3 py-2 border-b border-surface last:border-b-0"
+        >
+          <i class="pi pi-user text-muted-color" />
+          <span class="text-color">{{ assignment.userName }}</span>
+          <span class="text-muted-color text-xs">—</span>
+          <Tag :value="assignment.ministryRoleName" severity="info" rounded />
+        </div>
+      </template>
+      <div v-else class="text-center py-4 text-muted-color">
+        <i class="pi pi-users text-2xl mb-2 block" />
+        <p class="text-sm">Nenhum voluntário alocado.</p>
+      </div>
+    </Dialog>
   </div>
 </template>

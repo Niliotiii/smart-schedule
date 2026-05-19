@@ -408,6 +408,7 @@ declare module '@adonisjs/inertia/types' {
           community: { id: number; name: string } | null
           priest: { id: number; name: string } | null
           roles: Array<{ id: number; name: string; quantity: number }>
+          assignments: Array<{ id: number; userId: number; userName: string; ministryRoleId: number; ministryRoleName: string }>
           signals: Array<{ user: { id: number; name: string } | null; response: string; signaledAt: string }>
         }>
       }
