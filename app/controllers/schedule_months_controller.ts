@@ -13,7 +13,9 @@ import { createAssignmentValidator } from '#validators/schedule_assignment'
 import { scheduleMonthsRead, scheduleMonthsManage } from '#abilities/main'
 import ScheduleService from '#services/schedule_service'
 import ScheduleGeneratorService from '#services/schedule_generator_service'
+import StatusTransition from '#models/status_transition'
 import UserType from '#models/user_type'
+import { DateTime } from 'luxon'
 
 export default class ScheduleMonthsController {
   async index({ inertia, bouncer }: HttpContext) {
@@ -27,7 +29,7 @@ export default class ScheduleMonthsController {
 
     const monthsData: Array<{
       id: number; year: number; month: number; openedAt: string
-      signalingDeadline: string; isSignalingActive: boolean
+      signalingDeadline: string; status: string
       createdBy: { id: number; name: string } | null; scheduleCount: number
     }> = months.map((m) => ({
       id: m.id,
@@ -35,7 +37,7 @@ export default class ScheduleMonthsController {
       month: m.month,
       openedAt: m.openedAt.toISO()!,
       signalingDeadline: m.signalingDeadline.toISO()!,
-      isSignalingActive: m.isSignalingActive,
+      status: m.status,
       createdBy: m.createdBy ? { id: m.createdBy.id, name: m.createdBy.fullName ?? '—' } : null,
       scheduleCount: m.schedules.length,
     }))
@@ -115,14 +117,33 @@ export default class ScheduleMonthsController {
     await bouncer.authorize(scheduleMonthsRead)
     const month = await this.loadMonthWithSchedules(params.openedMonthId)
 
+    const canManage = await bouncer.allows('scheduleMonthsManage')
+    const isPublic = month.status === 'publicada' || month.status === 'encerrada'
+
+    const serialized = this.serializeMonth(month)
+
+    // Non-admin users can only see role/assignment details on published or closed months
+    if (!canManage && !isPublic) {
+      serialized.schedules = serialized.schedules.map((s) => ({
+        ...s,
+        roles: [],
+        assignments: [],
+      }))
+    }
+
     return inertia.render('ScheduleMonths/Show', {
-      month: this.serializeMonth(month),
+      month: serialized,
     })
   }
 
-  async signal({ params, inertia, bouncer, auth }: HttpContext) {
+  async signal({ params, inertia, bouncer, auth, session, response }: HttpContext) {
     await bouncer.authorize(scheduleMonthsRead)
     const month = await this.loadMonthWithSchedules(params.openedMonthId)
+
+    if (month.status !== 'disponivel') {
+      session.flash({ error: 'O período de sinalização não está ativo para este mês' })
+      return response.redirect(`/schedules/months/${params.openedMonthId}`)
+    }
 
     const scheduleIds = month.schedules.map((s) => s.id)
     const userSignals = await AvailabilitySignal.query()
@@ -136,9 +157,13 @@ export default class ScheduleMonthsController {
     })
   }
 
-  async edit({ params, inertia, bouncer }: HttpContext) {
+  async edit({ params, inertia, bouncer, session }: HttpContext) {
     await bouncer.authorize(scheduleMonthsManage)
     const month = await this.loadMonthWithSchedules(params.openedMonthId)
+
+    if (month.status !== 'rascunho') {
+      session.flash({ warning: `A edição de escalas só está disponível no status "Rascunho". Status atual: ${month.status}` })
+    }
 
     const [churches, priests, ministryRoles, userTypes, eligibleUsers] = await Promise.all([
       Church.withoutTrashed(Church.query()).select('id', 'name').orderBy('name'),
@@ -343,6 +368,57 @@ export default class ScheduleMonthsController {
     return response.redirect(`/schedules/months/${params.openedMonthId}/edit`)
   }
 
+  async changeStatus({ params, request, response, session, bouncer, auth }: HttpContext) {
+    await bouncer.authorize(scheduleMonthsManage)
+    const month = await OpenedMonth.query()
+      .where('id', params.openedMonthId)
+      .whereNull('deleted_at')
+      .firstOrFail()
+
+    const allowedTransitions: Record<string, string[]> = {
+      aberta: ['disponivel'],
+      disponivel: ['aberta', 'rascunho'],
+      rascunho: ['disponivel', 'publicada', 'encerrada'],
+      publicada: ['rascunho', 'encerrada'],
+      encerrada: [],
+    }
+
+    const targetStatus = request.input('status')
+    if (!targetStatus) {
+      session.flash({ error: 'Status de destino não informado' })
+      return response.redirect().back()
+    }
+
+    const allowed = allowedTransitions[month.status]
+    if (!allowed || !allowed.includes(targetStatus)) {
+      session.flash({ error: `Transição de "${month.status}" para "${targetStatus}" não é permitida` })
+      return response.redirect().back()
+    }
+
+    const now = DateTime.now()
+    await StatusTransition.create({
+      openedMonthId: month.id,
+      fromStatus: month.status,
+      toStatus: targetStatus,
+      changedByUserId: auth.user!.id,
+      changedAt: now,
+    })
+
+    month.status = targetStatus
+    await month.save()
+
+    const statusLabels: Record<string, string> = {
+      aberta: 'Aberta',
+      disponivel: 'Disponível',
+      rascunho: 'Rascunho',
+      publicada: 'Publicada',
+      encerrada: 'Encerrada',
+    }
+
+    session.flash({ success: `Status alterado para "${statusLabels[targetStatus] || targetStatus}"` })
+    return response.redirect(`/schedules/months/${params.openedMonthId}/edit`)
+  }
+
   private async loadMonthWithSchedules(openedMonthId: number) {
     return await OpenedMonth.query()
       .where('id', openedMonthId)
@@ -369,7 +445,7 @@ export default class ScheduleMonthsController {
       month: month.month,
       openedAt: month.openedAt.toISO()!,
       signalingDeadline: month.signalingDeadline.toISO()!,
-      isSignalingActive: month.isSignalingActive,
+      status: month.status,
       createdBy: month.createdBy
         ? { id: month.createdBy.id, name: month.createdBy.fullName ?? '—' }
         : null,

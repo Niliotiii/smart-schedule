@@ -3,6 +3,7 @@ import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import { DateTime } from 'luxon'
 import User from './user.js'
 import Schedule from './schedule.js'
+import StatusTransition from './status_transition.js'
 
 export default class OpenedMonth extends BaseModel {
   @column({ isPrimary: true })
@@ -24,6 +25,9 @@ export default class OpenedMonth extends BaseModel {
   declare signalingDeadline: DateTime
 
   @column()
+  declare status: string
+
+  @column()
   declare createdByUserId: number
 
   @belongsTo(() => User, { foreignKey: 'createdByUserId' })
@@ -31,6 +35,9 @@ export default class OpenedMonth extends BaseModel {
 
   @hasMany(() => Schedule)
   declare schedules: HasMany<typeof Schedule>
+
+  @hasMany(() => StatusTransition)
+  declare statusTransitions: HasMany<typeof StatusTransition>
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -40,6 +47,14 @@ export default class OpenedMonth extends BaseModel {
 
   @column.dateTime()
   declare deletedAt: DateTime | null
+
+  canSignal(): boolean {
+    return this.status === 'disponivel'
+  }
+
+  canEdit(): boolean {
+    return this.status === 'rascunho'
+  }
 
   async delete() {
     this.deletedAt = DateTime.now()
@@ -53,9 +68,5 @@ export default class OpenedMonth extends BaseModel {
 
   static withoutTrashed(query: any) {
     return query.whereNull('deleted_at')
-  }
-
-  get isSignalingActive(): boolean {
-    return DateTime.now() <= this.signalingDeadline
   }
 }

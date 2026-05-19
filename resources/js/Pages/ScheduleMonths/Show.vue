@@ -15,7 +15,7 @@ const props = defineProps<{
     month: number
     openedAt: string
     signalingDeadline: string
-    isSignalingActive: boolean
+    status: string
     createdBy: { id: number; name: string } | null
     schedules: Array<{
       id: number
@@ -49,6 +49,28 @@ const formatDate = (iso: string) => {
 
 const signalCount = (schedule: typeof props.month.schedules[0]) => schedule.signals.length
 
+const statusLabel = (status: string) => {
+  const labels: Record<string, string> = {
+    aberta: 'Aberta',
+    disponivel: 'Disponível',
+    rascunho: 'Rascunho',
+    publicada: 'Publicada',
+    encerrada: 'Encerrada',
+  }
+  return labels[status] || status
+}
+
+const statusSeverity = (status: string) => {
+  const severities: Record<string, string> = {
+    aberta: 'info',
+    disponivel: 'success',
+    rascunho: 'warn',
+    publicada: 'contrast',
+    encerrada: 'secondary',
+  }
+  return severities[status] || 'info'
+}
+
 if (props.flash?.success) {
   toast.add({ severity: 'success', summary: 'Sucesso', detail: props.flash.success, life: 3000 })
 }
@@ -81,8 +103,8 @@ const model = ref([
           <label class="block text-sm font-medium text-muted-color">Status</label>
           <p class="mt-1">
             <Tag
-              :value="month.isSignalingActive ? 'Aberto para sinalização' : 'Encerrado'"
-              :severity="month.isSignalingActive ? 'info' : 'secondary'"
+              :value="statusLabel(month.status)"
+              :severity="statusSeverity(month.status)"
             />
           </p>
         </div>
@@ -153,7 +175,7 @@ const model = ref([
 
       <div class="flex justify-end gap-2 p-4 border-t border-surface">
         <Button
-          v-if="$page.props.can.scheduleMonthsManage"
+          v-if="$page.props.can.scheduleMonthsManage && month.status === 'rascunho'"
           v-tooltip="'Editar escalas'"
           label="Editar"
           severity="warn"
