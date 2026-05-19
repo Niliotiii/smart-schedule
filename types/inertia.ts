@@ -464,5 +464,25 @@ declare module '@adonisjs/inertia/types' {
       }
       flash?: { success?: string | null; error?: string | null }
     }
+    'ScheduleMonths/Signals': {
+      months: Array<{
+        id: number
+        year: number
+        month: number
+        status: string
+        schedules: Array<{
+          id: number
+          day: number
+          name: string
+          description: string | null
+          time: string
+          community: { id: number; name: string } | null
+          priest: { id: number; name: string } | null
+          roles: Array<{ id: number; name: string; quantity: number }>
+          userSignal: string | null
+        }>
+      }>
+      flash?: { success?: string | null; error?: string | null }
+    }
   }
 }
