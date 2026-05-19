@@ -430,12 +430,15 @@ declare module '@adonisjs/inertia/types' {
           time: string
           community: { id: number; name: string } | null
           priest: { id: number; name: string } | null
-          roles: Array<{ id: number; name: string; quantity: number }>
+          roles: Array<{ id: number; name: string; quantity: number; userTypeId: number | null }>
+          assignments: Array<{ id: number; userId: number; userName: string; ministryRoleId: number; ministryRoleName: string }>
         }>
       }
       churches: Array<{ id: number; name: string }>
       priests: Array<{ id: number; name: string }>
       ministryRoles: Array<{ id: number; name: string }>
+      userTypes: Array<{ id: number; name: string }>
+      eligibleUsers: Array<{ id: number; name: string; ministryRoleIds: number[]; userTypeId: number | null }>
       flash?: { success?: string | null; error?: string | null }
     }
     'ScheduleMonths/Signal': {

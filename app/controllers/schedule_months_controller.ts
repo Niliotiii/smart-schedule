@@ -4,11 +4,16 @@ import Schedule from '#models/schedule'
 import Church from '#models/church'
 import Priest from '#models/priest'
 import MinistryRole from '#models/ministry_role'
+import User from '#models/user'
 import AvailabilitySignal from '#models/availability_signal'
+import ScheduleAssignment from '#models/schedule_assignment'
 import { createScheduleMonthValidator } from '#validators/schedule_month'
 import { scheduleValidator } from '#validators/schedule'
+import { createAssignmentValidator } from '#validators/schedule_assignment'
 import { scheduleMonthsRead, scheduleMonthsManage } from '#abilities/main'
 import ScheduleService from '#services/schedule_service'
+import ScheduleGeneratorService from '#services/schedule_generator_service'
+import UserType from '#models/user_type'
 
 export default class ScheduleMonthsController {
   async index({ inertia, bouncer }: HttpContext) {
@@ -135,10 +140,20 @@ export default class ScheduleMonthsController {
     await bouncer.authorize(scheduleMonthsManage)
     const month = await this.loadMonthWithSchedules(params.openedMonthId)
 
-    const [churches, priests, ministryRoles] = await Promise.all([
+    const [churches, priests, ministryRoles, userTypes, eligibleUsers] = await Promise.all([
       Church.withoutTrashed(Church.query()).select('id', 'name').orderBy('name'),
       Priest.withoutTrashed(Priest.query()).select('id', 'name').orderBy('name'),
       MinistryRole.withoutTrashed(MinistryRole.query()).select('id', 'name').orderBy('name'),
+      UserType.query().select('id', 'name').orderBy('name'),
+      User.query()
+        .where('include_in_scale', true)
+        .whereNull('deleted_at')
+        .whereHas('ministryRoles', (q) => {
+          q.select('id')
+        })
+        .preload('ministryRoles', (q) => q.select('id'))
+        .select('id', 'fullName', 'userTypeId')
+        .orderBy('fullName'),
     ])
 
     return inertia.render('ScheduleMonths/Edit', {
@@ -146,6 +161,13 @@ export default class ScheduleMonthsController {
       churches: churches.map((c: { id: number; name: string }) => ({ id: c.id, name: c.name })),
       priests: priests.map((p: { id: number; name: string }) => ({ id: p.id, name: p.name })),
       ministryRoles: ministryRoles.map((r: { id: number; name: string }) => ({ id: r.id, name: r.name })),
+      userTypes: userTypes.map((t: { id: number; name: string }) => ({ id: t.id, name: t.name })),
+      eligibleUsers: eligibleUsers.map((u) => ({
+        id: u.id,
+        name: u.fullName ?? '—',
+        ministryRoleIds: u.ministryRoles.map((r) => r.id),
+        userTypeId: u.userTypeId,
+      })),
     })
   }
 
@@ -196,6 +218,7 @@ export default class ScheduleMonthsController {
       communityId: data.communityId,
       priestId: data.priestId,
       ministryRoles: data.ministryRoles,
+      assignments: data.assignments,
       time: data.time ?? null,
     })
 
@@ -232,6 +255,7 @@ export default class ScheduleMonthsController {
       communityId: data.communityId,
       priestId: data.priestId,
       ministryRoles: data.ministryRoles,
+      assignments: data.assignments,
       time: data.time ?? null,
     })
 
@@ -254,6 +278,71 @@ export default class ScheduleMonthsController {
     return response.redirect(`/schedules/months/${params.openedMonthId}/edit`)
   }
 
+  async generate({ params, response, session, bouncer }: HttpContext) {
+    await bouncer.authorize(scheduleMonthsManage)
+    const openedMonth = await OpenedMonth.findOrFail(params.openedMonthId)
+    console.log(`[DEBUG] generate() called for openedMonthId=${params.openedMonthId}`)
+
+    const generator = new ScheduleGeneratorService()
+    const result = await generator.generate(openedMonth.id)
+    console.log(`[DEBUG] result: filledSlots=${result.summary.filledSlots}, totalSlots=${result.summary.totalSlots}, assignments=${result.assignments.length}`)
+
+    if (result.assignments.length > 0) {
+      await ScheduleAssignment.query()
+        .whereIn(
+          'schedule_id',
+          result.assignments.map((a) => a.scheduleId)
+        )
+        .delete()
+      console.log(`[DEBUG] deleted existing assignments for ${result.assignments.length} new assignments`)
+
+      await ScheduleAssignment.createMany(result.assignments)
+      console.log(`[DEBUG] created ${result.assignments.length} assignments`)
+    }
+
+    const summary = result.summary
+    if (summary.unfilledDetails.length > 0) {
+      const details = summary.unfilledDetails
+        .map((u) => `${u.day}/${openedMonth.month} — ${u.scheduleName}: ${u.role} (faltam ${u.missingQuantity})`)
+        .join('; ')
+      session.flash({
+        warning: `Alocações geradas com ${summary.filledSlots}/${summary.totalSlots} vagas preenchidas. Vagas não preenchidas: ${details}`,
+      })
+    } else {
+      session.flash({
+        success: `Alocações geradas com sucesso! ${summary.filledSlots}/${summary.totalSlots} vagas preenchidas.`,
+      })
+    }
+
+    return response.redirect(`/schedules/months/${params.openedMonthId}/edit`)
+  }
+
+  async destroyAssignment({ params, response, session, bouncer }: HttpContext) {
+    await bouncer.authorize(scheduleMonthsManage)
+    const assignment = await ScheduleAssignment.query()
+      .where('id', params.assignmentId)
+      .firstOrFail()
+
+    await assignment.delete()
+
+    session.flash({ success: 'Alocação removida com sucesso' })
+    return response.redirect(`/schedules/months/${params.openedMonthId}/edit`)
+  }
+
+  async storeAssignment({ params, request, response, session, bouncer }: HttpContext) {
+    await bouncer.authorize(scheduleMonthsManage)
+    const data = await request.validateUsing(createAssignmentValidator)
+
+    await ScheduleAssignment.create({
+      scheduleId: data.scheduleId,
+      userId: data.userId,
+      ministryRoleId: data.ministryRoleId,
+    })
+
+    session.flash({ success: 'Alocação adicionada com sucesso' })
+    return response.redirect(`/schedules/months/${params.openedMonthId}/edit`)
+  }
+
   private async loadMonthWithSchedules(openedMonthId: number) {
     return await OpenedMonth.query()
       .where('id', openedMonthId)
@@ -264,6 +353,9 @@ export default class ScheduleMonthsController {
           .preload('priest', (pq) => pq.select('id', 'name'))
           .preload('scheduleRoles', (rq) => rq.preload('ministryRole', (mrq) => mrq.select('id', 'name')))
           .preload('availabilitySignals', (aq) => aq.preload('user', (uq) => uq.select('id', 'fullName')))
+          .preload('scheduleAssignments', (saq) =>
+            saq.preload('user', (uq) => uq.select('id', 'fullName')).preload('ministryRole', (mrq) => mrq.select('id', 'name'))
+          )
           .orderBy('day', 'asc')
       })
       .preload('createdBy', (q) => q.select('id', 'fullName'))
@@ -293,12 +385,20 @@ export default class ScheduleMonthsController {
           id: r.ministryRole?.id,
           name: r.ministryRole?.name,
           quantity: r.quantity,
+          userTypeId: r.userTypeId,
         })),
         userSignal: signalMap?.get(s.id) ?? null,
         signals: s.availabilitySignals.map((sig) => ({
           user: sig.user ? { id: sig.user.id, name: sig.user.fullName ?? '—' } : null,
           response: sig.response,
           signaledAt: sig.signaledAt.toISO()!,
+        })),
+        assignments: s.scheduleAssignments.map((a) => ({
+          id: a.id,
+          userId: a.userId,
+          userName: a.user?.fullName ?? '—',
+          ministryRoleId: a.ministryRoleId,
+          ministryRoleName: a.ministryRole?.name ?? '?',
         })),
       })),
     }

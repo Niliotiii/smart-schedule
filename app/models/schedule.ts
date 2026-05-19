@@ -6,6 +6,7 @@ import Church from './church.js'
 import Priest from './priest.js'
 import ScheduleRole from './schedule_role.js'
 import AvailabilitySignal from './availability_signal.js'
+import ScheduleAssignment from './schedule_assignment.js'
 
 export default class Schedule extends BaseModel {
   @column({ isPrimary: true })
@@ -46,6 +47,9 @@ export default class Schedule extends BaseModel {
 
   @hasMany(() => AvailabilitySignal)
   declare availabilitySignals: HasMany<typeof AvailabilitySignal>
+
+  @hasMany(() => ScheduleAssignment)
+  declare scheduleAssignments: HasMany<typeof ScheduleAssignment>
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

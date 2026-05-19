@@ -57,14 +57,29 @@ export default class LiturgiaDiariaService {
 
   private async fetchByDate(dateKey: string, url: string): Promise<LiturgiaData | null> {
     try {
-      const redis = getRedis()
-      const cacheKey = `liturgia:${dateKey}`
+      const formatted = await this.fromCache(dateKey)
+      if (formatted) return formatted
+    } catch (err) {
+      console.warn('[LiturgiaDiaria] Cache unavailable, falling back to API:', err)
+    }
 
-      const cached = await redis.get(cacheKey)
-      if (cached) {
-        return JSON.parse(cached)
-      }
+    return this.fetchFromApi(dateKey, url)
+  }
 
+  private async fromCache(dateKey: string): Promise<LiturgiaData | null> {
+    const redis = getRedis()
+    const cacheKey = `liturgia:${dateKey}`
+
+    const cached = await redis.get(cacheKey)
+    if (cached) {
+      return JSON.parse(cached) as LiturgiaData
+    }
+
+    return null
+  }
+
+  private async fetchFromApi(dateKey: string, url: string): Promise<LiturgiaData | null> {
+    try {
       const controller = new AbortController()
       const timeout = setTimeout(() => controller.abort(), TIMEOUT_MS)
 
@@ -84,12 +99,18 @@ export default class LiturgiaDiariaService {
 
       const formatted = this.formatResponse(data)
       if (formatted) {
-        await redis.setex(cacheKey, CACHE_TTL_SECONDS, JSON.stringify(formatted))
+        try {
+          const redis = getRedis()
+          const cacheKey = `liturgia:${dateKey}`
+          await redis.setex(cacheKey, CACHE_TTL_SECONDS, JSON.stringify(formatted))
+        } catch {
+          // cache write is best-effort
+        }
       }
 
       return formatted
     } catch (err) {
-      console.warn('[LiturgiaDiaria] Service error:', err)
+      console.warn('[LiturgiaDiaria] API fetch error:', err)
       return null
     }
   }

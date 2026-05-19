@@ -30,26 +30,39 @@ const props = defineProps<{
       day: number
       name: string
       description: string | null
+      time: string | null
       community: { id: number; name: string } | null
       priest: { id: number; name: string } | null
-      roles: Array<{ id: number; name: string }>
+      roles: Array<{ id: number; name: string; quantity: number }>
+      assignments: Array<{ id: number; userId: number; userName: string; ministryRoleId: number; ministryRoleName: string }>
     }>
   }
   churches: Array<{ id: number; name: string }>
   priests: Array<{ id: number; name: string }>
   ministryRoles: Array<{ id: number; name: string }>
-  flash?: { success?: string | null; error?: string | null }
+  userTypes: Array<{ id: number; name: string }>
+  eligibleUsers: Array<{ id: number; name: string; ministryRoleIds: number[]; userTypeId: number | null }>
+  flash?: { success?: string | null; error?: string | null; warning?: string | null }
 }>()
 
 const confirm = useConfirm()
 const toast = useToast()
+const generating = ref(false)
 const editDialogVisible = ref(false)
 const editingSchedule = ref<any>(null)
 const isAddingSchedule = ref(false)
 
+// Assignment management state
+const assignDialogVisible = ref(false)
+const assigningSchedule = ref<any>(null)
+const assignUserId = ref<number | null>(null)
+const assignRoleId = ref<number | null>(null)
+
 // Role selector state
 const roleSelectorRoleId = ref<number | null>(null)
 const roleSelectorQty = ref(1)
+const roleSelectorUserTypeId = ref<number | null>(null)
+const slotAssignments = ref<Record<number, Array<{ userId: number | null; userTypeId: number | null }>>>({})
 
 const monthNames = [
   'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
@@ -85,19 +98,102 @@ function getRoleName(roleId: number) {
 
 function addRoleToForm() {
   if (!roleSelectorRoleId.value) return
-  const existing = editForm.ministryRoles.find(r => r.roleId === roleSelectorRoleId.value)
+  const roleId = roleSelectorRoleId.value
+  const qty = roleSelectorQty.value
+  const userTypeId = roleSelectorUserTypeId.value
+  const existing = editForm.ministryRoles.find(r => r.roleId === roleId)
   if (existing) {
-    existing.quantity += roleSelectorQty.value
+    existing.quantity += qty
   } else {
-    editForm.ministryRoles.push({ roleId: roleSelectorRoleId.value, quantity: roleSelectorQty.value })
+    editForm.ministryRoles.push({ roleId, quantity: qty })
   }
+  initSlotsForRole(roleId, qty, userTypeId)
   roleSelectorRoleId.value = null
   roleSelectorQty.value = 1
+  roleSelectorUserTypeId.value = null
 }
 
 function removeRoleFromForm(roleId: number) {
   editForm.ministryRoles = editForm.ministryRoles.filter(r => r.roleId !== roleId)
+  delete slotAssignments.value[roleId]
 }
+
+function initSlotsForRole(roleId: number, qty: number, userTypeId: number | null = null) {
+  const current = slotAssignments.value[roleId] || []
+  for (let i = 0; i < qty; i++) {
+    current.push({ userId: null, userTypeId })
+  }
+  slotAssignments.value = { ...slotAssignments.value, [roleId]: current }
+}
+
+function updateSlotUserId(roleId: number, slotIndex: number, userId: number | null) {
+  const slots = slotAssignments.value[roleId]
+  if (slots && slots[slotIndex]) {
+    slots[slotIndex].userId = userId
+    slotAssignments.value = { ...slotAssignments.value, [roleId]: [...slots] }
+  }
+}
+
+function updateSlotUserTypeId(roleId: number, slotIndex: number, userTypeId: number | null) {
+  const slots = slotAssignments.value[roleId]
+  if (slots && slots[slotIndex]) {
+    slots[slotIndex].userTypeId = userTypeId
+    // Clear user if no longer matches the new user type
+    if (userTypeId !== null && slots[slotIndex].userId !== null) {
+      const user = props.eligibleUsers.find(u => u.id === slots[slotIndex].userId)
+      if (user && user.userTypeId !== userTypeId) {
+        slots[slotIndex].userId = null
+      }
+    }
+    slotAssignments.value = { ...slotAssignments.value, [roleId]: [...slots] }
+  }
+}
+
+function removeSlot(roleId: number, slotIndex: number) {
+  const slots = slotAssignments.value[roleId]
+  if (!slots) return
+  slots.splice(slotIndex, 1)
+  slotAssignments.value = { ...slotAssignments.value, [roleId]: [...slots] }
+  // Decrement quantity in the form
+  const roleEntry = editForm.ministryRoles.find(r => r.roleId === roleId)
+  if (roleEntry) {
+    roleEntry.quantity = slots.length
+    if (slots.length === 0) {
+      removeRoleFromForm(roleId)
+    }
+  }
+}
+
+const slotRows = computed(() => {
+  const rows: Array<{ roleId: number; roleName: string; slotIndex: number; userId: number | null; userTypeId: number | null; eligible: Array<{ id: number; name: string }> }> = []
+  for (const mr of editForm.ministryRoles) {
+    const name = getRoleName(mr.roleId)
+    const slots = slotAssignments.value[mr.roleId] || []
+    for (let i = 0; i < slots.length; i++) {
+      const assignedIds = new Set(
+        slots
+          .filter((_, idx) => idx !== i && _.userId !== null)
+          .map((_) => _.userId!)
+      )
+      let eligible = props.eligibleUsers
+        .filter((u) => u.ministryRoleIds.includes(mr.roleId))
+        .filter((u) => !assignedIds.has(u.id))
+      // Filter by user type if set on the slot
+      if (slots[i].userTypeId !== null) {
+        eligible = eligible.filter((u) => u.userTypeId === slots[i].userTypeId)
+      }
+      rows.push({
+        roleId: mr.roleId,
+        roleName: name,
+        slotIndex: i,
+        userId: slots[i].userId,
+        userTypeId: slots[i].userTypeId,
+        eligible,
+      })
+    }
+  }
+  return rows
+})
 
 function openAdd() {
   isAddingSchedule.value = true
@@ -115,6 +211,8 @@ function openAdd() {
   editForm.reset()
   roleSelectorRoleId.value = null
   roleSelectorQty.value = 1
+  roleSelectorUserTypeId.value = null
+  slotAssignments.value = {}
   editDialogVisible.value = true
 }
 
@@ -122,7 +220,6 @@ function openEdit(schedule: any) {
   isAddingSchedule.value = false
   editingSchedule.value = schedule
   editForm.clearErrors()
-  // Build a Date from the schedule's day within the current month
   const dayDate = new Date(props.month.year, props.month.month - 1, schedule.day)
   editForm.defaults({
     day: dayDate,
@@ -136,15 +233,40 @@ function openEdit(schedule: any) {
   editForm.reset()
   roleSelectorRoleId.value = null
   roleSelectorQty.value = 1
+  roleSelectorUserTypeId.value = null
+  // Build slotAssignments from existing roles and assignments
+  const slots: Record<number, Array<{ userId: number | null; userTypeId: number | null }>> = {}
+  for (const r of schedule.roles) {
+    const qty = r.quantity
+    const arr: Array<{ userId: number | null; userTypeId: number | null }> = []
+    const roleAssignments = (schedule.assignments || []).filter((a: any) => a.ministryRoleId === r.id)
+    for (let i = 0; i < qty; i++) {
+      const assignment = roleAssignments[i]
+      arr.push({ userId: assignment ? assignment.userId : null, userTypeId: r.userTypeId ?? null })
+    }
+    slots[r.id] = arr
+  }
+  slotAssignments.value = slots
   editDialogVisible.value = true
 }
 
 function submitEdit() {
   editForm
-    .transform((data) => ({
-      ...data,
-      day: data.day instanceof Date ? data.day.getDate() : data.day,
-    }))
+    .transform((data) => {
+      const assignments: Array<{ roleId: number; userId: number }> = []
+      for (const [roleIdStr, slots] of Object.entries(slotAssignments.value)) {
+        for (const slot of slots) {
+          if (slot.userId !== null) {
+            assignments.push({ roleId: Number(roleIdStr), userId: slot.userId })
+          }
+        }
+      }
+      return {
+        ...data,
+        day: data.day instanceof Date ? data.day.getDate() : data.day,
+        assignments: assignments.length > 0 ? assignments : undefined,
+      }
+    })
     .submit(
       isAddingSchedule.value ? 'post' : 'put',
       isAddingSchedule.value
@@ -191,6 +313,103 @@ if (props.flash?.success) {
 if (props.flash?.error) {
   toast.add({ severity: 'error', summary: 'Erro', detail: props.flash.error, life: 3000 })
 }
+if (props.flash?.warning) {
+  toast.add({ severity: 'warn', summary: 'Atenção', detail: props.flash.warning, life: 6000 })
+}
+
+function confirmGenerate() {
+  confirm.require({
+    message: 'A alocação automática irá substituir todas as alocações existentes para este mês. Deseja continuar?',
+    header: 'Alocar Automaticamente',
+    icon: 'pi pi-cog',
+    acceptLabel: 'Gerar',
+    rejectLabel: 'Cancelar',
+    rejectProps: { severity: 'secondary' },
+    accept: () => {
+      generating.value = true
+      router.post(`/schedules/months/${props.month.id}/generate`, {}, {
+        preserveScroll: true,
+        onFinish: () => { generating.value = false },
+      })
+    },
+  })
+}
+
+function openAssign(schedule: any) {
+  assigningSchedule.value = schedule
+  assignUserId.value = null
+  assignRoleId.value = null
+  assignDialogVisible.value = true
+}
+
+function eligibleUsersForSchedule(schedule: any) {
+  const scheduleRoleIds = new Set(schedule.roles.map((r: any) => r.id))
+  return props.eligibleUsers.filter((u) =>
+    u.ministryRoleIds.some((rid) => scheduleRoleIds.has(rid))
+  )
+}
+
+function totalRolesQuantity(schedule: any) {
+  return schedule.roles.reduce((sum: number, r: any) => sum + (r.quantity || 1), 0)
+}
+
+function totalAssignmentRolesCount(schedule: any) {
+  return `${schedule.assignments?.length || 0}/${totalRolesQuantity(schedule)}`
+}
+
+function isFullyAllocated(schedule: any) {
+  return (schedule.assignments?.length || 0) >= totalRolesQuantity(schedule)
+}
+
+function usersForRole(schedule: any, roleId: number) {
+  const scheduleRoleIds = new Set(schedule.roles.map((r: any) => r.id))
+  if (!scheduleRoleIds.has(roleId)) return []
+  const assignedUserIds = new Set(
+    (schedule.assignments || [])
+      .filter((a: any) => a.ministryRoleId === roleId)
+      .map((a: any) => a.userId)
+  )
+  return props.eligibleUsers.filter(
+    (u) => u.ministryRoleIds.includes(roleId) && !assignedUserIds.has(u.id)
+  )
+}
+
+function removeAssignment(scheduleId: number, assignmentId: number) {
+  confirm.require({
+    message: 'Remover esta alocação?',
+    header: 'Confirmação',
+    icon: 'pi pi-exclamation-triangle',
+    acceptLabel: 'Remover',
+    rejectLabel: 'Cancelar',
+    rejectProps: { severity: 'secondary' },
+    accept: () => {
+      router.delete(`/schedules/months/${props.month.id}/assignments/${assignmentId}`, {
+        preserveState: true,
+        preserveScroll: true,
+      })
+    },
+  })
+}
+
+function submitAssign() {
+  if (!assignUserId.value || !assignRoleId.value || !assigningSchedule.value) return
+  router.post(
+    `/schedules/months/${props.month.id}/assignments`,
+    {
+      scheduleId: assigningSchedule.value.id,
+      userId: assignUserId.value,
+      ministryRoleId: assignRoleId.value,
+    },
+    {
+      preserveState: true,
+      preserveScroll: true,
+      onSuccess: () => {
+        assignDialogVisible.value = false
+        assigningSchedule.value = null
+      },
+    }
+  )
+}
 </script>
 
 <template>
@@ -226,13 +445,24 @@ if (props.flash?.error) {
       <div class="p-4 flex-1 flex flex-col min-h-0">
         <div class="flex items-center justify-between mb-4">
           <h3 class="text-lg font-semibold text-color">Escalas</h3>
-          <Button
-            label="Adicionar Escala"
-            icon="pi pi-plus"
-            severity="info"
-            size="small"
-            @click="openAdd"
-          />
+          <div class="flex items-center gap-2">
+            <Button
+              label="Alocar Automaticamente"
+              icon="pi pi-cog"
+              severity="info"
+              size="small"
+              :loading="generating"
+              :disabled="generating"
+              @click="confirmGenerate"
+            />
+            <Button
+              label="Adicionar Escala"
+              icon="pi pi-plus"
+              severity="info"
+              size="small"
+              @click="openAdd"
+            />
+          </div>
         </div>
         <DataTable
           :value="month.schedules"
@@ -278,6 +508,16 @@ if (props.flash?.error) {
               <span class="text-muted-color">{{ data.description || '—' }}</span>
             </template>
           </Column>
+          <Column header="Alocações">
+            <template #body="{ data }">
+              <div class="flex items-center gap-2">
+                <Tag
+                  :value="totalAssignmentRolesCount(data)"
+                  :severity="isFullyAllocated(data) ? 'success' : 'warn'"
+                />
+              </div>
+            </template>
+          </Column>
           <Column header="Ações" :exportable="false" style="width: 8rem">
             <template #body="{ data }">
               <div class="flex items-center gap-1">
@@ -320,7 +560,7 @@ if (props.flash?.error) {
       v-model:visible="editDialogVisible"
       :header="isAddingSchedule ? 'Nova Escala' : 'Editar Escala — Dia ' + editingSchedule?.day"
       modal
-      :style="{ width: '550px' }"
+      :style="{ width: '750px' }"
       :closable="false"
       @after-hide="editForm.clearErrors()"
     >
@@ -406,7 +646,7 @@ if (props.flash?.error) {
 
         <!-- Role selector -->
         <div class="mt-4 pt-4 border-t border-surface">
-          <label class="block text-sm font-medium text-muted-color mb-2">Funções</label>
+          <label class="block text-sm font-medium text-muted-color mb-2">Adicionar Função</label>
 
           <div class="flex items-end gap-2 mb-3">
             <div class="flex-1">
@@ -428,6 +668,17 @@ if (props.flash?.error) {
                 fluid
               />
             </div>
+            <div style="width: 8rem">
+              <Select
+                v-model="roleSelectorUserTypeId"
+                :options="userTypes"
+                optionLabel="name"
+                optionValue="id"
+                showClear
+                fluid
+                placeholder="Tipo"
+              />
+            </div>
             <Button
               icon="pi pi-plus"
               severity="info"
@@ -436,20 +687,60 @@ if (props.flash?.error) {
             />
           </div>
 
-          <div class="flex flex-wrap gap-2">
-            <div
-              v-for="role in editForm.ministryRoles"
-              :key="role.roleId"
-              class="flex items-center gap-1 bg-info rounded-full px-3 py-1 text-sm cursor-pointer"
-              @click="removeRoleFromForm(role.roleId)"
-            >
-              <span>{{ getRoleName(role.roleId) }} ({{ role.quantity }})</span>
-              <span class="pi pi-times-circle text-xs" />
-            </div>
-            <span v-if="!editForm.ministryRoles.length" class="text-sm text-muted-color">
-              Nenhuma função selecionada
-            </span>
-          </div>
+          <DataTable
+            v-if="slotRows.length"
+            :value="slotRows"
+            size="small"
+            stripedRows
+          >
+            <Column field="roleName" header="Função" style="width: 8rem" />
+            <Column header="Vaga">
+              <template #body="{ data }">
+                #{{ data.slotIndex + 1 }}
+              </template>
+            </Column>
+            <Column header="Tipo">
+              <template #body="{ data }">
+                <Select
+                  :modelValue="data.userTypeId"
+                  @update:modelValue="(val: number | null) => updateSlotUserTypeId(data.roleId, data.slotIndex, val)"
+                  :options="userTypes"
+                  optionLabel="name"
+                  optionValue="id"
+                  showClear
+                  fluid
+                  placeholder="Tipo"
+                />
+              </template>
+            </Column>
+            <Column header="Usuário">
+              <template #body="{ data }">
+                <Select
+                  :modelValue="data.userId"
+                  @update:modelValue="(val: number | null) => updateSlotUserId(data.roleId, data.slotIndex, val)"
+                  :options="data.eligible"
+                  optionLabel="name"
+                  optionValue="id"
+                  showClear
+                  fluid
+                  placeholder="Selecionar usuário"
+                />
+              </template>
+            </Column>
+            <Column style="width: 4rem">
+              <template #body="{ data }">
+                <Button
+                  icon="pi pi-trash"
+                  text
+                  rounded
+                  severity="danger"
+                  size="small"
+                  v-tooltip="'Remover vaga'"
+                  @click="removeSlot(data.roleId, data.slotIndex)"
+                />
+              </template>
+            </Column>
+          </DataTable>
         </div>
 
         <div class="flex justify-end gap-2 mt-6">
@@ -467,6 +758,57 @@ if (props.flash?.error) {
           />
         </div>
       </form>
+    </Dialog>
+
+    <!-- Assignment Dialog -->
+    <Dialog
+      v-model:visible="assignDialogVisible"
+      header="Adicionar Alocação Manual"
+      modal
+      :style="{ width: '400px' }"
+      :closable="false"
+    >
+      <div class="flex flex-col gap-4">
+        <div>
+          <label class="block text-sm font-medium text-muted-color mb-2">Função</label>
+          <Select
+            v-model="assignRoleId"
+            :options="assigningSchedule?.roles || []"
+            optionLabel="name"
+            optionValue="id"
+            showClear
+            fluid
+            placeholder="Selecione uma função"
+          />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-muted-color mb-2">Usuário</label>
+          <Select
+            v-model="assignUserId"
+            :options="assignRoleId ? usersForRole(assigningSchedule, assignRoleId) : eligibleUsersForSchedule(assigningSchedule)"
+            optionLabel="name"
+            optionValue="id"
+            showClear
+            fluid
+            placeholder="Selecione um usuário"
+          />
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 mt-6">
+        <Button
+          label="Adicionar"
+          :disabled="!assignUserId || !assignRoleId"
+          severity="info"
+          @click="submitAssign"
+        />
+        <Button
+          label="Cancelar"
+          severity="secondary"
+          outlined
+          @click="assignDialogVisible = false"
+        />
+      </div>
     </Dialog>
   </div>
 </template>
