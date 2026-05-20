@@ -114,6 +114,12 @@ const routes = {
     tokens: [{"old":"/users/:id","type":0,"val":"users","end":""},{"old":"/users/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['users.destroy']['types'],
   },
+  'users.resetPassword': {
+    methods: ["POST"],
+    pattern: '/users/:id/reset-password',
+    tokens: [{"old":"/users/:id/reset-password","type":0,"val":"users","end":""},{"old":"/users/:id/reset-password","type":1,"val":"id","end":""},{"old":"/users/:id/reset-password","type":0,"val":"reset-password","end":""}],
+    types: placeholder as Registry['users.resetPassword']['types'],
+  },
   'user_types.index': {
     methods: ["GET","HEAD"],
     pattern: '/user-types',
