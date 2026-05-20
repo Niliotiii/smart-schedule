@@ -22,6 +22,7 @@ export type ScannedRoutes = {
     'users.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'users.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'users.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'users.resetPassword': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'user_types.index': { paramsTuple?: []; params?: {} }
     'user_types.create': { paramsTuple?: []; params?: {} }
     'user_types.store': { paramsTuple?: []; params?: {} }
@@ -154,6 +155,7 @@ export type ScannedRoutes = {
     'logout': { paramsTuple?: []; params?: {} }
     'profiles.store': { paramsTuple?: []; params?: {} }
     'users.store': { paramsTuple?: []; params?: {} }
+    'users.resetPassword': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'user_types.store': { paramsTuple?: []; params?: {} }
     'churches.store': { paramsTuple?: []; params?: {} }
     'priests.store': { paramsTuple?: []; params?: {} }
