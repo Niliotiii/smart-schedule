@@ -11,7 +11,7 @@ const MODULES = [
   'ministry_roles',
   'schedule_months',
 ] as const
-const ACTIONS = ['create', 'read', 'update', 'delete'] as const
+const ACTIONS = ['create', 'read', 'update', 'delete', 'reset_password'] as const
 
 export default class DatabaseSeeder extends BaseSeeder {
   async run() {
@@ -65,6 +65,7 @@ export default class DatabaseSeeder extends BaseSeeder {
       update: 'editar',
       delete: 'excluir',
       manage: 'gerenciar',
+      reset_password: 'resetar senha',
     }
     return map[action] ?? action
   }

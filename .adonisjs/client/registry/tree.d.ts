@@ -25,6 +25,7 @@ export interface ApiDefinition {
     edit: typeof routes['users.edit']
     update: typeof routes['users.update']
     destroy: typeof routes['users.destroy']
+    resetPassword: typeof routes['users.resetPassword']
   }
   userTypes: {
     index: typeof routes['user_types.index']

@@ -16,6 +16,9 @@ export const usersDelete = Bouncer.ability((user: User) => checkPermission(user,
 export const usersEditProfile = Bouncer.ability((user: User) =>
   checkPermission(user, 'profiles:update')
 )
+export const usersResetPassword = Bouncer.ability((user: User) =>
+  checkPermission(user, 'users:reset_password')
+)
 
 export const profilesRead = Bouncer.ability((user: User) => checkPermission(user, 'profiles:read'))
 export const profilesCreate = Bouncer.ability((user: User) =>

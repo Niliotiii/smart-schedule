@@ -9,6 +9,7 @@ export default class InertiaSharedPropsMiddleware {
         usersCreate: false,
         usersUpdate: false,
         usersDelete: false,
+        usersResetPassword: false,
         profilesRead: false,
         profilesCreate: false,
         profilesUpdate: false,
@@ -38,6 +39,7 @@ export default class InertiaSharedPropsMiddleware {
         can.usersCreate = await ctx.bouncer.allows('usersCreate')
         can.usersUpdate = await ctx.bouncer.allows('usersUpdate')
         can.usersDelete = await ctx.bouncer.allows('usersDelete')
+        can.usersResetPassword = await ctx.bouncer.allows('usersResetPassword')
         can.profilesRead = await ctx.bouncer.allows('profilesRead')
         can.profilesCreate = await ctx.bouncer.allows('profilesCreate')
         can.profilesUpdate = await ctx.bouncer.allows('profilesUpdate')
@@ -66,6 +68,7 @@ export default class InertiaSharedPropsMiddleware {
         flash: {
           success: ctx.session.flashMessages.get('success') as string | null,
           errors: ctx.session.flashMessages.get('errors') as string | null,
+          resetPassword: ctx.session.flashMessages.get('resetPassword') as string | null,
         },
         auth: {
           user: {
@@ -83,6 +86,7 @@ export default class InertiaSharedPropsMiddleware {
         flash: {
           success: ctx.session.flashMessages.get('success') as string | null,
           errors: ctx.session.flashMessages.get('errors') as string | null,
+          resetPassword: ctx.session.flashMessages.get('resetPassword') as string | null,
         },
         auth: { user: null },
         can: {
@@ -90,6 +94,7 @@ export default class InertiaSharedPropsMiddleware {
           usersCreate: false,
           usersUpdate: false,
           usersDelete: false,
+          usersResetPassword: false,
           profilesRead: false,
           profilesCreate: false,
           profilesUpdate: false,
