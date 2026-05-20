@@ -14,7 +14,7 @@ import SacramentType from '#models/sacrament_type'
 import MinistryRole from '#models/ministry_role'
 
 import { createUserValidator, updateUserValidator } from '#validators/user'
-import { usersRead, usersCreate, usersUpdate, usersDelete, usersEditProfile } from '#abilities/main'
+import { usersRead, usersCreate, usersUpdate, usersDelete, usersEditProfile, usersResetPassword } from '#abilities/main'
 
 const ADDRESSABLE_TYPE = 'users'
 
@@ -420,5 +420,15 @@ export default class UsersController {
 
     session.flash({ success: 'Usuario excluido com sucesso' })
     return response.redirect('/users')
+  }
+
+  async resetPassword({ params, response, session, bouncer }: HttpContext) {
+    await bouncer.authorize(usersResetPassword)
+    const user = await User.findOrFail(params.id)
+    const generatedPassword = randomBytes(18).toString('base64').substring(0, 24)
+    user.password = generatedPassword
+    await user.save()
+    session.flash({ resetPassword: generatedPassword })
+    return response.redirect().back()
   }
 }

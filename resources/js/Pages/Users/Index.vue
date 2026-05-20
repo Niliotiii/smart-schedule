@@ -6,6 +6,7 @@ import Column from 'primevue/column'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import Breadcrumb from 'primevue/breadcrumb'
+import Dialog from 'primevue/dialog'
 import { useConfirm } from 'primevue/useconfirm'
 import { useToast } from 'primevue/usetoast'
 
@@ -36,8 +37,9 @@ const props = defineProps<{
     usersRead: boolean
     usersUpdate: boolean
     usersDelete: boolean
+    usersResetPassword: boolean
   }
-  flash?: { success?: string | null }
+  flash?: { success?: string | null; resetPassword?: string | null }
 }>()
 
 const confirm = useConfirm()
@@ -66,6 +68,58 @@ const changePage = (page: number) => {
 
 if (props.flash?.success) {
   toast.add({ severity: 'success', summary: 'Sucesso', detail: props.flash.success, life: 3000 })
+}
+
+const resetPasswordDialog = ref(false)
+const generatedPassword = ref('')
+const resettingPassword = ref(false)
+
+if (props.flash?.resetPassword) {
+  generatedPassword.value = props.flash.resetPassword
+  resetPasswordDialog.value = true
+}
+
+watch(
+  () => props.flash?.resetPassword,
+  (val) => {
+    if (val) {
+      generatedPassword.value = val
+      resetPasswordDialog.value = true
+    }
+  }
+)
+
+const openResetPasswordDialog = (user: { id: number; fullName: string | null }) => {
+  resettingPassword.value = true
+  router.post(
+    `/users/${user.id}/reset-password`,
+    {},
+    {
+      preserveState: true,
+      preserveScroll: true,
+      onSuccess: () => {
+        resettingPassword.value = false
+      },
+      onError: () => {
+        toast.add({ severity: 'error', summary: 'Erro', detail: 'Falha ao gerar nova senha', life: 3000 })
+        resettingPassword.value = false
+      },
+    }
+  )
+}
+
+const closeResetPasswordDialog = () => {
+  resetPasswordDialog.value = false
+  generatedPassword.value = ''
+}
+
+const copyPassword = async () => {
+  try {
+    await navigator.clipboard.writeText(generatedPassword.value)
+    toast.add({ severity: 'success', summary: 'Copiado', detail: 'Senha copiada para a área de transferência', life: 2000 })
+  } catch {
+    toast.add({ severity: 'error', summary: 'Erro', detail: 'Não foi possível copiar a senha', life: 3000 })
+  }
 }
 
 const confirmDelete = (id: number) => {
@@ -163,6 +217,16 @@ const confirmDelete = (id: number) => {
               severity="danger"
               @click="confirmDelete(data.id)"
             />
+            <Button
+              v-if="can.usersResetPassword"
+              v-tooltip="'Resetar Senha'"
+              icon="pi pi-key"
+              text
+              rounded
+              severity="help"
+              :loading="resettingPassword"
+              @click="openResetPasswordDialog(data)"
+            />
           </template>
         </Column>
         <template #empty>
@@ -214,4 +278,37 @@ const confirmDelete = (id: number) => {
       </div>
     </div>
   </div>
+
+  <Dialog
+    v-model:visible="resetPasswordDialog"
+    header="Nova Senha Gerada"
+    :modal="true"
+    :closable="true"
+    @hide="closeResetPasswordDialog"
+    class="w-full max-w-md"
+  >
+    <div class="flex flex-col gap-4">
+      <div
+        class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm text-blue-700"
+      >
+        <i class="pi pi-info-circle mr-1" />
+        Copie a senha antes de fechar. Após fechar esta janela, não será possível visualizá-la novamente.
+      </div>
+      <div class="flex items-center gap-2">
+        <InputText
+          :value="generatedPassword"
+          readonly
+          class="flex-1 font-mono text-sm"
+        />
+        <Button
+          icon="pi pi-copy"
+          severity="info"
+          text
+          rounded
+          v-tooltip="'Copiar'"
+          @click="copyPassword"
+        />
+      </div>
+    </div>
+  </Dialog>
 </template>

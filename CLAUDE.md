@@ -2,6 +2,6 @@
 
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan:
-specs/020-dashboard-schedule-calendar/plan.md
+specs/021-user-reset-password/plan.md
 
 <!-- SPECKIT END -->

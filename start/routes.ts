@@ -36,6 +36,7 @@ router
 
     router.resource('profiles', ProfilesController).as('profiles')
     router.resource('users', UsersController).as('users')
+    router.post('users/:id/reset-password', [UsersController, 'resetPassword']).as('users.resetPassword')
     router.resource('user-types', UserTypesController).as('userTypes')
     router.get('churches/lookup-cep', [ChurchesController, 'lookupCep']).as('churches.lookupCep')
     router.resource('churches', ChurchesController).as('churches')
