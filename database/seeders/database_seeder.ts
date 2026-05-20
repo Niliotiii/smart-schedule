@@ -1,6 +1,11 @@
 import { BaseSeeder } from '@adonisjs/lucid/seeders'
+import { DateTime } from 'luxon'
 import Permission from '#models/permission'
 import Profile from '#models/profile'
+import Country from '#models/country'
+import State from '#models/state'
+import City from '#models/city'
+import UserType from '#models/user_type'
 
 const MODULES = [
   'users',
@@ -48,12 +53,22 @@ export default class DatabaseSeeder extends BaseSeeder {
   private async seedAdminUser() {
     const adminProfile = await Profile.findByOrFail('name', 'Administrador')
     const { default: User } = await import('#models/user')
+    const country = await Country.first()
+    const state = country ? await State.query().where('country_id', country.id).first() : null
+    const city = state ? await City.query().where('state_id', state.id).first() : null
+    const userType = await UserType.first()
     await User.firstOrCreate(
       { email: 'admin@paroquia.com' },
       {
         fullName: 'Administrador',
         password: 'secret',
         profileId: adminProfile.id,
+        userTypeId: userType?.id ?? null,
+        birthDate: DateTime.fromISO('2000-01-01'),
+        birthCountryId: country?.id ?? 1,
+        birthStateId: state?.id ?? null,
+        birthCityId: city?.id ?? null,
+        includeInScale: false,
       }
     )
   }
