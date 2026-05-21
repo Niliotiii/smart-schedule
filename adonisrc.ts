@@ -60,6 +60,7 @@ export default defineConfig({
     () => import('@adonisjs/vite/vite_provider'),
     () => import('@adonisjs/bouncer/bouncer_provider'),
     () => import('@adonisjs/inertia/inertia_provider'),
+    () => import('@adonisjs/static/static_provider')
   ],
 
   /*
